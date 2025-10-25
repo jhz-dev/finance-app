@@ -6,16 +6,20 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
+  redirect,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 import { Layout } from './components/Layout'
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx'
+import { useAuthStore } from './stores/auth.store'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
 import App from './App.tsx'
+import { LoginPage } from './routes/login.tsx'
+import { RegisterPage } from './routes/register.tsx'
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -30,9 +34,29 @@ const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: App,
+  beforeLoad: () => {
+    const { isAuthenticated } = useAuthStore.getState()
+    if (!isAuthenticated) {
+      throw redirect({
+        to: '/login',
+      })
+    }
+  },
 })
 
-const routeTree = rootRoute.addChildren([indexRoute])
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/login',
+  component: LoginPage,
+})
+
+const registerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/register',
+  component: RegisterPage,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, loginRoute, registerRoute])
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 const router = createRouter({
