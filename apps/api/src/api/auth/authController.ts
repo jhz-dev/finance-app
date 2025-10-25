@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { registerUser, loginUser } from './authService';
+import { Prisma } from '@prisma/client';
 
 const registerSchema = z.object({
   email: z.string().email(),
@@ -21,6 +22,11 @@ export const register = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ errors: error.flatten().fieldErrors });
+    }
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return res.status(409).json({ message: 'Email already in use.' });
+      }
     }
     res.status(500).json({ message: 'Server error' });
   }

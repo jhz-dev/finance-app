@@ -15,6 +15,8 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
 import api from '@/lib/api';
 
+import { isAxiosError } from 'axios';
+
 export function RegisterPage() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -28,8 +30,12 @@ export function RegisterPage() {
       navigate({ to: '/login' });
     },
     onError: (error) => {
-      console.error('Registration failed:', error);
-      alert('Registration failed. Please try again.');
+      if (isAxiosError(error) && error.response?.status === 409) {
+        alert(error.response.data.message);
+      } else {
+        console.error('Registration failed:', error);
+        alert('Registration failed. Please try again.');
+      }
     },
   });
 
