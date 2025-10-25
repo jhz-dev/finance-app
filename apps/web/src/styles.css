@@ -136,3 +136,14 @@ code {
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  @apply bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 min-h-screen;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  @apply rounded-2xl border border-solid border-[rgba(255,255,255,0.2)];
+}
