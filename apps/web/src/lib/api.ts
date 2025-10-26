@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-// You can get this from your Zustand store in the future
-const getAuthToken = () => localStorage.getItem('authToken');
+import { useAuthStore } from '@/domain/auth/auth.store';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -9,13 +7,26 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = getAuthToken();
+    const token = useAuthStore.getState().token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        useAuthStore.getState().logout();
+        window.location.href = '/login';
+      }
+    }
     return Promise.reject(error);
   }
 );

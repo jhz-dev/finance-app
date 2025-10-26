@@ -12,12 +12,12 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 import { Layout } from './components/Layout'
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx'
-import { useAuthStore } from './stores/auth.store'
+import { useAuthStore } from '@/domain/auth/auth.store';
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import App from './App.tsx'
+import DashboardPage from './routes/DashboardPage.tsx'
 import { LoginPage } from './routes/login.tsx'
 import { RegisterPage } from './routes/register.tsx'
 
@@ -33,7 +33,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: App,
+  component: DashboardPage,
   beforeLoad: () => {
     const { isAuthenticated } = useAuthStore.getState()
     if (!isAuthenticated) {

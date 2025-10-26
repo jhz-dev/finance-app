@@ -13,27 +13,29 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
-import api from '@/lib/api';
-import { useAuthStore } from '@/stores/auth.store';
+import { useAuthStore } from '@/domain/auth/auth.store';
+import { authRepository } from '@/infrastructure/ApiAuthRepository';
+import { isAxiosError } from 'axios';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { setToken } = useAuthStore();
+  const { setToken, setUser } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const mutation = useMutation({
-    mutationFn: () => api.post('/auth/login', { email, password }),
-    onSuccess: (response) => {
-      const token = response.data.token;
-      setToken(token);
-      // You might want to fetch and set user data here as well
+    mutationFn: () => authRepository.login({ email, password }),
+    onSuccess: (data) => {
+      setToken(data.token);
+      setUser(data.user);
       navigate({ to: '/' });
     },
     onError: (error) => {
-      // Handle error (e.g., show a toast notification)
-      console.error('Login failed:', error);
-      alert('Login failed. Please check your credentials.');
+      if (isAxiosError(error)) {
+        alert(error.response?.data.message || 'Login failed.');
+      } else {
+        alert('An unexpected error occurred.');
+      }
     },
   });
 

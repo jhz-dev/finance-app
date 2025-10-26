@@ -1,0 +1,17 @@
+// This is the core data structure for a Budget.
+// It lives in the domain because it represents a core business concept.
+export interface Budget {
+  id: string;
+  name: string;
+  // In the future, this might include calculated properties like balance.
+}
+
+// This is a "Port" in Hexagonal Architecture.
+// It defines a contract for data access without specifying the implementation.
+// The application core will depend on this interface, not on a concrete implementation.
+export interface IBudgetRepository {
+  getAll(): Promise<Budget[]>;
+  // In the future, we would add methods like:
+  // getById(id: string): Promise<Budget | null>;
+  // create(name: string): Promise<Budget>;
+}

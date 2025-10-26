@@ -13,9 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
-import api from '@/lib/api';
-
-import { isAxiosError } from 'axios';
+import { authRepository } from '@/infrastructure/ApiAuthRepository';
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -24,7 +22,7 @@ export function RegisterPage() {
   const [password, setPassword] = useState('');
 
   const mutation = useMutation({
-    mutationFn: () => api.post('/auth/register', { name, email, password }),
+    mutationFn: () => authRepository.register({ name, email, password }),
     onSuccess: () => {
       alert('Registration successful! Please sign in.');
       navigate({ to: '/login' });

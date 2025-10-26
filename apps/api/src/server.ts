@@ -20,7 +20,7 @@ export function createServer(): Express {
   app.use('/api/categories', categoryRouter);
   app.use('/api/goals', goalRouter);
 
-  app.get('/healthcheck', (req, res) => {
+  app.get('/healthcheck', (_, res) => {
     res.status(200).send('OK');
   });
 
