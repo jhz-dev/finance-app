@@ -6,6 +6,16 @@ class ApiBudgetRepository implements IBudgetRepository {
     const response = await api.get('/budgets');
     return response.data;
   }
+
+  async getById(id: string): Promise<Budget | null> {
+    try {
+      const response = await api.get(`/budgets/${id}`);
+      return response.data;
+    } catch (error) {
+      // Handle cases where the budget is not found (e.g., 404)
+      return null;
+    }
+  }
 }
 
 // Export a singleton instance of the repository.
