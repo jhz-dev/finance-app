@@ -20,7 +20,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { isAxiosError } from 'axios';
-import type { Transaction } from '@/domain/transaction';
+import type { Transaction } from '@/domain/transaction/transaction';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
+
+import { useTranslation } from 'react-i18next';
 
 interface EditTransactionDialogProps {
   transaction: Transaction;
@@ -30,11 +34,14 @@ interface EditTransactionDialogProps {
 }
 
 export function EditTransactionDialog({ transaction, budgetId, open, onOpenChange }: EditTransactionDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [description, setDescription] = useState(transaction.description);
   const [amount, setAmount] = useState(String(transaction.amount));
   const [type, setType] = useState(transaction.type);
   const [date, setDate] = useState(new Date(transaction.date).toISOString().split('T')[0]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -55,66 +62,93 @@ export function EditTransactionDialog({ transaction, budgetId, open, onOpenChang
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['budgets', budgetId] });
-      alert('Transaction updated successfully!');
+      setShowSuccessDialog(true);
       onOpenChange(false);
     },
     onError: (error) => {
       if (isAxiosError(error)) {
-        alert(error.response?.data.message || 'Failed to update transaction.');
+        setErrorMessage(error.response?.data.message || t('Failed to update transaction.'));
       } else {
-        alert('An unexpected error occurred.');
+        setErrorMessage(t('An unexpected error occurred.'));
       }
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
     mutation.mutate();
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-black/60 text-white border-white/20 glass-effect">
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle>Edit Transaction</DialogTitle>
-            <DialogDescription>
-              Update the details of your transaction.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-             <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
-              <Input id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+    <>
+      <Dialog open={open} onOpenChange={(isOpen) => {
+        onOpenChange(isOpen);
+        if (!isOpen) {
+          setErrorMessage(null);
+        }
+      }}>
+        <DialogContent className="sm:max-w-[425px] bg-black/60 text-white border-white/20 glass-effect">
+          <form onSubmit={handleSubmit}>
+            <DialogHeader>
+              <DialogTitle>{t('Edit Transaction')}</DialogTitle>
+              <DialogDescription>
+                {t('Update the details of your transaction.')}
+              </DialogDescription>
+            </DialogHeader>
+            {errorMessage && (
+                <Alert variant="destructive">
+                    <AlertTitle>{t('Error')}</AlertTitle>
+                    <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+            )}
+            <div className="grid gap-4 py-4">
+               <div className="grid gap-2">
+                <Label htmlFor="description">{t('Description')}</Label>
+                <Input id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="amount">{t('Amount')}</Label>
+                <Input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="type">{t('Type')}</Label>
+                <Select onValueChange={(value: 'INCOME' | 'EXPENSE') => setType(value)} defaultValue={type}>
+                  <SelectTrigger id="type">
+                    <SelectValue placeholder={t('Select a type')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="INCOME">{t('Income')}</SelectItem>
+                    <SelectItem value="EXPENSE">{t('Expense')}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="date">{t('Date')}</Label>
+                <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              </div>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="amount">Amount</Label>
-              <Input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="type">Type</Label>
-              <Select onValueChange={(value: 'INCOME' | 'EXPENSE') => setType(value)} defaultValue={type}>
-                <SelectTrigger id="type">
-                  <SelectValue placeholder="Select a type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="INCOME">Income</SelectItem>
-                  <SelectItem value="EXPENSE">Expense</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="date">Date</Label>
-              <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? 'Saving...' : 'Save Changes'}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+            <DialogFooter>
+              <Button type="submit" disabled={mutation.isPending}>
+                {mutation.isPending ? t('Saving...') : t('Save Changes')}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+      <AlertDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>{t('Success!')}</AlertDialogTitle>
+                <AlertDialogDescription>
+                    {t('Transaction updated successfully!')}
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogAction onClick={() => setShowSuccessDialog(false)}>{t('OK')}</AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

@@ -4,14 +4,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import type { Budget } from '@/domain/budget';
+import type { Budget } from '@/domain/transaction/budget';
 import { Link } from '@tanstack/react-router';
+
+import { useTranslation } from 'react-i18next';
 
 interface BudgetCardProps {
   budget: Budget;
 }
 
 export function BudgetCard({ budget }: BudgetCardProps) {
+  const { t } = useTranslation();
   const formattedBalance = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -25,7 +28,7 @@ export function BudgetCard({ budget }: BudgetCardProps) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{formattedBalance}</div>
-          <p className="text-xs text-white/60">Current Balance</p>
+          <p className="text-xs text-white/60">{t('Current Balance')}</p>
         </CardContent>
       </Card>
     </Link>

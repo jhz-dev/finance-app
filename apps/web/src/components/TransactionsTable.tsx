@@ -26,8 +26,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import type { Transaction } from '@/domain/transaction';
+import type { Transaction } from '@/domain/transaction/transaction';
 import { EditTransactionDialog } from './EditTransactionDialog';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
 
 interface TransactionsTableProps {
   data: Transaction[];
@@ -38,15 +40,19 @@ export function TransactionsTable({ data, budgetId }: TransactionsTableProps) {
   const queryClient = useQueryClient();
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState<Transaction | null>(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
+  const [transactionToDelete, setTransactionToDelete] = React.useState<Transaction | null>(null);
+  const [showSuccessDialog, setShowSuccessDialog] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const deleteMutation = useMutation({
     mutationFn: (transactionId: string) => transactionRepository.delete(transactionId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['budgets', budgetId] });
-      alert('Transaction deleted successfully!');
+      setShowSuccessDialog(true);
     },
     onError: () => {
-      alert('Failed to delete transaction.');
+      setErrorMessage('Failed to delete transaction.');
     },
   });
 
@@ -102,9 +108,8 @@ export function TransactionsTable({ data, budgetId }: TransactionsTableProps) {
               <DropdownMenuItem
                 className="text-red-500"
                 onClick={() => {
-                  if (window.confirm('Are you sure you want to delete this transaction?')) {
-                    deleteMutation.mutate(transaction.id);
-                  }
+                  setTransactionToDelete(transaction);
+                  setShowDeleteConfirmation(true);
                 }}
               >
                 Delete
@@ -124,6 +129,12 @@ export function TransactionsTable({ data, budgetId }: TransactionsTableProps) {
 
   return (
     <>
+      {errorMessage && (
+        <Alert variant="destructive">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
+      )}
       <div className="rounded-md border border-white/20 glass-effect">
         <Table>
           <TableHeader>
@@ -177,6 +188,42 @@ export function TransactionsTable({ data, budgetId }: TransactionsTableProps) {
           onOpenChange={setIsEditDialogOpen}
         />
       )}
+      <AlertDialog open={showDeleteConfirmation} onOpenChange={setShowDeleteConfirmation}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the transaction.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (transactionToDelete) {
+                  deleteMutation.mutate(transactionToDelete.id);
+                }
+                setShowDeleteConfirmation(false);
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Success!</AlertDialogTitle>
+            <AlertDialogDescription>
+              Transaction deleted successfully!
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowSuccessDialog(false)}>OK</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

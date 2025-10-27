@@ -1,4 +1,4 @@
-import { Transaction } from './transaction';
+import type { Transaction } from './transaction';
 
 // This is the core data structure for a Budget.
 // It lives in the domain because it represents a core business concept.

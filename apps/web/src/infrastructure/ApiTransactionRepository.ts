@@ -1,5 +1,5 @@
 import type { TransactionRepository } from '@/domain/transaction/transaction.repository';
-import type { Transaction } from '@/domain/transaction';
+import type { Transaction } from '@/domain/transaction/transaction';
 import api from '@/lib/api';
 
 class ApiTransactionRepository implements TransactionRepository {

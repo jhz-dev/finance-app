@@ -3,6 +3,7 @@ import { Menu } from 'lucide-react';
 import { AddBudgetDialog } from './AddBudgetDialog';
 import { useTranslation } from 'react-i18next';
 import { useSidebarStore } from '@/domain/sidebar/sidebar.store';
+import { LanguageSelector } from './LanguageSelector';
 
 export function Header() {
   const { t } = useTranslation();
@@ -19,7 +20,10 @@ export function Header() {
         <Menu className="h-6 w-6" />
       </Button>
       <h1 className="text-2xl font-bold text-white">{t('Dashboard')}</h1>
-      <AddBudgetDialog />
+      <div className="flex items-center gap-4">
+        <LanguageSelector />
+        <AddBudgetDialog />
+      </div>
     </header>
   );
 }

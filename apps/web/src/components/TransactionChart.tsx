@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import type { Transaction } from '@/domain/transaction';
+import type { Transaction } from '@/domain/transaction/transaction';
 
 interface TransactionChartProps {
   data: Transaction[];

@@ -1,5 +1,5 @@
 import api from '@/lib/api';
-import type { Budget, IBudgetRepository, PaginatedBudgets } from '@/domain/budget';
+import type { Budget, IBudgetRepository, PaginatedBudgets } from '@/domain/transaction/budget';
 
 class ApiBudgetRepository implements IBudgetRepository {
   async getAll(page: number, limit: number): Promise<PaginatedBudgets> {
