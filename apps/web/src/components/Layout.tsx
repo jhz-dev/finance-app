@@ -2,16 +2,27 @@
 import type React from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/domain/auth/auth.store';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouterState } from '@tanstack/react-router';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   const handleLogout = () => {
     logout();
     navigate({ to: '/login' });
   };
+
+  const isPublicPage = ['/login', '/register'].includes(pathname);
+
+  if (isPublicPage) {
+    return (
+      <main className="h-screen w-screen flex items-center justify-center bg-gray-900">
+        {children}
+      </main>
+    );
+  }
 
   return (
     <div className="flex h-screen p-4 gap-4">

@@ -17,9 +17,10 @@ import { useAuthStore } from '@/domain/auth/auth.store';
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import DashboardPage from './routes/DashboardPage.tsx'
-import { LoginPage } from './routes/login.tsx'
-import { RegisterPage } from './routes/register.tsx'
+import { RegisterPage } from './routes/register.tsx';
+import { LoginPage } from './routes/login.tsx';
+import { BudgetDetailPage } from './routes/budgets/detail.tsx';
+import DashboardPage from './routes/DashboardPage.tsx';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -28,35 +29,54 @@ const rootRoute = createRootRoute({
       <TanStackRouterDevtools />
     </Layout>
   ),
-})
+});
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: DashboardPage,
   beforeLoad: () => {
-    const { isAuthenticated } = useAuthStore.getState()
+    const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) {
       throw redirect({
         to: '/login',
-      })
+      });
     }
   },
-})
+});
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/login',
   component: LoginPage,
-})
+});
 
 const registerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/register',
   component: RegisterPage,
-})
+});
 
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute, registerRoute])
+const budgetDetailRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/budgets/$budgetId',
+  component: BudgetDetailPage,
+  beforeLoad: () => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (!isAuthenticated) {
+      throw redirect({
+        to: '/login',
+      });
+    }
+  },
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  loginRoute,
+  registerRoute,
+  budgetDetailRoute,
+]);
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 const router = createRouter({
