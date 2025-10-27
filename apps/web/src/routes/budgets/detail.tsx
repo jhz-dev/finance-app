@@ -1,10 +1,18 @@
-import { useParams } from '@tanstack/react-router';
+import { Link, useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { budgetRepository } from '@/infrastructure/ApiBudgetRepository';
 import { TransactionsTable } from '@/components/TransactionsTable';
 import { MetricCard } from '@/components/MetricCard';
 import * as React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 import { TransactionChart } from '@/components/TransactionChart';
 
@@ -65,6 +73,19 @@ export function BudgetDetailPage() {
       )}
       {isSuccess && data && (
         <div>
+          <Breadcrumb className="mb-4">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/">Dashboard</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{data.name}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-white">{data.name}</h1>
             <AddTransactionDialog budgetId={budgetId} />

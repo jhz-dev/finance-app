@@ -15,7 +15,7 @@ import * as TanStackQueryProvider from './integrations/tanstack-query/root-provi
 import { useAuthStore } from '@/domain/auth/auth.store';
 
 import './styles.css'
-import reportWebVitals from './reportWebVitals.ts'
+import './lib/i18n';
 
 import { RegisterPage } from './routes/register.tsx';
 import { LoginPage } from './routes/login.tsx';

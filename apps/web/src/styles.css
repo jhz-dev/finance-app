@@ -2,6 +2,10 @@
 
 @import 'tw-animate-css';
 
+html, body, #app {
+  height: 100%;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 body {

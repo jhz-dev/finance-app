@@ -1,20 +1,32 @@
-
 import type React from 'react';
-import { Button } from '@/components/ui/button';
-import { useAuthStore } from '@/domain/auth/auth.store';
-import { useNavigate, useRouterState } from '@tanstack/react-router';
+import { useEffect, useRef } from 'react';
+import { useRouterState } from '@tanstack/react-router';
+import { Header } from '@/components/Header';
+import { Sidebar } from './Sidebar';
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from '@/components/ui/resizable';
+import { useSidebarStore } from '@/domain/sidebar/sidebar.store';
+import type { ImperativePanelGroupHandle } from 'react-resizable-panels';
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-  const logout = useAuthStore((state) => state.logout);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-
-  const handleLogout = () => {
-    logout();
-    navigate({ to: '/login' });
-  };
-
   const isPublicPage = ['/login', '/register'].includes(pathname);
+  const { isCollapsed, toggle } = useSidebarStore();
+  const panelGroupRef = useRef<ImperativePanelGroupHandle>(null);
+
+  useEffect(() => {
+    if (panelGroupRef.current) {
+      if (isCollapsed) {
+        panelGroupRef.current.setLayout([0, 100]);
+      } else {
+        panelGroupRef.current.setLayout([20, 80]);
+      }
+    }
+  }, [isCollapsed]);
+
 
   if (isPublicPage) {
     return (
@@ -25,23 +37,37 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen p-4 gap-4">
-      <aside className="w-64 glass-effect p-6 flex flex-col">
-        <div>
-          <h1 className="text-2xl font-bold text-white">FinanSync</h1>
-          <nav className="mt-10">
-            {/* Navigation links will go here */}
-          </nav>
+    <ResizablePanelGroup
+      ref={panelGroupRef}
+      direction="horizontal"
+      className="h-screen w-full"
+    >
+      <ResizablePanel
+        defaultSize={20}
+        minSize={15}
+        maxSize={25}
+        collapsible
+        onCollapse={() => {
+          if (!isCollapsed) {
+            toggle();
+          }
+        }}
+        onExpand={() => {
+          if(isCollapsed) {
+            toggle();
+          }
+        }}
+        className="h-full"
+      >
+        <Sidebar />
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={80}>
+        <div className="flex flex-col h-full">
+          <Header />
+          <main className="flex-1 p-6 overflow-y-auto">{children}</main>
         </div>
-        <div className="mt-auto">
-          <Button onClick={handleLogout} variant="outline" className="w-full bg-transparent hover:bg-white/10 text-white">
-            Logout
-          </Button>
-        </div>
-      </aside>
-      <main className="flex-1 glass-effect p-6 overflow-y-auto">
-        {children}
-      </main>
-    </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }

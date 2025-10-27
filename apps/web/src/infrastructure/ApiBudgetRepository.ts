@@ -1,9 +1,11 @@
 import api from '@/lib/api';
-import type { Budget, IBudgetRepository } from '@/domain/budget';
+import type { Budget, IBudgetRepository, PaginatedBudgets } from '@/domain/budget';
 
 class ApiBudgetRepository implements IBudgetRepository {
-  async getAll(): Promise<Budget[]> {
-    const response = await api.get('/budgets');
+  async getAll(page: number, limit: number): Promise<PaginatedBudgets> {
+    const response = await api.get('/budgets', {
+      params: { page, limit },
+    });
     return response.data;
   }
 

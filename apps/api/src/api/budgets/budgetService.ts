@@ -10,26 +10,32 @@ export const createBudget = async (name: string, userId: string) => {
   return budget;
 };
 
-export const getBudgetsForUser = async (userId: string) => {
-  const budgets = await prisma.budget.findMany({
-    where: {
-      OR: [
-        { ownerId: userId },
-        {
-          members: {
-            some: {
-              userId: userId,
-            },
+export const getBudgetsForUser = async (userId: string, page: number, limit: number) => {
+  const where = {
+    OR: [
+      { ownerId: userId },
+      {
+        members: {
+          some: {
+            userId: userId,
           },
         },
-      ],
-    },
+      },
+    ],
+  };
+
+  const budgets = await prisma.budget.findMany({
+    where,
+    skip: (page - 1) * limit,
+    take: limit,
     include: {
       transactions: true,
     },
   });
 
-  return budgets.map(budget => {
+  const totalBudgets = await prisma.budget.count({ where });
+
+  const budgetsWithBalance = budgets.map(budget => {
     const balance = budget.transactions.reduce((acc, transaction) => {
       if (transaction.type === 'INCOME') {
         return acc + Number(transaction.amount);
@@ -39,6 +45,8 @@ export const getBudgetsForUser = async (userId: string) => {
     }, 0);
     return { ...budget, balance };
   });
+
+  return { budgets: budgetsWithBalance, totalBudgets };
 };
 
 export const getBudgetById = async (budgetId: string, userId: string) => {

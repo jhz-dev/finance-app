@@ -25,11 +25,24 @@ export const createBudget = async (req: Request, res: Response) => {
   }
 };
 
+const getBudgetsSchema = z.object({
+  page: z.coerce.number().default(1),
+  limit: z.coerce.number().default(10),
+});
+
 export const getBudgets = async (req: Request, res: Response) => {
-  // @ts-ignore
-  const userId = req.user.id;
-  const budgets = await budgetService.getBudgetsForUser(userId);
-  res.status(200).json(budgets);
+  try {
+    // @ts-ignore
+    const userId = req.user.id;
+    const { page, limit } = getBudgetsSchema.parse(req.query);
+    const budgets = await budgetService.getBudgetsForUser(userId, page, limit);
+    res.status(200).json(budgets);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ errors: error.flatten().fieldErrors });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
 };
 
 export const getBudget = async (req: Request, res: Response) => {
