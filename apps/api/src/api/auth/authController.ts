@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { registerUser, loginUser } from './authService';
-import { Prisma } from '@prisma/client';
+import { asyncHandler } from '../../common/utils/asyncHandler';
 
 const registerSchema = z.object({
   email: z.string().email(),
@@ -14,40 +14,20 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
-export const register = async (req: Request, res: Response) => {
-  try {
-    const userData = registerSchema.parse(req.body);
-    const user = await registerUser(userData);
-    res.status(201).json({ message: 'User registered successfully', user });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({ errors: error.flatten().fieldErrors });
-    }
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
-        return res.status(409).json({ message: 'Email already in use.' });
-      }
-    }
-    res.status(500).json({ message: 'Server error' });
-  }
-};
+export const register = asyncHandler(async (req: Request, res: Response) => {
+  const userData = registerSchema.parse(req.body);
+  const user = await registerUser(userData);
+  res.status(201).json({ message: 'User registered successfully', user });
+});
 
-export const login = async (req: Request, res: Response) => {
-  try {
-    const credentials = loginSchema.parse(req.body);
-    const { user, token } = await loginUser(credentials);
-    res.status(200).json({ user, token });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({ errors: error.flatten().fieldErrors });
-    }
-    res.status(500).json({ message: 'Server error' });
-  }
-};
+export const login = asyncHandler(async (req: Request, res: Response) => {
+  const credentials = loginSchema.parse(req.body);
+  const { user, token } = await loginUser(credentials);
+  res.status(200).json({ user, token });
+});
 
-export const getMe = async (req: Request, res: Response) => {
+export const getMe = asyncHandler(async (req: Request, res: Response) => {
   // This route is protected, so if we reach here, the user is authenticated.
   // The user object should be available in req.user from the authMiddleware.
-  // @ts-ignore
   res.status(200).json({ user: req.user });
-};
+});

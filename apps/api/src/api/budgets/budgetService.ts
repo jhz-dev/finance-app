@@ -90,10 +90,24 @@ export const getBudgetById = async (budgetId: string, userId: string) => {
 };
 
 export const updateBudget = async (budgetId: string, name: string, userId: string) => {
+  const member = await prisma.budgetMember.findFirst({
+    where: {
+      budgetId,
+      userId,
+    },
+  });
+
+  if (!member && (await prisma.budget.findFirst({ where: { id: budgetId, ownerId: userId } })) === null) {
+    throw new Error('You are not a member of this budget');
+  }
+
+  if (member && member.role !== 'ADMIN' && member.role !== 'EDITOR') {
+    throw new Error('You do not have permission to update this budget');
+  }
+
   const budget = await prisma.budget.updateMany({
     where: {
       id: budgetId,
-      ownerId: userId, // Only the owner can update the name
     },
     data: {
       name,

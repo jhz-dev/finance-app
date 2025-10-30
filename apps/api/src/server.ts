@@ -6,6 +6,8 @@ import transactionRouter from './api/transactions/transactionRouter';
 import sharingRouter from './api/sharing/sharingRouter';
 import categoryRouter from './api/categories/categoryRouter';
 import goalRouter from './api/goals/goalRouter';
+import recurringTransactionRouter from './api/recurring-transactions/recurringTransactionRouter';
+import { errorHandler } from './common/middleware/errorMiddleware';
 
 export function createServer(): Express {
   const app = express();
@@ -19,10 +21,13 @@ export function createServer(): Express {
   app.use('/api', sharingRouter);
   app.use('/api/categories', categoryRouter);
   app.use('/api/goals', goalRouter);
+  app.use('/api', recurringTransactionRouter);
 
   app.get('/healthcheck', (_, res) => {
     res.status(200).send('OK');
   });
+
+  app.use(errorHandler);
 
   return app;
 }

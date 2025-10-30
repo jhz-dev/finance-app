@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import fs from 'fs';
 import path from 'path';
+import { BudgetRole } from '@prisma/client';
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -16,7 +17,7 @@ const transporter = nodemailer.createTransport({
 const emailTemplateSource = fs.readFileSync(path.join(__dirname, '../../templates/budget-invitation.hbs'), 'utf8');
 const template = handlebars.compile(emailTemplateSource);
 
-export const inviteUserToBudget = async (budgetId: string, email: string, role: string, inviterId: string) => {
+export const inviteUserToBudget = async (budgetId: string, email: string, role: BudgetRole, inviterId: string) => {
   const inviter = await prisma.user.findUnique({ where: { id: inviterId } });
   const userToInvite = await prisma.user.findUnique({ where: { email } });
 
@@ -50,7 +51,7 @@ export const inviteUserToBudget = async (budgetId: string, email: string, role: 
   return member;
 };
 
-export const updateMemberRole = async (budgetId: string, memberId: string, role: string, userId: string) => {
+export const updateMemberRole = async (budgetId: string, memberId: string, role: BudgetRole, userId: string) => {
   const member = await prisma.budgetMember.updateMany({
     where: {
       id: memberId,

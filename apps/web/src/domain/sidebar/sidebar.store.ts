@@ -1,11 +1,11 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface SidebarState {
-  isCollapsed: boolean;
-  toggle: () => void;
+	isCollapsed: boolean;
+	toggle: () => void;
 }
 
 export const useSidebarStore = create<SidebarState>((set) => ({
-  isCollapsed: false,
-  toggle: () => set((state) => ({ isCollapsed: !state.isCollapsed })),
+	isCollapsed: false,
+	toggle: () => set((state) => ({ isCollapsed: !state.isCollapsed })),
 }));

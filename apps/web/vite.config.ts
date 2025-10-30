@@ -16,4 +16,7 @@ export default defineConfig({
   server: {
     port: 4000,
   },
+  optimizeDeps: {
+    exclude: ['@tanstack/react-table'],
+  },
 })

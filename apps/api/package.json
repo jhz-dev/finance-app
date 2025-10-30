@@ -10,7 +10,9 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "prisma db seed",
+    "db:seed": "ts-node prisma/seed.ts --lang=en",
+    "db:seed:en": "ts-node prisma/seed.ts --lang=en",
+    "db:seed:es": "ts-node prisma/seed.ts --lang=es",
     "test": "echo \"No tests yet\""
   },
   "prisma": {
@@ -22,6 +24,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "commander": "^12.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",

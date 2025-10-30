@@ -7,35 +7,57 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TAX
+  LOAN
+}
+
+enum BudgetRole {
+  VIEWER
+  EDITOR
+  ADMIN
+}
+
+enum RecurringFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
 model User {
-  id            String          @id @default(cuid())
-  email         String          @unique
-  password      String
-  name          String?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  budgets       Budget[]        @relation("OwnedBudgets")
-  transactions  Transaction[]
-  budgetMembers BudgetMember[]
-  goals         FinancialGoal[]
+  id                      String                    @id @default(cuid())
+  email                   String                    @unique
+  password                String
+  name                    String?
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  budgets                 Budget[]                  @relation("OwnedBudgets")
+  transactions            Transaction[]
+  budgetMembers           BudgetMember[]
+  goals                   FinancialGoal[]
+  recurringTransactions   RecurringTransaction[]
 }
 
 model Budget {
-  id           String         @id @default(cuid())
-  name         String
-  owner        User           @relation("OwnedBudgets", fields: [ownerId], references: [id])
-  ownerId      String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  transactions Transaction[]
-  members      BudgetMember[]
+  id                      String                    @id @default(cuid())
+  name                    String
+  owner                   User                      @relation("OwnedBudgets", fields: [ownerId], references: [id])
+  ownerId                 String
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  transactions            Transaction[]
+  members                 BudgetMember[]
+  recurringTransactions   RecurringTransaction[]
 }
 
 model Transaction {
   id          String      @id @default(cuid())
   description String
   amount      Decimal     @db.Decimal(10, 2)
-  type        String // INCOME, EXPENSE, TAX, LOAN
+  type        TransactionType
   date        DateTime
   budget      Budget      @relation(fields: [budgetId], references: [id])
   budgetId    String
@@ -48,11 +70,12 @@ model Transaction {
 }
 
 model Category {
-  id           String        @id @default(cuid())
-  name         String
-  transactions Transaction[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id                      String                    @id @default(cuid())
+  name                    String
+  transactions            Transaction[]
+  recurringTransactions   RecurringTransaction[]
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
 }
 
 model BudgetMember {
@@ -61,7 +84,7 @@ model BudgetMember {
   budgetId  String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  role      String // VIEWER, EDITOR, ADMIN
+  role      BudgetRole
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -77,4 +100,22 @@ model FinancialGoal {
   userId        String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model RecurringTransaction {
+  id          String               @id @default(cuid())
+  description String
+  amount      Decimal              @db.Decimal(10, 2)
+  type        TransactionType
+  frequency   RecurringFrequency
+  startDate   DateTime
+  endDate     DateTime?
+  budgetId    String
+  budget      Budget               @relation(fields: [budgetId], references: [id])
+  userId      String
+  user        User                 @relation(fields: [userId], references: [id])
+  categoryId  String?
+  category    Category?            @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
 }
