@@ -67,8 +67,10 @@ export function TransactionItem({
 						<p className="text-slate-900 font-medium">
 							{transaction.description}
 						</p>
-						{transaction.category && (
-							<p className="text-slate-500 text-sm">{transaction.category}</p>
+						{(transaction as any).category && (
+							<p className="text-slate-500 text-sm">
+								{(transaction as any).category.name}
+							</p>
 						)}
 					</div>
 				</div>
@@ -130,8 +132,8 @@ export function TransactionItem({
 			</div>
 			{isEditDialogOpen && (
 				<EditTransactionDialog
-					isOpen={isEditDialogOpen}
-					setIsOpen={setIsEditDialogOpen}
+					open={isEditDialogOpen}
+					onOpenChange={setIsEditDialogOpen}
 					transaction={transaction}
 					budgetId={budgetId}
 				/>
