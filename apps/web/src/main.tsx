@@ -1,10 +1,10 @@
 import {
+	Outlet,
+	RouterProvider,
 	createRootRoute,
 	createRoute,
 	createRouter,
-	Outlet,
-	RouterProvider,
-	redirect,
+	redirect
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { StrictMode } from "react";
@@ -20,6 +20,7 @@ import { BudgetDetailPage } from "./routes/budgets/detail.tsx";
 import DashboardPage from "./routes/DashboardPage.tsx";
 import { LoginPage } from "./routes/login.tsx";
 import { RegisterPage } from "./routes/register.tsx";
+import GoalsPage from "./routes/GoalsPage.tsx";
 
 const rootRoute = createRootRoute({
 	component: () => (
@@ -70,11 +71,26 @@ const budgetDetailRoute = createRoute({
 	},
 });
 
+const goalsRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/goals",
+	component: GoalsPage,
+	beforeLoad: () => {
+		const { isAuthenticated } = useAuthStore.getState();
+		if (!isAuthenticated) {
+			throw redirect({
+				to: "/login",
+			});
+		}
+	},
+});
+
 const routeTree = rootRoute.addChildren([
 	indexRoute,
 	loginRoute,
 	registerRoute,
 	budgetDetailRoute,
+  goalsRoute,
 ]);
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
