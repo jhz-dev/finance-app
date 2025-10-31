@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Home, LogOut, Target, User } from "lucide-react";
+import { Home, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/domain/auth/auth.store";
 import { Button } from "./ui/button";
@@ -30,28 +30,6 @@ export function Sidebar() {
 				>
 					<Home className="h-5 w-5" />
 					<span>{t("Dashboard")}</span>
-				</Link>
-				<Link
-					to="/goals"
-					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
-					activeProps={{
-						className:
-							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
-					}}
-				>
-					<Target className="h-5 w-5" />
-					<span>{t("Goals")}</span>
-				</Link>
-				<Link
-					to="/profile"
-					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
-					activeProps={{
-						className:
-							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
-					}}
-				>
-					<User className="h-5 w-5" />
-					<span>{t("Profile")}</span>
 				</Link>
 			</nav>
 			<div className="mt-auto">

@@ -9,17 +9,16 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import { I18nextProvider } from "react-i18next";
 import { useAuthStore } from "@/domain/auth/auth.store";
 import { Layout } from "./components/Layout";
 import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provider.tsx";
-
-import "./styles.css";
-import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
-import i18n from "./lib/i18n"; // Import the i18n instance
+import i18n from "./lib/i18n";
 import { BudgetDetailPage } from "./routes/budgets/detail.tsx";
 import DashboardPage from "./routes/DashboardPage.tsx";
 import { LoginPage } from "./routes/login.tsx";
 import { RegisterPage } from "./routes/register.tsx";
+import "./styles.css";
 
 const rootRoute = createRootRoute({
 	component: () => (
