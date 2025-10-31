@@ -10,7 +10,7 @@ export function Header() {
 	const { toggle } = useSidebarStore();
 
 	return (
-		<header className="flex items-center justify-between p-4 bg-slate-100">
+		<header className="flex items-center justify-between p-4 bg-slate-200">
 			<Button
 				onClick={toggle}
 				variant="outline"

@@ -5,4 +5,5 @@ export interface Transaction {
 	amount: number; // Prisma Decimal is serialized as number or string, handle appropriately
 	type: "INCOME" | "EXPENSE" | "TAX" | "LOAN";
 	date: string; // ISO date string
+	category?: { name: string };
 }

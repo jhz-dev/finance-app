@@ -15,7 +15,7 @@ export function Sidebar() {
 	};
 
 	return (
-		<div className="flex flex-col h-full p-4 bg-slate-100">
+		<div className="flex flex-col h-full p-4 bg-slate-200">
 			<h2 className="text-2xl font-bold text-slate-900 mb-10">
 				{t("FinanSync")}
 			</h2>
