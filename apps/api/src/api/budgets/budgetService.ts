@@ -1,3 +1,4 @@
+import { Budget, Transaction } from '@prisma/client';
 import prisma from '../../database/prisma';
 
 export const createBudget = async (name: string, userId: string) => {
@@ -29,14 +30,18 @@ export const getBudgetsForUser = async (userId: string, page: number, limit: num
     skip: (page - 1) * limit,
     take: limit,
     include: {
-      transactions: true,
+      transactions: {
+        include: {
+          category: true,
+        },
+      },
     },
   });
 
   const totalBudgets = await prisma.budget.count({ where });
 
-  const budgetsWithBalance = budgets.map(budget => {
-    const balance = budget.transactions.reduce((acc, transaction) => {
+  const budgetsWithBalance = budgets.map((budget: Budget & { transactions: Transaction[] }) => {
+    const balance = budget.transactions.reduce((acc: number, transaction: Transaction) => {
       if (transaction.type === 'INCOME') {
         return acc + Number(transaction.amount);
       } else {
@@ -65,7 +70,11 @@ export const getBudgetById = async (budgetId: string, userId: string) => {
       ],
     },
     include: {
-      transactions: true,
+      transactions: {
+        include: {
+          category: true,
+        },
+      },
       members: {
         include: {
           user: true,
@@ -78,7 +87,7 @@ export const getBudgetById = async (budgetId: string, userId: string) => {
     return null;
   }
 
-  const balance = budget.transactions.reduce((acc, transaction) => {
+  const balance = budget.transactions.reduce((acc: number, transaction: Transaction) => {
     if (transaction.type === 'INCOME') {
       return acc + Number(transaction.amount);
     } else {

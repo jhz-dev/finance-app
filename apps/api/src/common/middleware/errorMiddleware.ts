@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
-import { Prisma } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof z.ZodError) {
     return res.status(400).json({ errors: err.flatten().fieldErrors });
   }
 
-  if (err instanceof Prisma.PrismaClientKnownRequestError) {
+  if (err instanceof PrismaClientKnownRequestError) {
     if (err.code === 'P2002') {
       return res.status(409).json({ message: 'Email already in use.' });
     }

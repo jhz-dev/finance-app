@@ -1,6 +1,5 @@
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -35,9 +34,8 @@ export function AddGoalDialog() {
 			targetAmount: 0,
 		},
 		onSubmit: async ({ value }) => {
-			mutation.mutate(value);
+			mutation.mutate({ ...value, currentAmount: 0 });
 		},
-		validatorAdapter: zodValidator,
 	});
 
 	return (
@@ -57,19 +55,36 @@ export function AddGoalDialog() {
 					}}
 					className="space-y-4"
 				>
-					<div>
-						<Label htmlFor={_nameId}>{t("Name")}</Label>
-						<Input id={_nameId} name="name" {...form.getInputProps("name")} />
-					</div>
-					<div>
-						<Label htmlFor={_targetAmountId}>{t("Target Amount")}</Label>
-						<Input
-							id={_targetAmountId}
-							name="targetAmount"
-							type="number"
-							{...form.getInputProps("targetAmount")}
-						/>
-					</div>
+					<form.Field
+						name="name"
+						children={(field: any) => (
+							<>
+								<Label htmlFor={_nameId}>{t("Name")}</Label>
+								<Input
+									id={_nameId}
+									name={field.name}
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+							</>
+						)}
+					/>
+					<form.Field
+						name="targetAmount"
+						children={(field: any) => (
+							<>
+								<Label htmlFor={_targetAmountId}>{t("Target Amount")}</Label>
+								<Input
+									id={_targetAmountId}
+									name={field.name}
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+							</>
+						)}
+					/>
 					<Button type="submit">{t("Add Goal")}</Button>
 				</form>
 			</DialogContent>
