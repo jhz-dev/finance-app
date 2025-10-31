@@ -95,9 +95,9 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 				}}
 			>
 				<DialogTrigger asChild>
-					<Button>{t("Add Transaction")}</Button>
+					<Button className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">{t("Add Transaction")}</Button>
 				</DialogTrigger>
-				<DialogContent className="sm:max-w-[425px] bg-background text-white border-white/20">
+				<DialogContent className="sm:max-w-[425px] bg-white rounded-3xl shadow-2xl">
 					<form onSubmit={handleSubmit}>
 						<DialogHeader>
 							<DialogTitle>{t("Add Transaction")}</DialogTitle>
@@ -119,6 +119,7 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 									value={description}
 									onChange={(e) => setDescription(e.target.value)}
 									required
+									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 								/>
 							</div>
 							<div className="grid gap-2">
@@ -129,6 +130,7 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 									value={amount}
 									onChange={(e) => setAmount(e.target.value)}
 									required
+									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 								/>
 							</div>
 							<div className="grid gap-2">
@@ -139,7 +141,7 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 									}
 									defaultValue={type}
 								>
-									<SelectTrigger id={typeId}>
+									<SelectTrigger id={typeId} className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400">
 										<SelectValue placeholder={t("Select a type")} />
 									</SelectTrigger>
 									<SelectContent>
@@ -156,11 +158,12 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 									value={date}
 									onChange={(e) => setDate(e.target.value)}
 									required
+									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 								/>
 							</div>
 						</div>
 						<DialogFooter>
-							<Button type="submit" disabled={mutation.isPending}>
+							<Button type="submit" disabled={mutation.isPending} className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
 								{mutation.isPending ? t("Saving...") : t("Save Transaction")}
 							</Button>
 						</DialogFooter>
@@ -168,7 +171,7 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 				</DialogContent>
 			</Dialog>
 			<AlertDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
-				<AlertDialogContent>
+				<AlertDialogContent className="bg-white rounded-3xl shadow-2xl">
 					<AlertDialogHeader>
 						<AlertDialogTitle>{t("Success!")}</AlertDialogTitle>
 						<AlertDialogDescription>
@@ -176,7 +179,7 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogAction onClick={() => setShowSuccessDialog(false)}>
+						<AlertDialogAction onClick={() => setShowSuccessDialog(false)} className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all">
 							{t("OK")}
 						</AlertDialogAction>
 					</AlertDialogFooter>

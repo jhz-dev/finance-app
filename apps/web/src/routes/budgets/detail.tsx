@@ -66,7 +66,7 @@ export function BudgetDetailPage() {
 	return (
 		<div>
 			{isPending && (
-				<h1 className="text-3xl font-bold text-white">{t("Loading...")}</h1>
+				<h1 className="text-3xl font-bold text-slate-900">{t("Loading...")}</h1>
 			)}
 			{isError && (
 				<h1 className="text-3xl font-bold text-red-500">
@@ -89,21 +89,21 @@ export function BudgetDetailPage() {
 						</BreadcrumbList>
 					</Breadcrumb>
 					<div className="flex justify-between items-center mb-6">
-						<h1 className="text-3xl font-bold text-white">{data.name}</h1>
+						<h1 className="text-3xl font-bold text-slate-900">{data.name}</h1>
 						<AddTransactionDialog budgetId={budgetId} />
 					</div>
 
 					<div className="grid gap-4 grid-cols-1 lg:grid-cols-3 mb-8">
 						<MetricCard title={t("Current Balance")} value={formattedBalance} />
-						<div className="lg:col-span-2 glass-effect p-4">
+						<div className="lg:col-span-2 bg-white rounded-3xl shadow-2xl p-6">
 							<TransactionChart data={filteredTransactions} />
 						</div>
 					</div>
 
 					<Tabs value={timePeriod} onValueChange={setTimePeriod}>
-						<TabsList className="mb-4 bg-black/20 border-white/20 border">
-							<TabsTrigger value="monthly">{t("Monthly")}</TabsTrigger>
-							<TabsTrigger value="yearly">{t("Yearly")}</TabsTrigger>
+						<TabsList className="mb-4 bg-slate-200 rounded-full p-1 flex space-x-1">
+							<TabsTrigger value="monthly" className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold">{t("Monthly")}</TabsTrigger>
+							<TabsTrigger value="yearly" className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold">{t("Yearly")}</TabsTrigger>
 						</TabsList>
 						<TabsContent value="monthly">
 							<TransactionsTable

@@ -8,14 +8,14 @@ interface MetricCardProps {
 
 export function MetricCard({ title, value, className }: MetricCardProps) {
 	return (
-		<Card className={`glass-effect text-white border-white/20 ${className}`}>
+		<Card className={`bg-white rounded-3xl shadow-2xl p-6 ${className}`}>
 			<CardHeader>
-				<CardTitle className="text-base font-medium text-white/70">
+				<CardTitle className="text-base font-medium text-slate-500">
 					{title}
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<div className="text-3xl font-bold">{value}</div>
+				<div className="text-4xl font-extrabold text-slate-900">{value}</div>
 			</CardContent>
 		</Card>
 	);

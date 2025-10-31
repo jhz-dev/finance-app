@@ -67,4 +67,4 @@ This project is a mono-repo using npm workspaces. The two primary packages are:
   npm run dev --workspace=apps/web
   ```
 
-The front-end will be available at `http://localhost:5173` and the back-end at `http://localhost:3000`.
+The front-end will be available at `http://localhost:4000/` and the back-end at `http://localhost:3000`.

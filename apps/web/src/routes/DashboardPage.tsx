@@ -33,7 +33,7 @@ function DashboardPage() {
 
 	return (
 		<div className="mt-4">
-			{isPending && <p className="text-white/70">{t("Loading budgets...")}</p>}
+			{isPending && <p className="text-slate-500">{t("Loading budgets...")}</p>}
 			{isError && (
 				<p className="text-red-500">
 					{t("Error fetching budgets: {{message}}", { message: error.message })}
@@ -48,15 +48,16 @@ function DashboardPage() {
 							))}
 						</div>
 						<div className="flex justify-center items-center mt-6 space-x-4">
-							<Button onClick={handlePrevPage} disabled={page === 1}>
+							<Button onClick={handlePrevPage} disabled={page === 1} className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all">
 								{t("Previous")}
 							</Button>
-							<span className="text-white">
+							<span className="text-slate-500">
 								{t("Page")} {page}
 							</span>
 							<Button
 								onClick={handleNextPage}
 								disabled={!data || data.totalBudgets <= page * LIMIT}
+								className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
 							>
 								{t("Next")}
 							</Button>
@@ -64,10 +65,10 @@ function DashboardPage() {
 					</>
 				) : (
 					<div className="text-center mt-20">
-						<h2 className="text-2xl font-semibold text-white">
+						<h2 className="text-2xl font-bold text-slate-900">
 							{t("No Budgets Yet")}
 						</h2>
-						<p className="text-white/70 mt-2">
+						<p className="text-slate-500 mt-2">
 							{t('Click the "Add New Budget" button to get started.')}
 						</p>
 					</div>

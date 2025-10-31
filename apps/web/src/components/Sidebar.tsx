@@ -15,26 +15,35 @@ export function Sidebar() {
 	};
 
 	return (
-		<div className="flex flex-col h-full p-4 glass-effect">
-			<h2 className="text-2xl font-bold text-white mb-10">{t("FinanSync")}</h2>
+		<div className="flex flex-col h-full p-4 bg-slate-100">
+			<h2 className="text-2xl font-bold text-slate-900 mb-10">{t("FinanSync")}</h2>
 			<nav className="flex flex-col space-y-4">
 				<Link
 					to="/"
-					className="flex items-center space-x-2 text-white hover:text-primary"
+					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
+					activeProps={{
+						className: "bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
+					}}
 				>
 					<Home className="h-5 w-5" />
 					<span>{t("Dashboard")}</span>
 				</Link>
 				<Link
 					to="/goals"
-					className="flex items-center space-x-2 text-white hover:text-primary"
+					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
+					activeProps={{
+						className: "bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
+					}}
 				>
 					<Target className="h-5 w-5" />
 					<span>{t("Goals")}</span>
 				</Link>
 				<Link
 					to="/profile"
-					className="flex items-center space-x-2 text-white hover:text-primary"
+					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
+					activeProps={{
+						className: "bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
+					}}
 				>
 					<User className="h-5 w-5" />
 					<span>{t("Profile")}</span>
@@ -44,7 +53,7 @@ export function Sidebar() {
 				<Button
 					onClick={handleLogout}
 					variant="outline"
-					className="w-full bg-transparent hover:bg-white/10 text-white"
+					className="w-full bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
 				>
 					<LogOut className="h-5 w-5 mr-2" />
 					{t("Logout")}

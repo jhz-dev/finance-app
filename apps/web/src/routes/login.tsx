@@ -54,10 +54,10 @@ export function LoginPage() {
 			className="flex flex-col items-center gap-4 w-[100%]"
 			onSubmit={handleSubmit}
 		>
-			<Card className="w-full max-w-lg">
+			<Card className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
 				<CardHeader>
-					<CardTitle className="text-2xl">{t("Login")}</CardTitle>
-					<CardDescription>
+					<CardTitle className="text-2xl text-slate-900 font-bold">{t("Login")}</CardTitle>
+					<CardDescription className="text-slate-500">
 						{t("Enter your email below to login to your account.")}
 					</CardDescription>
 				</CardHeader>
@@ -77,6 +77,7 @@ export function LoginPage() {
 							required
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
+							className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 						/>
 					</div>
 					<div className="grid gap-2">
@@ -87,13 +88,14 @@ export function LoginPage() {
 							required
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
+							className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 						/>
 					</div>
 				</CardContent>
 				<CardFooter className="grid gap-2">
 					<Button
 						type="submit"
-						className="w-full"
+						className="w-full bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
 						disabled={mutation.isPending}
 					>
 						{mutation.isPending ? t("Signing in...") : t("Sign in")}

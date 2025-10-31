@@ -62,10 +62,10 @@ export function RegisterPage() {
 		<>
 			<div className="flex items-center justify-center min-h-full">
 				<form onSubmit={handleSubmit}>
-					<Card className="w-full max-w-sm">
+					<Card className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
 						<CardHeader>
-							<CardTitle className="text-2xl">{t("Sign Up")}</CardTitle>
-							<CardDescription>
+							<CardTitle className="text-2xl text-slate-900 font-bold">{t("Sign Up")}</CardTitle>
+							<CardDescription className="text-slate-500">
 								{t("Enter your information to create an account.")}
 							</CardDescription>
 						</CardHeader>
@@ -82,8 +82,7 @@ export function RegisterPage() {
 									id="name"
 									placeholder="Max Robinson"
 									required
-									value={name}
-									onChange={(e) => setName(e.target.value)}
+									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 								/>
 							</div>
 							<div className="grid gap-2">
@@ -95,6 +94,7 @@ export function RegisterPage() {
 									required
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
+									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 								/>
 							</div>
 							<div className="grid gap-2">
@@ -103,6 +103,7 @@ export function RegisterPage() {
 									id="password"
 									type="password"
 									required
+									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
 								/>
@@ -111,7 +112,7 @@ export function RegisterPage() {
 						<CardFooter className="flex flex-col">
 							<Button
 								type="submit"
-								className="w-full"
+								className="w-full bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
 								disabled={mutation.isPending}
 							>
 								{mutation.isPending
@@ -137,7 +138,7 @@ export function RegisterPage() {
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogAction onClick={() => navigate({ to: "/login" })}>
+						<AlertDialogAction onClick={() => navigate({ to: "/login" })} className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all">
 							{t("OK")}
 						</AlertDialogAction>
 					</AlertDialogFooter>

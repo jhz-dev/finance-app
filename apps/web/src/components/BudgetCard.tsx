@@ -16,13 +16,13 @@ export function BudgetCard({ budget }: BudgetCardProps) {
 
 	return (
 		<Link to="/budgets/$budgetId" params={{ budgetId: budget.id }}>
-			<Card className="glass-effect text-white border-white/20 hover:bg-white/10 transition-colors">
+			<Card className="bg-white rounded-3xl shadow-2xl p-6">
 				<CardHeader>
-					<CardTitle>{budget.name}</CardTitle>
+					<CardTitle className="text-slate-500">{budget.name}</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<div className="text-2xl font-bold">{formattedBalance}</div>
-					<p className="text-xs text-white/60">{t("Current Balance")}</p>
+					<div className="text-4xl font-extrabold text-slate-900">{formattedBalance}</div>
+					<p className="text-xs text-slate-500">{t("Current Balance")}</p>
 				</CardContent>
 			</Card>
 		</Link>
