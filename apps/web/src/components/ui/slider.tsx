@@ -2,7 +2,7 @@
 
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import * as React from "react";
-
+import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 function Slider({
@@ -22,6 +22,8 @@ function Slider({
 					: [min, max],
 		[value, defaultValue, min, max],
 	);
+
+	const baseId = useId();
 
 	return (
 		<SliderPrimitive.Root
@@ -52,7 +54,8 @@ function Slider({
 			{Array.from({ length: _values.length }, (_, index) => (
 				<SliderPrimitive.Thumb
 					data-slot="slider-thumb"
-					key={index}
+					// biome-ignore lint: The order of the items is stable.
+					key={`${baseId}-${index}`}
 					className="border-primary ring-ring/50 block size-4 shrink-0 rounded-full border bg-white shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
 				/>
 			))}

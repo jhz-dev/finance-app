@@ -22,7 +22,7 @@ class ApiAuthRepository implements IAuthRepository {
 		try {
 			const response = await api.get("/auth/me");
 			return response.data.user;
-		} catch (error) {
+		} catch (_error) {
 			// If the request fails (e.g., 401), it means there's no valid session.
 			return null;
 		}

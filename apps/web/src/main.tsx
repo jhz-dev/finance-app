@@ -14,9 +14,8 @@ import { Layout } from "./components/Layout";
 import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provider.tsx";
 
 import "./styles.css";
-import i18n from "./lib/i18n"; // Import the i18n instance
 import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
-
+import i18n from "./lib/i18n"; // Import the i18n instance
 import { BudgetDetailPage } from "./routes/budgets/detail.tsx";
 import DashboardPage from "./routes/DashboardPage.tsx";
 import { LoginPage } from "./routes/login.tsx";
