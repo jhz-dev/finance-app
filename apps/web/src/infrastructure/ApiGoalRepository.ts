@@ -1,6 +1,5 @@
-import type { FinancialGoal } from "@/domain/goal/goal";
 import type { GoalRepository } from "@/domain/goal/goal.repository";
-import { api } from "@/lib/api";
+import api from "@/lib/api";
 
 export const goalRepository: GoalRepository = {
 	getAll: async () => {

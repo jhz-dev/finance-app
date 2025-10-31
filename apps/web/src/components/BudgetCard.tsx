@@ -21,7 +21,9 @@ export function BudgetCard({ budget }: BudgetCardProps) {
 					<CardTitle className="text-slate-500">{budget.name}</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<div className="text-4xl font-extrabold text-slate-900">{formattedBalance}</div>
+					<div className="text-4xl font-extrabold text-slate-900">
+						{formattedBalance}
+					</div>
 					<p className="text-xs text-slate-500">{t("Current Balance")}</p>
 				</CardContent>
 			</Card>

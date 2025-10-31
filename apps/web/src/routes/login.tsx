@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { isAxiosError } from "axios";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -23,6 +23,8 @@ export function LoginPage() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { setToken, setUser } = useAuthStore();
+	const emailId = useId();
+	const passwordId = useId();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -56,7 +58,9 @@ export function LoginPage() {
 		>
 			<Card className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
 				<CardHeader>
-					<CardTitle className="text-2xl text-slate-900 font-bold">{t("Login")}</CardTitle>
+					<CardTitle className="text-2xl text-slate-900 font-bold">
+						{t("Login")}
+					</CardTitle>
 					<CardDescription className="text-slate-500">
 						{t("Enter your email below to login to your account.")}
 					</CardDescription>
@@ -69,9 +73,9 @@ export function LoginPage() {
 						</Alert>
 					)}
 					<div className="grid gap-2">
-						<Label htmlFor="email">{t("Email")}</Label>
+						<Label htmlFor={emailId}>{t("Email")}</Label>
 						<Input
-							id="email"
+							id={emailId}
 							type="email"
 							placeholder="m@example.com"
 							required
@@ -81,9 +85,9 @@ export function LoginPage() {
 						/>
 					</div>
 					<div className="grid gap-2">
-						<Label htmlFor="password">{t("Password")}</Label>
+						<Label htmlFor={passwordId}>{t("Password")}</Label>
 						<Input
-							id="password"
+							id={passwordId}
 							type="password"
 							required
 							value={password}

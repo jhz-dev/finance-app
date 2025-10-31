@@ -102,8 +102,18 @@ export function BudgetDetailPage() {
 
 					<Tabs value={timePeriod} onValueChange={setTimePeriod}>
 						<TabsList className="mb-4 bg-slate-200 rounded-full p-1 flex space-x-1">
-							<TabsTrigger value="monthly" className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold">{t("Monthly")}</TabsTrigger>
-							<TabsTrigger value="yearly" className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold">{t("Yearly")}</TabsTrigger>
+							<TabsTrigger
+								value="monthly"
+								className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold"
+							>
+								{t("Monthly")}
+							</TabsTrigger>
+							<TabsTrigger
+								value="yearly"
+								className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold"
+							>
+								{t("Yearly")}
+							</TabsTrigger>
 						</TabsList>
 						<TabsContent value="monthly">
 							<TransactionsTable

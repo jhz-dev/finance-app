@@ -48,7 +48,11 @@ function DashboardPage() {
 							))}
 						</div>
 						<div className="flex justify-center items-center mt-6 space-x-4">
-							<Button onClick={handlePrevPage} disabled={page === 1} className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all">
+							<Button
+								onClick={handlePrevPage}
+								disabled={page === 1}
+								className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
+							>
 								{t("Previous")}
 							</Button>
 							<span className="text-slate-500">

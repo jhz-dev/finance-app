@@ -16,13 +16,16 @@ export function Sidebar() {
 
 	return (
 		<div className="flex flex-col h-full p-4 bg-slate-100">
-			<h2 className="text-2xl font-bold text-slate-900 mb-10">{t("FinanSync")}</h2>
+			<h2 className="text-2xl font-bold text-slate-900 mb-10">
+				{t("FinanSync")}
+			</h2>
 			<nav className="flex flex-col space-y-4">
 				<Link
 					to="/"
 					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
 					activeProps={{
-						className: "bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
+						className:
+							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
 					}}
 				>
 					<Home className="h-5 w-5" />
@@ -32,7 +35,8 @@ export function Sidebar() {
 					to="/goals"
 					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
 					activeProps={{
-						className: "bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
+						className:
+							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
 					}}
 				>
 					<Target className="h-5 w-5" />
@@ -42,7 +46,8 @@ export function Sidebar() {
 					to="/profile"
 					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
 					activeProps={{
-						className: "bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
+						className:
+							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
 					}}
 				>
 					<User className="h-5 w-5" />

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +29,7 @@ import {
 export function AddBudgetDialog() {
 	const { t } = useTranslation();
 	const queryClient = useQueryClient();
+	const nameId = useId();
 	const [open, setOpen] = useState(false);
 	const [name, setName] = useState("");
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -73,12 +74,16 @@ export function AddBudgetDialog() {
 				}}
 			>
 				<DialogTrigger asChild>
-					<Button className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">{t("Add New Budget")}</Button>
+					<Button className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
+						{t("Add New Budget")}
+					</Button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px] bg-white rounded-3xl shadow-2xl">
 					<form onSubmit={handleSubmit}>
 						<DialogHeader>
-							<DialogTitle className="text-slate-900 font-bold">{t("Create New Budget")}</DialogTitle>
+							<DialogTitle className="text-slate-900 font-bold">
+								{t("Create New Budget")}
+							</DialogTitle>
 							<DialogDescription className="text-slate-500">
 								{t("Give your new budget a name. Click save when you're done.")}
 							</DialogDescription>
@@ -91,11 +96,11 @@ export function AddBudgetDialog() {
 						)}
 						<div className="grid gap-4 py-4">
 							<div className="grid grid-cols-4 items-center gap-4">
-								<Label htmlFor="name" className="text-right">
+								<Label htmlFor={nameId} className="text-right">
 									{t("Name")}
 								</Label>
 								<Input
-									id="name"
+									id={nameId}
 									value={name}
 									onChange={(e) => setName(e.target.value)}
 									className="col-span-3 bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
@@ -104,7 +109,11 @@ export function AddBudgetDialog() {
 							</div>
 						</div>
 						<DialogFooter>
-							<Button type="submit" disabled={mutation.isPending} className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
+							<Button
+								type="submit"
+								disabled={mutation.isPending}
+								className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
+							>
 								{mutation.isPending ? t("Saving...") : t("Save budget")}
 							</Button>
 						</DialogFooter>
@@ -120,7 +129,10 @@ export function AddBudgetDialog() {
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogAction onClick={() => setShowSuccessDialog(false)} className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all">
+						<AlertDialogAction
+							onClick={() => setShowSuccessDialog(false)}
+							className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
+						>
 							{t("OK")}
 						</AlertDialogAction>
 					</AlertDialogFooter>

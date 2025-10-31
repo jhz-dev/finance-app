@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { isAxiosError } from "axios";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
@@ -29,7 +29,10 @@ import { authRepository } from "@/infrastructure/ApiAuthRepository";
 export function RegisterPage() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
-	const [name, setName] = useState("");
+	const nameId = useId();
+	const emailId = useId();
+	const passwordId = useId();
+	const [name, _setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -64,7 +67,9 @@ export function RegisterPage() {
 				<form onSubmit={handleSubmit}>
 					<Card className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
 						<CardHeader>
-							<CardTitle className="text-2xl text-slate-900 font-bold">{t("Sign Up")}</CardTitle>
+							<CardTitle className="text-2xl text-slate-900 font-bold">
+								{t("Sign Up")}
+							</CardTitle>
 							<CardDescription className="text-slate-500">
 								{t("Enter your information to create an account.")}
 							</CardDescription>
@@ -77,18 +82,18 @@ export function RegisterPage() {
 								</Alert>
 							)}
 							<div className="grid gap-2">
-								<Label htmlFor="name">{t("Name")}</Label>
+								<Label htmlFor={nameId}>{t("Name")}</Label>
 								<Input
-									id="name"
+									id={nameId}
 									placeholder="Max Robinson"
 									required
 									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 								/>
 							</div>
 							<div className="grid gap-2">
-								<Label htmlFor="email">{t("Email")}</Label>
+								<Label htmlFor={emailId}>{t("Email")}</Label>
 								<Input
-									id="email"
+									id={emailId}
 									type="email"
 									placeholder="m@example.com"
 									required
@@ -98,9 +103,9 @@ export function RegisterPage() {
 								/>
 							</div>
 							<div className="grid gap-2">
-								<Label htmlFor="password">{t("Password")}</Label>
+								<Label htmlFor={passwordId}>{t("Password")}</Label>
 								<Input
-									id="password"
+									id={passwordId}
 									type="password"
 									required
 									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
@@ -138,7 +143,10 @@ export function RegisterPage() {
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogAction onClick={() => navigate({ to: "/login" })} className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all">
+						<AlertDialogAction
+							onClick={() => navigate({ to: "/login" })}
+							className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
+						>
 							{t("OK")}
 						</AlertDialogAction>
 					</AlertDialogFooter>
