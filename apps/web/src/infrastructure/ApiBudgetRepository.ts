@@ -17,7 +17,7 @@ class ApiBudgetRepository implements IBudgetRepository {
 		try {
 			const response = await api.get(`/budgets/${id}`);
 			return response.data;
-		} catch (error) {
+		} catch (_error) {
 			// Handle cases where the budget is not found (e.g., 404)
 			return null;
 		}

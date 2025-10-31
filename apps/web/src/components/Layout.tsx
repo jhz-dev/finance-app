@@ -17,14 +17,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	const { isCollapsed, toggle } = useSidebarStore();
 	const panelGroupRef = useRef<ImperativePanelGroupHandle>(null);
 
-	useEffect(
-    () => {
-		  if (panelGroupRef.current) {
-        panelGroupRef.current.setLayout(isCollapsed ? [0, 100] : [20, 80]);
-      }
-    }, 
-    [isCollapsed]
-  );
+	useEffect(() => {
+		if (panelGroupRef.current) {
+			panelGroupRef.current.setLayout(isCollapsed ? [0, 100] : [20, 80]);
+		}
+	}, [isCollapsed]);
 
 	if (isPublicPage) {
 		return (

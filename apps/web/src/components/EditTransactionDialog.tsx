@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,6 +48,10 @@ export function EditTransactionDialog({
 }: EditTransactionDialogProps) {
 	const { t } = useTranslation();
 	const queryClient = useQueryClient();
+	const descriptionId = useId();
+	const amountId = useId();
+	const typeId = useId();
+	const dateId = useId();
 	const [description, setDescription] = useState(transaction.description);
 	const [amount, setAmount] = useState(String(transaction.amount));
 	const [type, setType] = useState(transaction.type);
@@ -123,18 +127,18 @@ export function EditTransactionDialog({
 						)}
 						<div className="grid gap-4 py-4">
 							<div className="grid gap-2">
-								<Label htmlFor="description">{t("Description")}</Label>
+								<Label htmlFor={descriptionId}>{t("Description")}</Label>
 								<Input
-									id="description"
+									id={descriptionId}
 									value={description}
 									onChange={(e) => setDescription(e.target.value)}
 									required
 								/>
 							</div>
 							<div className="grid gap-2">
-								<Label htmlFor="amount">{t("Amount")}</Label>
+								<Label htmlFor={amountId}>{t("Amount")}</Label>
 								<Input
-									id="amount"
+									id={amountId}
 									type="number"
 									value={amount}
 									onChange={(e) => setAmount(e.target.value)}
@@ -142,14 +146,14 @@ export function EditTransactionDialog({
 								/>
 							</div>
 							<div className="grid gap-2">
-								<Label htmlFor="type">{t("Type")}</Label>
+								<Label htmlFor={typeId}>{t("Type")}</Label>
 								<Select
 									onValueChange={(value: "INCOME" | "EXPENSE") =>
 										setType(value)
 									}
 									defaultValue={type}
 								>
-									<SelectTrigger id="type">
+									<SelectTrigger id={typeId}>
 										<SelectValue placeholder={t("Select a type")} />
 									</SelectTrigger>
 									<SelectContent>
@@ -159,9 +163,9 @@ export function EditTransactionDialog({
 								</Select>
 							</div>
 							<div className="grid gap-2">
-								<Label htmlFor="date">{t("Date")}</Label>
+								<Label htmlFor={dateId}>{t("Date")}</Label>
 								<Input
-									id="date"
+									id={dateId}
 									type="date"
 									value={date}
 									onChange={(e) => setDate(e.target.value)}
