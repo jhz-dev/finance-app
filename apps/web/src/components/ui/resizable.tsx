@@ -1,10 +1,10 @@
+import * as React from "react";
 import {
 	PanelGroup,
-	PanelResizeHandle as ResizableHandlePrimitive,
 	type PanelResizeHandleProps,
+	PanelResizeHandle as ResizableHandlePrimitive,
 	Panel as ResizablePanelPrimitive,
 } from "react-resizable-panels";
-import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const ResizablePanelGroup = React.forwardRef<

@@ -59,9 +59,8 @@ export function AddGoalDialog() {
 					}}
 					className="space-y-4"
 				>
-					<form.Field
-						name="name"
-						children={(field: any) => (
+					<form.Field name="name">
+						{(field) => (
 							<>
 								<Label htmlFor={_nameId}>{t("Name")}</Label>
 								<Input
@@ -73,10 +72,9 @@ export function AddGoalDialog() {
 								/>
 							</>
 						)}
-					/>
-					<form.Field
-						name="targetAmount"
-						children={(field: any) => (
+					</form.Field>
+					<form.Field name="targetAmount">
+						{(field) => (
 							<>
 								<Label htmlFor={_targetAmountId}>{t("Target Amount")}</Label>
 								<Input
@@ -84,11 +82,12 @@ export function AddGoalDialog() {
 									name={field.name}
 									value={field.state.value}
 									onBlur={field.handleBlur}
-									onChange={(e) => field.handleChange(e.target.value)}
+									onChange={(e) => field.handleChange(Number.parseInt(e.target.value, 10),
+									)}
 								/>
 							</>
 						)}
-					/>
+					</form.Field>
 					<Button type="submit">{t("Add Goal")}</Button>
 				</form>
 			</DialogContent>
