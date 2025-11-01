@@ -3,7 +3,10 @@ import { Link, useParams } from "@tanstack/react-router";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { AddTransactionDialog } from "@/components/AddTransactionDialog";
+import { AddRecurringTransactionDialog } from "@/components/AddRecurringTransactionDialog";
 import { MetricCard } from "@/components/MetricCard";
+import { RecurringTransactionsTable } from "@/components/RecurringTransactionsTable";
+import { SharingSettings } from "@/components/sharing/SharingSettings";
 import { TransactionChart } from "@/components/TransactionChart";
 import { TransactionsTable } from "@/components/TransactionsTable";
 import {
@@ -16,9 +19,16 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { budgetRepository } from "@/infrastructure/ApiBudgetRepository";
+import { createFileRoute } from "@tanstack/react-router";
 
-export function BudgetDetailPage() {
+export const Route = createFileRoute("/budgets/detail")({
+  component: BudgetDetailPage,
+});
+
+function BudgetDetailPage() {
+  console.log("Rendering BudgetDetailPage");
 	const { budgetId } = useParams({ from: "/budgets/$budgetId" });
+	const [activeTab, setActiveTab] = React.useState("transactions");
 	const [timePeriod, setTimePeriod] = React.useState("monthly");
 	const { t } = useTranslation();
 
@@ -26,7 +36,7 @@ export function BudgetDetailPage() {
 		queryKey: ["budgets", budgetId],
 		queryFn: () => budgetRepository.getById(budgetId),
 		enabled: !!budgetId, // Only run the query if budgetId is available
-	});
+	})
 
 	const filteredTransactions = React.useMemo(() => {
 		if (!data?.transactions) return [];
@@ -34,7 +44,7 @@ export function BudgetDetailPage() {
 		if (timePeriod === "yearly") {
 			return data.transactions.filter(
 				(t) => new Date(t.date).getFullYear() === now.getFullYear(),
-			);
+			)
 		}
 		// Default to monthly
 		return data.transactions.filter((t) => {
@@ -42,8 +52,8 @@ export function BudgetDetailPage() {
 			return (
 				transactionDate.getFullYear() === now.getFullYear() &&
 				transactionDate.getMonth() === now.getMonth()
-			);
-		});
+			)
+		})
 	}, [data, timePeriod]);
 
 	const balance = React.useMemo(() => {
@@ -55,7 +65,7 @@ export function BudgetDetailPage() {
 				return acc - Number(t.amount);
 			}
 			return acc;
-		}, 0);
+		}, 0)
 	}, [filteredTransactions]);
 
 	const formattedBalance = new Intl.NumberFormat("en-US", {
@@ -100,36 +110,71 @@ export function BudgetDetailPage() {
 						</div>
 					</div>
 
-					<Tabs value={timePeriod} onValueChange={setTimePeriod}>
+					<Tabs value={activeTab} onValueChange={setActiveTab}>
 						<TabsList className="mb-4 bg-slate-200 rounded-full p-1 flex space-x-1">
 							<TabsTrigger
-								value="monthly"
+								value="transactions"
 								className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold"
 							>
-								{t("Monthly")}
+								{t("Transactions")}
 							</TabsTrigger>
 							<TabsTrigger
-								value="yearly"
+								value="sharing"
 								className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold"
 							>
-								{t("Yearly")}
+								{t("Sharing")}
+							</TabsTrigger>
+							<TabsTrigger
+								value="recurring"
+								className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold"
+							>
+								{t("Recurring")}
 							</TabsTrigger>
 						</TabsList>
-						<TabsContent value="monthly">
-							<TransactionsTable
-								transactions={filteredTransactions}
-								budgetId={budgetId}
-							/>
+						<TabsContent value="transactions">
+							<Tabs value={timePeriod} onValueChange={setTimePeriod}>
+								<TabsList className="mb-4 bg-slate-200 rounded-full p-1 flex space-x-1">
+									<TabsTrigger
+										value="monthly"
+										className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold"
+									>
+										{t("Monthly")}
+									</TabsTrigger>
+									<TabsTrigger
+										value="yearly"
+										className="py-2 px-5 rounded-full text-slate-600 font-medium data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-emerald-600 data-[state=active]:font-semibold"
+									>
+										{t("Yearly")}
+									</TabsTrigger>
+								</TabsList>
+								<TabsContent value="monthly">
+									<TransactionsTable
+										transactions={filteredTransactions}
+										budgetId={budgetId}
+									/>
+								</TabsContent>
+								<TabsContent value="yearly">
+									<TransactionsTable
+										transactions={filteredTransactions}
+										budgetId={budgetId}
+									/>
+								</TabsContent>
+							</Tabs>
 						</TabsContent>
-						<TabsContent value="yearly">
-							<TransactionsTable
-								transactions={filteredTransactions}
-								budgetId={budgetId}
+						<TabsContent value="sharing">
+							<SharingSettings />
+						</TabsContent>
+						<TabsContent value="recurring">
+							<div className="flex justify-end mb-4">
+								<AddRecurringTransactionDialog />
+							</div>
+							<RecurringTransactionsTable
+								transactions={data.recurringTransactions}
 							/>
 						</TabsContent>
 					</Tabs>
 				</div>
 			)}
 		</div>
-	);
+	)
 }

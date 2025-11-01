@@ -18,8 +18,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/domain/auth/auth.store";
 import { authRepository } from "@/infrastructure/ApiAuthRepository";
+import { createFileRoute } from "@tanstack/react-router";
 
-export function LoginPage() {
+export const Route = createFileRoute("/login")({
+  component: LoginPage,
+});
+
+function LoginPage() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { setToken, setUser } = useAuthStore();

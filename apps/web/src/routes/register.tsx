@@ -25,8 +25,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authRepository } from "@/infrastructure/ApiAuthRepository";
+import { createFileRoute } from "@tanstack/react-router";
 
-export function RegisterPage() {
+export const Route = createFileRoute("/register")({
+  component: RegisterPage,
+});
+
+function RegisterPage() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const nameId = useId();

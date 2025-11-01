@@ -64,10 +64,23 @@ describe("inviteUserToBudget", () => {
 describe("updateMemberRole", () => {
 	it("should update a member role", async () => {
 		const member = {
-			count: 1,
+			id: "1",
+			budgetId: "1",
+			userId: "1",
+			role: "EDITOR",
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			budget: {
+				ownerId: "1",
+			},
+			user: {
+				email: "test@example.com",
+			},
 		};
 		// @ts-expect-error: This is a mock
-		prismaMock.budgetMember.updateMany.mockResolvedValue(member);
+		prismaMock.budgetMember.findUnique.mockResolvedValue(member);
+		// @ts-expect-error: This is a mock
+		prismaMock.budgetMember.update.mockResolvedValue(member);
 
 		const result = await updateMemberRole("1", "1", "EDITOR", "1");
 
@@ -78,13 +91,28 @@ describe("updateMemberRole", () => {
 describe("removeMemberFromBudget", () => {
 	it("should remove a member from a budget", async () => {
 		const member = {
-			count: 1,
+			id: "1",
+			budgetId: "1",
+			userId: "1",
+			role: "EDITOR",
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			budget: {
+				ownerId: "1",
+			},
+			user: {
+				email: "test@example.com",
+			},
 		};
 		// @ts-expect-error: This is a mock
-		prismaMock.budgetMember.deleteMany.mockResolvedValue(member);
+		prismaMock.budgetMember.findUnique.mockResolvedValue(member);
+		// @ts-expect-error: This is a mock
+		prismaMock.budgetMember.delete.mockResolvedValue(member);
 
-		const result = await removeMemberFromBudget("1", "1", "1");
+		await removeMemberFromBudget("1", "1", "1");
 
-		expect(result).toEqual(member);
+		expect(prismaMock.budgetMember.delete).toHaveBeenCalledWith({
+			where: { id: "1" },
+		});
 	});
 });

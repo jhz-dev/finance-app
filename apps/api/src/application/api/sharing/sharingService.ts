@@ -14,11 +14,31 @@ const transporter = nodemailer.createTransport({
 	},
 });
 
-const emailTemplateSource = fs.readFileSync(
+const emailInvitationTemplateSource = fs.readFileSync(
 	path.join(__dirname, "../../../infrastructure/templates/budget-invitation.hbs"),
 	"utf8",
 );
-const template = handlebars.compile(emailTemplateSource);
+const invitationTemplate = handlebars.compile(emailInvitationTemplateSource);
+
+const emailRoleUpdatedTemplateSource = fs.readFileSync(
+	path.join(
+		__dirname,
+		"../../../infrastructure/templates/budget-role-updated.hbs",
+	),
+	"utf8",
+);
+const roleUpdatedTemplate = handlebars.compile(emailRoleUpdatedTemplateSource);
+
+const emailMemberRemovedTemplateSource = fs.readFileSync(
+	path.join(
+		__dirname,
+		"../../../infrastructure/templates/budget-member-removed.hbs",
+	),
+	"utf8",
+);
+const memberRemovedTemplate = handlebars.compile(
+	emailMemberRemovedTemplateSource,
+);
 
 export const inviteUserToBudget = async (
 	budgetId: string,
@@ -51,7 +71,10 @@ export const inviteUserToBudget = async (
 		from: process.env.SMTP_USER,
 		to: email,
 		subject: `You have been invited to the budget: ${budget.name}`,
-		html: template({ inviterName: inviter?.name, budgetName: budget.name }),
+		html: invitationTemplate({
+			inviterName: inviter?.name,
+			budgetName: budget.name,
+		}),
 	};
 
 	await transporter.sendMail(mailOptions);
@@ -65,19 +88,42 @@ export const updateMemberRole = async (
 	role: BudgetRole,
 	userId: string,
 ) => {
-	const member = await prisma.budgetMember.updateMany({
+	const updater = await prisma.user.findUnique({ where: { id: userId } });
+	const memberToUpdate = await prisma.budgetMember.findUnique({
+		where: { id: memberId },
+		include: { user: true, budget: true },
+	});
+
+	if (!memberToUpdate || memberToUpdate.budget.ownerId !== userId) {
+		throw new Error("Member not found or user is not the budget owner");
+	}
+
+	const updatedMember = await prisma.budgetMember.update({
 		where: {
 			id: memberId,
-			budgetId,
-			budget: {
-				ownerId: userId, // Only owner can update roles
-			},
 		},
 		data: {
 			role,
 		},
+		include: {
+			user: true,
+		},
 	});
-	return member;
+
+	const mailOptions = {
+		from: process.env.SMTP_USER,
+		to: updatedMember.user.email,
+		subject: `Your role in budget: ${memberToUpdate.budget.name} has been updated`,
+		html: roleUpdatedTemplate({
+			updaterName: updater?.name,
+			budgetName: memberToUpdate.budget.name,
+			newRole: role,
+		}),
+	};
+
+	await transporter.sendMail(mailOptions);
+
+	return updatedMember;
 };
 
 export const removeMemberFromBudget = async (
@@ -85,14 +131,31 @@ export const removeMemberFromBudget = async (
 	memberId: string,
 	userId: string,
 ) => {
-	const member = await prisma.budgetMember.deleteMany({
+	const remover = await prisma.user.findUnique({ where: { id: userId } });
+	const memberToRemove = await prisma.budgetMember.findUnique({
+		where: { id: memberId },
+		include: { user: true, budget: true },
+	});
+
+	if (!memberToRemove || memberToRemove.budget.ownerId !== userId) {
+		throw new Error("Member not found or user is not the budget owner");
+	}
+
+	await prisma.budgetMember.delete({
 		where: {
 			id: memberId,
-			budgetId,
-			budget: {
-				ownerId: userId, // Only owner can remove members
-			},
 		},
 	});
-	return member;
+
+	const mailOptions = {
+		from: process.env.SMTP_USER,
+		to: memberToRemove.user.email,
+		subject: `You have been removed from the budget: ${memberToRemove.budget.name}`,
+		html: memberRemovedTemplate({
+			removerName: remover?.name,
+			budgetName: memberToRemove.budget.name,
+		}),
+	};
+
+	await transporter.sendMail(mailOptions);
 };

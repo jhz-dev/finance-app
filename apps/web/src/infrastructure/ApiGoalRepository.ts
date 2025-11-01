@@ -6,6 +6,10 @@ export const goalRepository: GoalRepository = {
 		const response = await api.get("/goals");
 		return response.data;
 	},
+	getById: async (id) => {
+		const response = await api.get(`/goals/${id}`);
+		return response.data;
+	},
 	create: async (goal) => {
 		const response = await api.post("/goals", goal);
 		return response.data;
@@ -15,5 +19,11 @@ export const goalRepository: GoalRepository = {
 	},
 	delete: async (id) => {
 		await api.delete(`/goals/${id}`);
+	},
+	addTransaction: async (goalId, transactionId, amount) => {
+		await api.post(`/goals/${goalId}/transactions`, {
+			transactionId,
+			amount,
+		});
 	},
 };

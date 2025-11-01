@@ -3,14 +3,19 @@ import { useTranslation } from "react-i18next";
 import { AddGoalDialog } from "@/components/AddGoalDialog";
 import { GoalCard } from "@/components/GoalCard";
 import { goalRepository } from "@/infrastructure/ApiGoalRepository";
+import { createFileRoute } from "@tanstack/react-router";
 
-export function GoalsPage() {
+export const Route = createFileRoute("/goals/")({
+  component: GoalsPage,
+});
+
+function GoalsPage() {
 	const { t } = useTranslation();
 
 	const { isPending, isError, isSuccess, data, error } = useQuery({
 		queryKey: ["goals"],
 		queryFn: () => goalRepository.getAll(),
-	});
+	})
 
 	return (
 		<div className="mt-4">
@@ -44,5 +49,5 @@ export function GoalsPage() {
 					</div>
 				))}
 		</div>
-	);
+	)
 }

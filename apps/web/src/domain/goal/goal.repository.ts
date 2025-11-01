@@ -2,6 +2,7 @@ import type { FinancialGoal } from "./goal";
 
 export interface GoalRepository {
 	getAll: () => Promise<FinancialGoal[]>;
+	getById: (id: string) => Promise<FinancialGoal>;
 	create: (
 		goal: Omit<FinancialGoal, "id" | "userId">,
 	) => Promise<FinancialGoal>;
@@ -10,4 +11,9 @@ export interface GoalRepository {
 		goal: Partial<Omit<FinancialGoal, "id" | "userId">>,
 	) => Promise<void>;
 	delete: (id: string) => Promise<void>;
+	addTransaction: (
+		goalId: string,
+		transactionId: string,
+		amount: number,
+	) => Promise<void>;
 }
