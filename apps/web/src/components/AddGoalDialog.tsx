@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -43,9 +44,12 @@ export function AddGoalDialog() {
 			<DialogTrigger asChild>
 				<Button>{t("Add New Goal")}</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-[425px] bg-white rounded-xl border shadow-sm">
 				<DialogHeader>
 					<DialogTitle>{t("Add New Goal")}</DialogTitle>
+					<DialogDescription>
+						{t("Create a new financial goal to track your progress.")}
+					</DialogDescription>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {

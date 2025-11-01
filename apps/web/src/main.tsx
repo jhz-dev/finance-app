@@ -1,10 +1,10 @@
 import {
+	Outlet,
+	RouterProvider,
 	createRootRoute,
 	createRoute,
 	createRouter,
-	Outlet,
-	RouterProvider,
-	redirect,
+	redirect
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { StrictMode } from "react";
