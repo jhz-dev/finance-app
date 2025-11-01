@@ -18,7 +18,9 @@ import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
 import i18n from "./lib/i18n"; // Import the i18n instance
 import { BudgetDetailPage } from "./routes/budgets/detail.tsx";
 import DashboardPage from "./routes/DashboardPage.tsx";
+import { GoalsPage } from "./routes/GoalsPage.tsx";
 import { LoginPage } from "./routes/login.tsx";
+import { ProfilePage } from "./routes/ProfilePage.tsx";
 import { RegisterPage } from "./routes/register.tsx";
 
 const rootRoute = createRootRoute({
@@ -70,11 +72,41 @@ const budgetDetailRoute = createRoute({
 	},
 });
 
+const goalsRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/goals",
+	component: GoalsPage,
+	beforeLoad: () => {
+		const { isAuthenticated } = useAuthStore.getState();
+		if (!isAuthenticated) {
+			throw redirect({
+				to: "/login",
+			});
+		}
+	},
+});
+
+const profileRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/profile",
+	component: ProfilePage,
+	beforeLoad: () => {
+		const { isAuthenticated } = useAuthStore.getState();
+		if (!isAuthenticated) {
+			throw redirect({
+				to: "/login",
+			});
+		}
+	},
+});
+
 const routeTree = rootRoute.addChildren([
 	indexRoute,
 	loginRoute,
 	registerRoute,
 	budgetDetailRoute,
+	goalsRoute,
+	profileRoute,
 ]);
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext();

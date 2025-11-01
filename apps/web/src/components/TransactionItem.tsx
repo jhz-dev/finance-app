@@ -67,9 +67,12 @@ export function TransactionItem({
 						<p className="text-slate-900 font-medium">
 							{transaction.description}
 						</p>
-						            {transaction.category && (
-						              <p className="text-slate-500 text-sm">{transaction.category.name}</p>
-						            )}					</div>
+						{transaction.category && (
+							<p className="text-slate-500 text-sm">
+								{transaction.category.name}
+							</p>
+						)}{" "}
+					</div>
 				</div>
 				<div className="flex items-center space-x-4">
 					<div className="flex flex-col items-end">

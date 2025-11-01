@@ -18,14 +18,16 @@
       ]
     },
     "typeRoots": [
-      "./src/types",
+      "./src/infrastructure/types",
       "./node_modules/@types"
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/infrastructure/index.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.ts"
   ]
 }
