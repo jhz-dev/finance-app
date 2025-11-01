@@ -1,53 +1,34 @@
-import { render, screen, cleanup } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { GoalList } from "../components/GoalList";
-import { goalRepository } from "@/infrastructure/ApiGoalRepository";
-import { vi, describe, it, expect, afterEach, beforeEach } from "vitest";
 
-vi.mock("@/infrastructure/ApiGoalRepository");
+import { screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { describe, expect, test } from 'vitest';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
+import { server } from '@/mocks/server';
+import { GoalList } from './GoalList';
+import { renderWithProviders } from '@/lib/test-utils';
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-);
-
-describe("GoalList", () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
+describe('GoalList', () => {
+  test('should render loading state', () => {
+    renderWithProviders(<GoalList />);
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
-  afterEach(() => {
-    cleanup();
-    vi.clearAllMocks();
-    vi.resetAllMocks();
-    vi.useRealTimers();
+  test('should render error state', async () => {
+    server.use(
+      http.get('/api/goals', () => {
+        return new HttpResponse(null, { status: 500 });
+      }),
+    );
+    renderWithProviders(<GoalList />);
+    await waitFor(() => {
+      expect(screen.getByText('Error loading goals')).toBeInTheDocument();
+    });
   });
 
-  it("should render loading state", () => {
-    (goalRepository.getAll as any).mockReturnValue(new Promise(() => {}));
-    render(<GoalList />, { wrapper });
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
-  });
-
-  it.skip("should render error state", async () => {
-    (goalRepository.getAll as any).mockRejectedValue(new Error("Error"));
-    render(<GoalList />, { wrapper });
-    expect(await screen.findByText("Error loading goals")).toBeInTheDocument();
-  });
-
-  it.skip("should render a list of goals", async () => {
-    const goals = [
-      { id: "1", name: "Goal 1", targetAmount: 1000, currentAmount: 500, userId: "1" },
-    ];
-    (goalRepository.getAll as any).mockResolvedValue(goals);
-    render(<GoalList />, { wrapper });
-    expect(await screen.findByText("Goal 1")).toBeInTheDocument();
+  test('should render a list of goals', async () => {
+    renderWithProviders(<GoalList />);
+    await waitFor(() => {
+      expect(screen.getByText('Goal 1')).toBeInTheDocument();
+    });
   });
 });

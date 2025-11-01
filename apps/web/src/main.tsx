@@ -85,7 +85,7 @@ const goalsRoute = createRoute({
 	},
 });
 
-const routeTree = rootRoute.addChildren([
+export const routeTree = rootRoute.addChildren([
 	indexRoute,
 	loginRoute,
 	registerRoute,
