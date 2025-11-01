@@ -30,38 +30,13 @@ export function BudgetDetailPage() {
 
 	const filteredTransactions = React.useMemo(() => {
 		if (!data?.transactions) return [];
-		const now = new Date();
-		if (timePeriod === "yearly") {
-			return data.transactions.filter(
-				(t) => new Date(t.date).getFullYear() === now.getFullYear(),
-			);
-		}
-		// Default to monthly
-		return data.transactions.filter((t) => {
-			const transactionDate = new Date(t.date);
-			return (
-				transactionDate.getFullYear() === now.getFullYear() &&
-				transactionDate.getMonth() === now.getMonth()
-			);
-		});
-	}, [data, timePeriod]);
-
-	const balance = React.useMemo(() => {
-		return filteredTransactions.reduce((acc, t) => {
-			if (t.type === "INCOME") {
-				return acc + Number(t.amount);
-			}
-			if (t.type === "EXPENSE") {
-				return acc - Number(t.amount);
-			}
-			return acc;
-		}, 0);
-	}, [filteredTransactions]);
+		return data.transactions;
+	}, [data]);
 
 	const formattedBalance = new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: "USD",
-	}).format(balance);
+	}).format(data ? data.balance : 0);
 
 	return (
 		<div>
