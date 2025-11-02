@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('DashboardPage', () => {
   test('shows a loading message while fetching budgets', async () => {
-    renderWithProviders(<DashboardPage />);
+    renderWithProviders(<DashboardPage />, { authStoreState: { isAuthenticated: true } });
 
     expect(screen.getByText('Loading budgets...')).toBeInTheDocument();
   });

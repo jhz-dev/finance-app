@@ -1,7 +1,7 @@
 
 import { screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import { Sidebar } from './Sidebar';
+import { Sidebar } from '@/components/Sidebar';
 import { renderWithProviders } from '@/lib/test-utils';
 
 describe('Sidebar', () => {

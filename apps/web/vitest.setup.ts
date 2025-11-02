@@ -6,18 +6,20 @@ import { server } from '@/mocks/server';
 
 expect.extend(matchers);
 
-vi.mock('zustand');
+
 
 vi.mock('react-i18next', async (importOriginal) => {
-  const mod = await importOriginal();
+  const actual = await importOriginal();
   return {
-    ...mod,
-    useTranslation: () => ({
-      t: (str) => str,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-      },
-    }),
+    ...actual,
+    useTranslation: () => {
+      return {
+        t: (str: string) => str,
+        i18n: {
+          changeLanguage: () => new Promise(() => {}),
+        },
+      };
+    },
   };
 });
 

@@ -1,4 +1,3 @@
-
 import { screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, test } from 'vitest';
@@ -9,7 +8,7 @@ import { renderWithProviders } from '@/lib/test-utils';
 
 describe('GoalList', () => {
   test('should render loading state', () => {
-    renderWithProviders(<GoalList />);
+    renderWithProviders(<GoalList />, { authStoreState: { isAuthenticated: true } });
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
@@ -19,14 +18,14 @@ describe('GoalList', () => {
         return new HttpResponse(null, { status: 500 });
       }),
     );
-    renderWithProviders(<GoalList />);
+    renderWithProviders(<GoalList />, { authStoreState: { isAuthenticated: true } });
     await waitFor(() => {
       expect(screen.getByText('Error loading goals')).toBeInTheDocument();
     });
   });
 
   test('should render a list of goals', async () => {
-    renderWithProviders(<GoalList />);
+    renderWithProviders(<GoalList />, { authStoreState: { isAuthenticated: true } });
     await waitFor(() => {
       expect(screen.getByText('Goal 1')).toBeInTheDocument();
     });

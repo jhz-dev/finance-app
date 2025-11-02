@@ -6,7 +6,7 @@ import { renderWithProviders } from '@/lib/test-utils';
 
 describe('Sidebar', () => {
   test('renders all navigation links and the logout button', async () => {
-    renderWithProviders(<Sidebar />);
+    renderWithProviders(<Sidebar />, { authStoreState: { isAuthenticated: true } });
 
     expect(await screen.findByText('Dashboard')).toBeInTheDocument();
     expect(await screen.findByText('Goals')).toBeInTheDocument();
