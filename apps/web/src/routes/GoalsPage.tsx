@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AddGoalDialog } from "@/components/AddGoalDialog";
 import { GoalCard } from "@/components/GoalCard";
 import { goalRepository } from "@/infrastructure/ApiGoalRepository";
+import { Button } from "@/components/ui/button";
 
 export function GoalsPage() {
 	const { t } = useTranslation();
@@ -18,7 +19,9 @@ export function GoalsPage() {
 				<h1 className="text-2xl font-bold text-slate-900">
 					{t("Financial Goals")}
 				</h1>
-				<AddGoalDialog />
+				<AddGoalDialog>
+					<Button>{t("Add New Goal")}</Button>
+				</AddGoalDialog>
 			</div>
 			{isPending && <p className="text-slate-500">{t("Loading goals...")}</p>}
 			{isError && (

@@ -4,23 +4,19 @@ import { Label } from "@/components/ui/label";
 import type { Goal } from "@/domain/goal/goal";
 import { useUpdateGoal } from "@/hooks/useUpdateGoal";
 import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import { z } from "zod";
 
-export function UpdateGoalForm({ goal }: { goal: Goal }) {
+export function AddTransactionToGoalForm({ goal }: { goal: Goal }) {
 	const { mutate } = useUpdateGoal();
 	const form = useForm({
 		defaultValues: {
-			name: goal.name,
-			targetAmount: goal.targetAmount,
+			amount: 0,
 		},
 		onSubmit: async ({ value }) => {
 			mutate({
-				id: goal.id,
-				...value,
+				...goal,
+				currentAmount: goal.currentAmount + value.amount,
 			});
 		},
-		validatorAdapter: zodValidator,
 	});
 
 	return (
@@ -33,31 +29,10 @@ export function UpdateGoalForm({ goal }: { goal: Goal }) {
 		>
 			<div className="space-y-2">
 				<form.Field
-					name="name"
-					validators={{
-						onChange: z.string().min(1, "Name is required"),
-					}}
+					name="amount"
 					children={(field) => (
 						<div>
-							<Label htmlFor={field.name}>Name</Label>
-							<Input
-								id={field.name}
-								name={field.name}
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-							/>
-						</div>
-					)}
-				/>
-				<form.Field
-					name="targetAmount"
-					validators={{
-						onChange: z.number().min(1, "Target amount must be greater than 0"),
-					}}
-					children={(field) => (
-						<div>
-							<Label htmlFor={field.name}>Target Amount</Label>
+							<Label htmlFor={field.name}>Amount</Label>
 							<Input
 								id={field.name}
 								name={field.name}
@@ -71,7 +46,7 @@ export function UpdateGoalForm({ goal }: { goal: Goal }) {
 				/>
 			</div>
 			<div className="mt-4 flex justify-end">
-				<Button type="submit">Update Goal</Button>
+				<Button type="submit">Add Transaction</Button>
 			</div>
 		</form>
 	);
