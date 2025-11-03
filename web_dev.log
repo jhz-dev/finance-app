@@ -1,7 +1,3 @@
 
-> finansync@1.0.0 dev:web
-> npm run dev --workspace=apps/web
-
-
 > dev
 > vite

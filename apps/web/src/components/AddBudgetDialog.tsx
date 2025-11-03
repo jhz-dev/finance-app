@@ -74,7 +74,10 @@ export function AddBudgetDialog() {
 				}}
 			>
 				<DialogTrigger asChild>
-					<Button className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
+					<Button
+						id="add-budget-button"
+						className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
+					>
 						{t("Add New Budget")}
 					</Button>
 				</DialogTrigger>

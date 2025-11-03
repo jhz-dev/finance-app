@@ -4,10 +4,18 @@ import { useSidebarStore } from "@/domain/sidebar/sidebar.store";
 import { AddBudgetDialog } from "./AddBudgetDialog";
 import { LanguageSelector } from "./LanguageSelector";
 import { Button } from "./ui/button";
+import { useTour } from "@/hooks/useTour";
+import { tourSteps } from "@/lib/tour";
 
 export function Header() {
 	const { t } = useTranslation();
 	const { toggle } = useSidebarStore();
+  const { startTour } = useTour();
+
+  const handleRestartTour = () => {
+    localStorage.removeItem("tour_seen");
+    startTour(tourSteps);
+  };
 
 	return (
 		<header className="flex items-center justify-between p-4 bg-slate-200">
@@ -23,6 +31,7 @@ export function Header() {
 			<div className="flex items-center gap-4">
 				<LanguageSelector />
 				<AddBudgetDialog />
+        <Button onClick={handleRestartTour}>Replay Tour</Button>
 			</div>
 		</header>
 	);

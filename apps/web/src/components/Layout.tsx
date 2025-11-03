@@ -10,18 +10,27 @@ import {
 } from "@/components/ui/resizable";
 import { useSidebarStore } from "@/domain/sidebar/sidebar.store";
 import { Sidebar } from "./Sidebar";
+import { useTour } from "@/hooks/useTour";
+import { tourSteps } from "@/lib/tour";
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	const pathname = useRouterState({ select: (s) => s.location.pathname });
 	const isPublicPage = ["/login", "/register"].includes(pathname);
 	const { isCollapsed, toggle } = useSidebarStore();
 	const panelGroupRef = useRef<ImperativePanelGroupHandle>(null);
+  const { startTour, hasSeenTour } = useTour();
 
 	useEffect(() => {
 		if (panelGroupRef.current) {
 			panelGroupRef.current.setLayout(isCollapsed ? [0, 100] : [20, 80]);
 		}
 	}, [isCollapsed]);
+
+  useEffect(() => {
+    if (!isPublicPage && !hasSeenTour()) {
+      startTour(tourSteps);
+    }
+  }, [isPublicPage]);
 
 	if (isPublicPage) {
 		return (

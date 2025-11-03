@@ -22,6 +22,7 @@ export function Sidebar() {
 			<nav className="flex flex-col space-y-4">
 				<Link
 					to="/"
+          id="dashboard-link"
 					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
 					activeProps={{
 						className:
@@ -33,6 +34,7 @@ export function Sidebar() {
 				</Link>
 				<Link
 					to="/goals"
+          id="goals-link"
 					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
 					activeProps={{
 						className:
@@ -44,6 +46,7 @@ export function Sidebar() {
 				</Link>
 				<Link
 					to="/profile"
+          id="profile-link"
 					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
 					activeProps={{
 						className:

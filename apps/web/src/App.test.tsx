@@ -5,6 +5,6 @@ import App from "./App.tsx";
 describe("App", () => {
 	test("renders", () => {
 		render(<App />);
-		expect(screen.getByText("Learn React")).toBeDefined();
+		expect(screen.getByRole('link', { name: /dashboard/i })).toBeDefined();
 	});
 });
