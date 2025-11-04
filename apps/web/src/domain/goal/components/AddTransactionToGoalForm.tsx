@@ -35,9 +35,8 @@ export function AddTransactionToGoalForm({ goal }: { goal: FinancialGoal }) {
 			}}
 		>
 			<div className="space-y-2">
-				<form.Field
-					name="amount"
-					children={(field) => (
+				<form.Field name="amount">
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Amount")}</Label>
 							<Input
@@ -50,7 +49,7 @@ export function AddTransactionToGoalForm({ goal }: { goal: FinancialGoal }) {
 							/>
 						</div>
 					)}
-				/>
+				</form.Field>
 			</div>
 			<div className="mt-4 flex justify-end">
 				<Button type="submit">{t("Add Transaction")}</Button>

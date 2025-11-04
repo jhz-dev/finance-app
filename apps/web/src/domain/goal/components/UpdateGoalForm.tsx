@@ -42,9 +42,8 @@ export function UpdateGoalForm({ goal }: { goal: FinancialGoal }) {
 			}}
 		>
 			<div className="space-y-2">
-				<form.Field
-					name="name"
-					children={(field) => (
+				<form.Field name="name">
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Name")}</Label>
 							<Input
@@ -56,10 +55,9 @@ export function UpdateGoalForm({ goal }: { goal: FinancialGoal }) {
 							/>
 						</div>
 					)}
-				/>
-				<form.Field
-					name="targetAmount"
-					children={(field) => (
+				</form.Field>
+				<form.Field name="targetAmount">
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Target Amount")}</Label>
 							<Input
@@ -72,10 +70,9 @@ export function UpdateGoalForm({ goal }: { goal: FinancialGoal }) {
 							/>
 						</div>
 					)}
-				/>
-				<form.Field
-					name="currentAmount"
-					children={(field) => (
+				</form.Field>
+				<form.Field name="currentAmount">
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Current Amount")}</Label>
 							<Input
@@ -88,7 +85,7 @@ export function UpdateGoalForm({ goal }: { goal: FinancialGoal }) {
 							/>
 						</div>
 					)}
-				/>
+				</form.Field>
 			</div>
 			<div className="mt-4 flex justify-end">
 				<Button type="submit">{t("Update Goal")}</Button>

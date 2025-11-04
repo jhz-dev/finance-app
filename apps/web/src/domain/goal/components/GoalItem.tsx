@@ -25,8 +25,12 @@ export const GoalItem = ({ goal }: { goal: FinancialGoal }) => {
 					<p>
 						{goal.currentAmount} / {goal.targetAmount}
 					</p>
-					<button onClick={() => setIsEditing(true)}>Edit</button>
-					<button onClick={() => deleteGoal(goal.id)}>Delete</button>
+					<button type="button" onClick={() => setIsEditing(true)}>
+						Edit
+					</button>
+					<button type="button" onClick={() => deleteGoal(goal.id)}>
+						Delete
+					</button>
 				</div>
 			)}
 		</div>
