@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { goalRepository } from "@/infrastructure/ApiGoalRepository";
+import { apiGoalRepository } from "@/infrastructure/ApiGoalRepository";
 import { toast } from "sonner";
 import { useRef } from "react";
 
@@ -10,7 +10,7 @@ export function useDeleteGoal() {
 	return useMutation({
 		mutationFn: (id: string) => {
 			toastId.current = toast.loading("Deleting goal...");
-			return goalRepository.delete(id);
+			return apiGoalRepository.delete(id);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["goals"] });

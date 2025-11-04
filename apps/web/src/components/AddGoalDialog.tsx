@@ -19,13 +19,13 @@ export function AddGoalDialog({ children }: { children: React.ReactNode }) {
 				<DialogHeader>
 					<DialogTitle>{t("Add New Goal")}</DialogTitle>
 				</DialogHeader>
-<div className="py-4">
+        <div className="py-4">
 					<CreateGoalForm
 						onDone={() => {
 							setOpen(false);
 						}}
 					/>
-</div>
+        </div>
 			</DialogContent>
 		</Dialog>
 	);

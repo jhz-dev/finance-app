@@ -1,19 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { goalRepository } from "@/infrastructure/ApiGoalRepository";
+import { useState } from "react";
+import { apiGoalRepository } from "@/infrastructure/ApiGoalRepository";
 import type { FinancialGoal } from "../goal";
 import { UpdateGoalForm } from "./UpdateGoalForm";
-import { useState } from "react";
 
 export const GoalItem = ({ goal }: { goal: FinancialGoal }) => {
-  const queryClient = useQueryClient();
-  const [isEditing, setIsEditing] = useState(false);
+	const queryClient = useQueryClient();
+	const [isEditing, setIsEditing] = useState(false);
 
-  const { mutate: deleteGoal } = useMutation({
-    mutationFn: (id: string) => goalRepository.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["goals"] });
-    },
-  });
+	const { mutate: deleteGoal } = useMutation({
+		mutationFn: (id: string) => apiGoalRepository.delete(id),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["goals"] });
+		},
+	});
 
   return (
     <div>
@@ -26,11 +26,11 @@ export const GoalItem = ({ goal }: { goal: FinancialGoal }) => {
             {goal.currentAmount} / {goal.targetAmount}
           </p>
           <button type="button" onClick={() => setIsEditing(true)}>
-Edit
-</button>
+            Edit
+          </button>
           <button type="button" onClick={() => deleteGoal(goal.id)}>
-Delete
-</button>
+            Delete
+          </button>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { FinancialGoal } from "@/domain/goal/goal";
-import { goalRepository } from "@/infrastructure/ApiGoalRepository";
+import { apiGoalRepository } from "@/infrastructure/ApiGoalRepository";
 import { toast } from "sonner";
 import { useRef } from "react";
 
@@ -11,7 +11,7 @@ export function useUpdateGoal() {
 	return useMutation({
 		mutationFn: (goal: FinancialGoal) => {
 			toastId.current = toast.loading("Updating goal...");
-			return goalRepository.update(goal.id, goal);
+			return apiGoalRepository.update(goal.id, goal);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["goals"] });

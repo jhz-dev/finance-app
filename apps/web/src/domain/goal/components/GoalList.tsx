@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { GoalCard } from "@/components/GoalCard";
-import { goalRepository } from "@/infrastructure/ApiGoalRepository";
+import { apiGoalRepository } from "@/infrastructure/ApiGoalRepository";
 
 export function GoalList() {
 	const { t } = useTranslation();
 
 	const { isPending, isError, isSuccess, data, error } = useQuery({
 		queryKey: ["goals"],
-		queryFn: () => goalRepository.getAll(),
+		queryFn: () => apiGoalRepository.getAll(),
 	});
 
 	if (isPending) {

@@ -26,14 +26,14 @@ export function AddTransactionToGoalDialog({
 				<DialogHeader>
 					<DialogTitle>{t("Add Transaction to Goal")}</DialogTitle>
 				</DialogHeader>
-<div className="py-4">
-    <AddTransactionToGoalForm
-        goal={goal}
-        onDone={() => {
-            setOpen(false);
-        }}
-    />
-</div>
+        <div className="py-4">
+          <AddTransactionToGoalForm
+              goal={goal}
+              onDone={() => {
+                  setOpen(false);
+              }}
+          />
+        </div>
 			</DialogContent>
 		</Dialog>
 	);

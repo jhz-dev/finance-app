@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { FinancialGoal } from "@/domain/goal/goal";
-import { goalRepository } from "@/infrastructure/ApiGoalRepository";
+import { apiGoalRepository } from "@/infrastructure/ApiGoalRepository";
 import { toast } from "sonner";
 import { useRef } from "react";
 
@@ -13,7 +13,7 @@ export function useCreateGoal() {
 			goal: Omit<FinancialGoal, "id" | "currentAmount" | "userId">,
 		) => {
 			toastId.current = toast.loading("Creating goal...");
-			return goalRepository.create(goal);
+			return apiGoalRepository.create(goal);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["goals"] });
