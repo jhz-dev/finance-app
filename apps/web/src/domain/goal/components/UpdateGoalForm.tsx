@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { Goal } from "@/domain/goal/goal";
+import type { FinancialGoal as Goal } from "@/domain/goal/goal";
 import { useUpdateGoal } from "@/hooks/useUpdateGoal";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
@@ -18,6 +18,7 @@ export function UpdateGoalForm({ goal }: { goal: Goal }) {
 			mutate({
 				id: goal.id,
 				...value,
+        currentAmount: goal.currentAmount,
 			});
 		},
 		validatorAdapter: zodValidator,

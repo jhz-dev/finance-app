@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCreateGoal } from "@/hooks/useCreateGoal";
+
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
@@ -17,6 +18,7 @@ export function CreateGoalForm() {
 			mutate({
 				name: value.name,
 				targetAmount: value.targetAmount,
+        currentAmount: 0
 			});
 		},
 		validatorAdapter: zodValidator,
