@@ -85,27 +85,31 @@ export function AddBudgetDialog() {
 								{t("Create New Budget")}
 							</DialogTitle>
 							<DialogDescription className="text-slate-500">
-								{t("Give your new budget a name. Click save when you're done.")}
+								{t(
+									"Give your new budget a name. Click save when you're done.",
+								)}
 							</DialogDescription>
 						</DialogHeader>
-						{errorMessage && (
-							<Alert variant="destructive">
-								<AlertTitle>{t("Error")}</AlertTitle>
-								<AlertDescription>{errorMessage}</AlertDescription>
-							</Alert>
-						)}
-						<div className="grid gap-4 py-4">
-							<div className="grid grid-cols-4 items-center gap-4">
-								<Label htmlFor={nameId} className="text-right">
-									{t("Name")}
-								</Label>
-								<Input
-									id={nameId}
-									value={name}
-									onChange={(e) => setName(e.target.value)}
-									className="col-span-3 bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-									required
-								/>
+						<div className="py-4">
+							{errorMessage && (
+								<Alert variant="destructive">
+									<AlertTitle>{t("Error")}</AlertTitle>
+									<AlertDescription>{errorMessage}</AlertDescription>
+								</Alert>
+							)}
+							<div className="grid gap-4">
+								<div className="grid grid-cols-4 items-center gap-4">
+									<Label htmlFor={nameId} className="text-right">
+										{t("Name")}
+									</Label>
+									<Input
+										id={nameId}
+										value={name}
+										onChange={(e) => setName(e.target.value)}
+										className="col-span-3 bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+										required
+									/>
+								</div>
 							</div>
 						</div>
 						<DialogFooter>

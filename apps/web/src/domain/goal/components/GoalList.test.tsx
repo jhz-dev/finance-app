@@ -31,13 +31,13 @@ describe("GoalList", () => {
   });
 
   it("should render loading state", () => {
-    (goalRepository.getAll as any).mockReturnValue(new Promise(() => {}));
+    (goalRepository.getAll as vi.Mock).mockReturnValue(new Promise(() => {}));
     render(<GoalList />, { wrapper });
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText("Loading goals...")).toBeInTheDocument();
   });
 
   it.skip("should render error state", async () => {
-    (goalRepository.getAll as any).mockRejectedValue(new Error("Error"));
+    (goalRepository.getAll as vi.Mock).mockRejectedValue(new Error("Error"));
     render(<GoalList />, { wrapper });
     expect(await screen.findByText("Error loading goals")).toBeInTheDocument();
   });
@@ -46,7 +46,7 @@ describe("GoalList", () => {
     const goals = [
       { id: "1", name: "Goal 1", targetAmount: 1000, currentAmount: 500, userId: "1" },
     ];
-    (goalRepository.getAll as any).mockResolvedValue(goals);
+    (goalRepository.getAll as vi.Mock).mockResolvedValue(goals);
     render(<GoalList />, { wrapper });
     expect(await screen.findByText("Goal 1")).toBeInTheDocument();
   });

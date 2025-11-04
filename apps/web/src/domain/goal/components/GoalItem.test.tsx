@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoalItem } from "./GoalItem";
-import { FinancialGoal } from "../goal";
+import type { FinancialGoal } from "../goal";
 import { goalRepository } from "@/infrastructure/ApiGoalRepository";
 import { vi, describe, it, expect, afterEach } from "vitest";
 
@@ -46,7 +46,7 @@ describe("GoalItem", () => {
   });
 
   it("should call the delete mutation when delete button is clicked", async () => {
-    (goalRepository.delete as any).mockResolvedValue(undefined);
+    (goalRepository.delete as vi.Mock).mockResolvedValue(undefined);
     render(<GoalItem goal={goal} />, { wrapper });
     fireEvent.click(screen.getAllByText("Delete")[0]);
     await waitFor(() => {

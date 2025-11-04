@@ -1,28 +1,46 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { GoalCard } from "@/components/GoalCard";
 import { goalRepository } from "@/infrastructure/ApiGoalRepository";
-import { GoalItem } from "./GoalItem";
-import { CreateGoalForm } from "./CreateGoalForm";
 
-export const GoalList = () => {
-  const { data: goals, isLoading, isError } = useQuery({
-    queryKey: ["goals"],
-    queryFn: goalRepository.getAll,
-  });
+export function GoalList() {
+	const { t } = useTranslation();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+	const { isPending, isError, isSuccess, data, error } = useQuery({
+		queryKey: ["goals"],
+		queryFn: () => goalRepository.getAll(),
+	});
 
-  if (isError) {
-    return <div>Error loading goals</div>;
-  }
+	if (isPending) {
+		return <p className="text-slate-500">{t("Loading goals...")}</p>;
+	}
 
-  return (
-    <div>
-      <CreateGoalForm />
-      {goals?.map((goal) => (
-        <GoalItem key={goal.id} goal={goal} />
-      ))}
-    </div>
-  );
-};
+	if (isError) {
+		return (
+			<p className="text-red-500">
+				{t("Error fetching goals: {{message}}", { message: error.message })}
+			</p>
+		);
+	}
+
+	if (isSuccess && data.length > 0) {
+		return (
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+				{data.map((goal) => (
+					<GoalCard key={goal.id} goal={goal} />
+				))}
+			</div>
+		);
+	}
+
+	return (
+		<div className="text-center mt-20">
+			<h2 className="text-2xl font-semibold text-slate-900">
+				{t("No Goals Yet")}
+			</h2>
+			<p className="text-slate-500 mt-2">
+				{t('Click the "Add New Goal" button to get started.')}
+			</p>
+		</div>
+	);
+}

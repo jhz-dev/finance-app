@@ -16,4 +16,7 @@ export const goalRepository: GoalRepository = {
 	delete: async (id) => {
 		await api.delete(`/goals/${id}`);
 	},
+	addTransaction: async (id, amount) => {
+		await api.post(`/goals/${id}/transactions`, { amount });
+	},
 };

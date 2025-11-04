@@ -5,22 +5,30 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreateGoalForm } from "@/domain/goal/components/CreateGoalForm";
+import { UpdateGoalForm } from "@/domain/goal/components/UpdateGoalForm";
+import type { FinancialGoal } from "@/domain/goal/goal";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-export function AddGoalDialog({ children }: { children: React.ReactNode }) {
+export function EditGoalDialog({
+	goal,
+	children,
+}: {
+	goal: FinancialGoal;
+	children: React.ReactNode;
+}) {
 	const { t } = useTranslation();
 	const [open, setOpen] = useState(false);
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>{children}</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="sm:max-w-[425px] bg-white rounded-xl border shadow-sm">
 				<DialogHeader>
-					<DialogTitle>{t("Add New Goal")}</DialogTitle>
+					<DialogTitle>{t("Edit Goal")}</DialogTitle>
 				</DialogHeader>
 <div className="py-4">
-					<CreateGoalForm
+					<UpdateGoalForm
+						goal={goal}
 						onDone={() => {
 							setOpen(false);
 						}}

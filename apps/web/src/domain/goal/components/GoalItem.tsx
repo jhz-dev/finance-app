@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { goalRepository } from "@/infrastructure/ApiGoalRepository";
-import { FinancialGoal } from "../goal";
+import type { FinancialGoal } from "../goal";
 import { UpdateGoalForm } from "./UpdateGoalForm";
 import { useState } from "react";
 
@@ -25,8 +25,12 @@ export const GoalItem = ({ goal }: { goal: FinancialGoal }) => {
           <p>
             {goal.currentAmount} / {goal.targetAmount}
           </p>
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={() => deleteGoal(goal.id)}>Delete</button>
+          <button type="button" onClick={() => setIsEditing(true)}>
+Edit
+</button>
+          <button type="button" onClick={() => deleteGoal(goal.id)}>
+Delete
+</button>
         </div>
       )}
     </div>

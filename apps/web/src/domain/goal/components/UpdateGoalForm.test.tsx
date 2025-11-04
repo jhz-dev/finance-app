@@ -1,17 +1,10 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, fireEvent } from "@/test-utils";
 import { UpdateGoalForm } from "./UpdateGoalForm";
-import { FinancialGoal } from "../goal";
+import type { FinancialGoal } from "../goal";
 import { goalRepository } from "@/infrastructure/ApiGoalRepository";
 import { vi, describe, it, expect } from "vitest";
 
 vi.mock("@/infrastructure/ApiGoalRepository");
-
-const queryClient = new QueryClient();
-
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-);
 
 const goal: FinancialGoal = {
   id: "1",
@@ -23,16 +16,19 @@ const goal: FinancialGoal = {
 
 describe("UpdateGoalForm", () => {
   it("should call the update mutation on form submit", async () => {
-    (goalRepository.update as any).mockResolvedValue(undefined);
+    (goalRepository.update as vi.Mock).mockResolvedValue(undefined);
     const onDone = vi.fn();
-    render(<UpdateGoalForm goal={goal} onDone={onDone} />, { wrapper });
+    render(<UpdateGoalForm goal={goal} onDone={onDone} />);
 
-    fireEvent.change(screen.getByRole("textbox", { name: /name/i }), { target: { value: "Updated Goal" } });
+    fireEvent.change(screen.getByLabelText("Name"), {
+      target: { value: "Updated Goal" },
+    });
     fireEvent.click(screen.getByText("Update Goal"));
 
     await screen.findByText("Update Goal");
 
     expect(goalRepository.update).toHaveBeenCalledWith("1", {
+      id: "1",
       name: "Updated Goal",
       targetAmount: 1000,
       currentAmount: 500,
