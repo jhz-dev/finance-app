@@ -1,10 +1,10 @@
+import { useForm } from "@tanstack/react-form";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCreateGoal } from "@/hooks/useCreateGoal";
-import { useForm } from "@tanstack/react-form";
-import { z } from "zod";
-import { useTranslation } from "react-i18next";
 
 const createGoalSchema = z.object({
 	name: z.string().min(1, "Name is required"),

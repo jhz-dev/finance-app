@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
 	Dialog,
 	DialogContent,
@@ -6,7 +7,6 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { CreateGoalForm } from "@/domain/goal/components/CreateGoalForm";
-import { useTranslation } from "react-i18next";
 
 export function AddGoalDialog({ children }: { children: React.ReactNode }) {
 	const { t } = useTranslation();

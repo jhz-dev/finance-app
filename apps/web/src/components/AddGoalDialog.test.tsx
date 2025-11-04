@@ -7,7 +7,7 @@ import i18n from "../lib/i18n";
 import { AddGoalDialog } from "./AddGoalDialog";
 
 vi.mock("@/infrastructure/ApiGoalRepository", () => ({
-	goalRepository: {
+	apiGoalRepository: {
 		create: () => Promise.resolve(),
 	},
 }));

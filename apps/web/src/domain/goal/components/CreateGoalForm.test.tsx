@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { CreateGoalForm } from "@/domain/goal/components/CreateGoalForm";
-import { render, screen, fireEvent, waitFor } from "@/test-utils";
-import { describe, it, expect, vi } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@/test-utils";
 
 const mockMutate = vi.fn();
 

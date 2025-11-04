@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
 	Dialog,
 	DialogContent,
@@ -7,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { UpdateGoalForm } from "@/domain/goal/components/UpdateGoalForm";
 import type { FinancialGoal } from "@/domain/goal/goal";
-import { useTranslation } from "react-i18next";
 
 export function EditGoalDialog({
 	goal,

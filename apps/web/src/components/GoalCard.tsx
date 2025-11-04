@@ -1,3 +1,4 @@
+import { Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
 	Card,
@@ -8,11 +9,10 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import type { FinancialGoal } from "@/domain/goal/goal";
-import { Button } from "./ui/button";
-import { EditGoalDialog } from "./EditGoalDialog";
-import { Pencil } from "lucide-react";
 import { AddTransactionToGoalDialog } from "./AddTransactionToGoalDialog";
 import { DeleteGoalDialog } from "./DeleteGoalDialog";
+import { EditGoalDialog } from "./EditGoalDialog";
+import { Button } from "./ui/button";
 
 interface GoalCardProps {
 	goal: FinancialGoal;

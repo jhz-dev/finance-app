@@ -1,3 +1,5 @@
+import { Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -11,8 +13,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useDeleteGoal } from "@/hooks/useDeleteGoal";
-import { Trash2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 export function DeleteGoalDialog({ goalId }: { goalId: string }) {
 	const { t } = useTranslation();

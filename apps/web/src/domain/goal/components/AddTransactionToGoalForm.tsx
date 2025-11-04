@@ -1,11 +1,11 @@
+import { useForm } from "@tanstack/react-form";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { FinancialGoal } from "@/domain/goal/goal";
 import { useAddTransactionToGoal } from "@/hooks/useAddTransactionToGoal";
-import { useForm } from "@tanstack/react-form";
-import { z } from "zod";
-import { useTranslation } from "react-i18next";
 
 const addTransactionSchema = z.object({
 	amount: z.number().min(1, "Amount must be greater than 0"),
