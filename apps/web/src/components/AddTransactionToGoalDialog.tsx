@@ -6,21 +6,23 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { AddTransactionToGoalForm } from "@/domain/goal/components/AddTransactionToGoalForm";
-import type { Goal } from "@/domain/goal/goal";
+import type { FinancialGoal } from "@/domain/goal/goal";
+import { useTranslation } from "react-i18next";
 
 export function AddTransactionToGoalDialog({
 	goal,
 	children,
 }: {
-	goal: Goal;
+	goal: FinancialGoal;
 	children: React.ReactNode;
 }) {
+	const { t } = useTranslation();
 	return (
 		<Dialog>
 			<DialogTrigger asChild>{children}</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="sm:max-w-[425px] bg-white rounded-xl border shadow-sm">
 				<DialogHeader>
-					<DialogTitle>Add Transaction to Goal</DialogTitle>
+					<DialogTitle>{t("Add Transaction to Goal")}</DialogTitle>
 				</DialogHeader>
 				<AddTransactionToGoalForm goal={goal} />
 			</DialogContent>

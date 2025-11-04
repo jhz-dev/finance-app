@@ -10,20 +10,9 @@ import { Progress } from "@/components/ui/progress";
 import type { FinancialGoal } from "@/domain/goal/goal";
 import { Button } from "./ui/button";
 import { EditGoalDialog } from "./EditGoalDialog";
-import { PencilIcon, Trash2 } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { AddTransactionToGoalDialog } from "./AddTransactionToGoalDialog";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useDeleteGoal } from "@/hooks/useDeleteGoal";
+import { DeleteGoalDialog } from "./DeleteGoalDialog";
 
 interface GoalCardProps {
 	goal: FinancialGoal;
@@ -31,7 +20,6 @@ interface GoalCardProps {
 
 export function GoalCard({ goal }: GoalCardProps) {
 	const { t } = useTranslation();
-	const { mutate } = useDeleteGoal();
 	const formattedCurrentAmount = new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: "USD",
@@ -59,34 +47,14 @@ export function GoalCard({ goal }: GoalCardProps) {
 				<Progress value={progress} className="mt-4" />
 			</CardContent>
 			<CardFooter className="flex justify-end gap-2">
-				<AlertDialog>
-					<AlertDialogTrigger asChild>
-						<Button variant="outline" size="icon">
-							<Trash2 className="h-4 w-4" />
-						</Button>
-					</AlertDialogTrigger>
-					<AlertDialogContent>
-						<AlertDialogHeader>
-							<AlertDialogTitle>{t("Are you sure?")}</AlertDialogTitle>
-							<AlertDialogDescription>
-								{t("This action cannot be undone.")}
-							</AlertDialogDescription>
-						</AlertDialogHeader>
-						<AlertDialogFooter>
-							<AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
-							<AlertDialogAction onClick={() => mutate(goal.id)}>
-								{t("Delete")}
-							</AlertDialogAction>
-						</AlertDialogFooter>
-					</AlertDialogContent>
-				</AlertDialog>
+				<DeleteGoalDialog goalId={goal.id} />
 				<EditGoalDialog goal={goal}>
 					<Button variant="outline" size="icon">
-						<PencilIcon className="h-4 w-4" />
+						<Pencil className="h-4 w-4" />
 					</Button>
 				</EditGoalDialog>
 				<AddTransactionToGoalDialog goal={goal}>
-					<Button>{t("Add transaction")}</Button>
+					<Button variant="outline">{t("Add transaction")}</Button>
 				</AddTransactionToGoalDialog>
 			</CardFooter>
 		</Card>

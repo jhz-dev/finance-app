@@ -64,3 +64,16 @@ export const deleteGoal = asyncHandler(async (req: Request, res: Response) => {
 	await goalService.deleteGoal(id, userId);
 	res.status(200).json({ message: "Goal deleted successfully" });
 });
+
+export const addTransactionToGoal = asyncHandler(
+	async (req: Request, res: Response) => {
+		const { id } = req.params;
+		const { amount } = req.body;
+		if (!req.user) {
+			return res.status(401).json({ message: "Unauthorized" });
+		}
+		const userId = req.user.id;
+		await goalService.addTransactionToGoal(id, amount, userId);
+		res.status(200).json({ message: "Transaction added successfully" });
+	},
+);

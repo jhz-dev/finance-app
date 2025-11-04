@@ -1,15 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { FinancialGoal } from "@/domain/goal/goal";
 import { goalRepository } from "@/infrastructure/ApiGoalRepository";
 
-export function useCreateGoal() {
+export function useAddTransactionToGoal() {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (
-			goal: Omit<FinancialGoal, "id" | "currentAmount" | "userId">,
-		) => {
-			return goalRepository.create(goal);
+		mutationFn: ({ id, amount }: { id: string; amount: number }) => {
+			return goalRepository.addTransaction(id, amount);
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["goals"] });

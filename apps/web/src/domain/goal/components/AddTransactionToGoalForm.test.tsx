@@ -4,8 +4,8 @@ import { describe, it, expect, vi } from "vitest";
 
 const mockMutate = vi.fn();
 
-vi.mock("@/hooks/useUpdateGoal", () => ({
-	useUpdateGoal: () => ({
+vi.mock("@/hooks/useAddTransactionToGoal", () => ({
+	useAddTransactionToGoal: () => ({
 		mutate: mockMutate,
 	}),
 }));
@@ -26,8 +26,8 @@ describe("AddTransactionToGoalForm", () => {
 		fireEvent.click(addButton);
 		await waitFor(() =>
 			expect(mockMutate).toHaveBeenCalledWith({
-				...goal,
-				currentAmount: 600,
+				id: "1",
+				amount: 100,
 			}),
 		);
 	});
