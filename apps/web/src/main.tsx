@@ -7,7 +7,7 @@ import {
 	redirect,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { StrictMode } from "react";
+import React, { StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { useAuthStore } from "@/domain/auth/auth.store";
 import { Layout } from "./components/Layout";
@@ -16,17 +16,38 @@ import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provi
 import "./styles.css";
 import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
 import i18n from "./lib/i18n"; // Import the i18n instance
-import { BudgetDetailPage } from "./routes/budgets/detail.tsx";
-import DashboardPage from "./routes/DashboardPage.tsx";
-import { GoalsPage } from "./routes/GoalsPage.tsx";
-import { LoginPage } from "./routes/login.tsx";
-import { ProfilePage } from "./routes/ProfilePage.tsx";
-import { RegisterPage } from "./routes/register.tsx";
+
+const BudgetDetailPage = React.lazy(() =>
+	import("./routes/budgets/detail.tsx").then((module) => ({
+		default: module.BudgetDetailPage,
+	})),
+);
+const DashboardPage = React.lazy(() => import("./routes/DashboardPage.tsx"));
+const GoalsPage = React.lazy(() =>
+	import("./routes/GoalsPage.tsx").then((module) => ({
+		default: module.GoalsPage,
+	})),
+);
+const LoginPage = React.lazy(() =>
+	import("./routes/login.tsx").then((module) => ({ default: module.LoginPage })),
+);
+const ProfilePage = React.lazy(() =>
+	import("./routes/ProfilePage.tsx").then((module) => ({
+		default: module.ProfilePage,
+	})),
+);
+const RegisterPage = React.lazy(() =>
+	import("./routes/register.tsx").then((module) => ({
+		default: module.RegisterPage,
+	})),
+);
 
 const rootRoute = createRootRoute({
 	component: () => (
 		<Layout>
-			<Outlet />
+			<Suspense fallback={<div>Loading...</div>}>
+				<Outlet />
+			</Suspense>
 			<TanStackRouterDevtools />
 		</Layout>
 	),

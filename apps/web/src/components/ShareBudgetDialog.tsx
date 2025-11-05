@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+
 import { Label } from "@/components/ui/label";
 import { LabeledInput } from "@/components/ui/LabeledInput";
 import {
@@ -18,13 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useId } from "react";
+import type { BudgetRole } from "@/domain/budget/Budget";
+import type { BudgetMember } from "@/domain/budget/BudgetMember";
 import { useTranslation } from "react-i18next";
 import * as React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useId } from "react";
 import { budgetRepository } from "@/infrastructure/ApiBudgetRepository";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import type { BudgetMember, BudgetRole } from "@/domain/budget";
 
 interface ShareBudgetDialogProps {
   budgetId: string;

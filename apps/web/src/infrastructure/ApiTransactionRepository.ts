@@ -1,4 +1,4 @@
-import type { Transaction } from "@/domain/transaction/transaction";
+import type { CreateTransaction, Transaction } from "@/domain/transaction/Transaction";
 import type { TransactionRepository } from "@/domain/transaction/transaction.repository";
 import api from "@/lib/api";
 
@@ -12,7 +12,7 @@ class ApiTransactionRepository implements TransactionRepository {
 
 	async create(
 		budgetId: string,
-		transaction: Omit<Transaction, "id">,
+		transaction: CreateTransaction,
 	): Promise<Transaction> {
 		const response = await api.post<Transaction>(
 			`/budgets/${budgetId}/transactions`,

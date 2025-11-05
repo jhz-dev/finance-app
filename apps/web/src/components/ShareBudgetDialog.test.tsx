@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ShareBudgetDialog } from "./ShareBudgetDialog";
 import { vi, describe, it, expect } from "vitest";
-import { BudgetMember } from "@/domain/budget/BudgetMember";
+import type { BudgetMember } from "@/domain/budget/BudgetMember";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 vi.mock("react-i18next", () => ({
@@ -35,6 +35,6 @@ describe("ShareBudgetDialog", () => {
   it("opens the dialog when the share button is clicked", () => {
     render(<ShareBudgetDialog budgetId="1" members={members} />, { wrapper });
     fireEvent.click(screen.getAllByRole("button", { name: /share/i })[0]);
-    expect(screen.getByText("Share budget")).toBeInTheDocument();
+    expect(screen.getByText("Manage Collaborators")).toBeInTheDocument();
   });
 });

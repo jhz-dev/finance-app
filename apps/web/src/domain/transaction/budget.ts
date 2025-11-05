@@ -1,6 +1,6 @@
-import type { Transaction } from "./transaction";
+import type { Transaction } from "./Transaction";
 
-import { BudgetMember } from "../budget/BudgetMember";
+import type { BudgetMember } from "../budget/BudgetMember";
 
 // This is the core data structure for a Budget.
 // It lives in the domain because it represents a core business concept.
@@ -18,7 +18,7 @@ export interface PaginatedBudgets {
 	totalBudgets: number;
 }
 
-import { BudgetRole } from "../budget/Budget";
+import type { BudgetRole } from "../budget/Budget";
 
 // This is a "Port" in Hexagonal Architecture.
 // It defines a contract for data access without specifying the implementation.

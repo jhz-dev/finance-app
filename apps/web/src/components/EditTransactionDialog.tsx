@@ -20,7 +20,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import type { Transaction } from "@/domain/transaction/transaction";
+import type { Transaction } from "@/domain/transaction/Transaction";
 import { transactionRepository } from "@/infrastructure/ApiTransactionRepository";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import {
