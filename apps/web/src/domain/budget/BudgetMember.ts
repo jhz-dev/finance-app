@@ -1,4 +1,4 @@
-import { BudgetRole } from "./Budget";
+import type { BudgetRole } from "./Budget";
 
 export type BudgetMember = {
   id: string;

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LabeledInput } from "@/components/ui/LabeledInput";
 import {
   Select,
   SelectContent,
@@ -17,13 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BudgetRole } from "@/domain/budget/Budget";
-import { BudgetMember } from "@/domain/budget/BudgetMember";
 import { useTranslation } from "react-i18next";
 import * as React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useId } from "react";
 import { budgetRepository } from "@/infrastructure/ApiBudgetRepository";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import type { BudgetMember, BudgetRole } from "@/domain/budget";
 
 interface ShareBudgetDialogProps {
   budgetId: string;
@@ -37,6 +38,8 @@ export function ShareBudgetDialog({
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [email, setEmail] = React.useState("");
+  const emailId = useId();
+  const roleId = useId();
   const [role, setRole] = React.useState<BudgetRole>("VIEWER");
 
   const inviteMutation = useMutation({
@@ -85,20 +88,16 @@ export function ShareBudgetDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          <LabeledInput
+            id={emailId}
+            label={t("Email")}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            orientation="horizontal"
+          />
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="email" className="text-right">
-              {t("Email")}
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="role" className="text-right">
+            <Label htmlFor={roleId} className="text-right">
               {t("Role")}
             </Label>
             <Select onValueChange={(value) => setRole(value as BudgetRole)}>
