@@ -35,6 +35,6 @@ describe("ShareBudgetDialog", () => {
   it("opens the dialog when the share button is clicked", () => {
     render(<ShareBudgetDialog budgetId="1" members={members} />, { wrapper });
     fireEvent.click(screen.getAllByRole("button", { name: /share/i })[0]);
-    expect(screen.getByText("Manage Collaborators")).toBeInTheDocument();
+    expect(screen.getByText("Share budget")).toBeInTheDocument();
   });
 });

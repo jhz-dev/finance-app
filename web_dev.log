@@ -6,8 +6,10 @@
 > dev
 > vite
 
+Port 4000 is in use, trying another one...
+Port 4001 is in use, trying another one...
 
-  VITE v7.1.12  ready in 490 ms
+  VITE v7.1.12  ready in 1156 ms
 
-  ➜  Local:   http://localhost:4000/
+  ➜  Local:   http://localhost:4002/
   ➜  Network: use --host to expose

@@ -80,7 +80,7 @@ export function ShareBudgetDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">{t("Share")}</Button>
+        <Button>{t("Share")}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -96,7 +96,6 @@ export function ShareBudgetDialog({
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            orientation="horizontal"
           />
           <LabeledSelect
             id={roleId}
@@ -104,7 +103,6 @@ export function ShareBudgetDialog({
             value={role}
             onValueChange={setRole}
             options={roleOptions}
-            orientation="horizontal"
             placeholder="Select a role"
           />
         </div>
@@ -148,7 +146,7 @@ export function ShareBudgetDialog({
                   className="w-[120px]"
                 />
                 <Button
-                  variant="destructive"
+                  variant="ghost"
                   size="sm"
                   onClick={() => removeMemberMutation.mutate(member.id)}
                   disabled={removeMemberMutation.isPending}
