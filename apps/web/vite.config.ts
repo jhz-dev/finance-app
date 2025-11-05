@@ -19,4 +19,21 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['@tanstack/react-table'],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          tanstack: [
+            '@tanstack/react-query',
+            '@tanstack/react-router',
+            '@tanstack/react-table',
+            '@tanstack/react-form',
+            '@tanstack/react-store',
+          ],
+          recharts: ['recharts'],
+        },
+      },
+    },
+  },
 })

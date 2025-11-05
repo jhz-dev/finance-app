@@ -13,13 +13,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+
+import { LabeledSelect } from "@/components/ui/LabeledSelect";
 import type { Transaction } from "@/domain/transaction/Transaction";
 import { transactionRepository } from "@/infrastructure/ApiTransactionRepository";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
@@ -60,6 +55,11 @@ export function EditTransactionDialog({
 	);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+
+	const typeOptions: { value: "INCOME" | "EXPENSE"; label: string }[] = [
+		{ value: "INCOME", label: "Income" },
+		{ value: "EXPENSE", label: "Expense" },
+	];
 
 	useEffect(() => {
 		if (open) {
@@ -145,23 +145,14 @@ export function EditTransactionDialog({
 									required
 								/>
 							</div>
-							<div className="grid gap-2">
-								<Label htmlFor={typeId}>{t("Type")}</Label>
-								<Select
-									onValueChange={(value: "INCOME" | "EXPENSE") =>
-										setType(value)
-									}
-									defaultValue={type}
-								>
-									<SelectTrigger id={typeId}>
-										<SelectValue placeholder={t("Select a type")} />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="INCOME">{t("Income")}</SelectItem>
-										<SelectItem value="EXPENSE">{t("Expense")}</SelectItem>
-									</SelectContent>
-								</Select>
-							</div>
+							<LabeledSelect
+								id={typeId}
+								label="Type"
+								value={type}
+								onValueChange={(value: "INCOME" | "EXPENSE") => setType(value)}
+								options={typeOptions}
+								placeholder="Select a type"
+							/>
 							<div className="grid gap-2">
 								<Label htmlFor={dateId}>{t("Date")}</Label>
 								<Input

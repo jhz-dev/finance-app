@@ -14,13 +14,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+
+import { LabeledSelect } from "@/components/ui/LabeledSelect";
 import { transactionRepository } from "@/infrastructure/ApiTransactionRepository";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import {
@@ -52,6 +47,11 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 	const amountId = useId();
 	const typeId = useId();
 	const dateId = useId();
+
+	const typeOptions: { value: "INCOME" | "EXPENSE"; label: string }[] = [
+		{ value: "INCOME", label: "Income" },
+		{ value: "EXPENSE", label: "Expense" },
+	];
 
 	const mutation = useMutation({
 		mutationFn: () =>
@@ -136,26 +136,15 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 								/>
 							</div>
 							<div className="grid gap-0 grid-cols-2">
-                <div className="grid gap-2">
-                  <Label htmlFor={typeId}>{t("Type")}</Label>
-                  <Select
-                    onValueChange={(value: "INCOME" | "EXPENSE") =>
-                      setType(value)
-                    }
-                    defaultValue={type}
-                  >
-                    <SelectTrigger
-                      id={typeId}
-                      className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-                    >
-                      <SelectValue placeholder={t("Select a type")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="INCOME">{t("Income")}</SelectItem>
-                      <SelectItem value="EXPENSE">{t("Expense")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <LabeledSelect
+                  id={typeId}
+                  label="Type"
+                  value={type}
+                  onValueChange={setType}
+                  options={typeOptions}
+                  placeholder="Select a type"
+                  className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                />
                 <div className="grid gap-2">
                   <Label htmlFor={dateId}>{t("Date")}</Label>
                   <Input

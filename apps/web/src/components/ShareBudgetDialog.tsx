@@ -9,15 +9,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Label } from "@/components/ui/label";
+
 import { LabeledInput } from "@/components/ui/LabeledInput";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { LabeledSelect } from "@/components/ui/LabeledSelect";
+
 import { useId } from "react";
 import type { BudgetRole } from "@/domain/budget/Budget";
 import type { BudgetMember } from "@/domain/budget/BudgetMember";
@@ -42,6 +37,12 @@ export function ShareBudgetDialog({
   const emailId = useId();
   const roleId = useId();
   const [role, setRole] = React.useState<BudgetRole>("VIEWER");
+
+  const roleOptions: { value: BudgetRole; label: string }[] = [
+    { value: "VIEWER", label: "Viewer" },
+    { value: "EDITOR", label: "Editor" },
+    { value: "ADMIN", label: "Admin" },
+  ];
 
   const inviteMutation = useMutation({
     mutationFn: () => budgetRepository.inviteMember(budgetId, email, role),
@@ -97,21 +98,15 @@ export function ShareBudgetDialog({
             onChange={(e) => setEmail(e.target.value)}
             orientation="horizontal"
           />
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor={roleId} className="text-right">
-              {t("Role")}
-            </Label>
-            <Select onValueChange={(value) => setRole(value as BudgetRole)}>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder={t("Select a role")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="VIEWER">{t("Viewer")}</SelectItem>
-                <SelectItem value="EDITOR">{t("Editor")}</SelectItem>
-                <SelectItem value="ADMIN">{t("Admin")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <LabeledSelect
+            id={roleId}
+            label="Role"
+            value={role}
+            onValueChange={setRole}
+            options={roleOptions}
+            orientation="horizontal"
+            placeholder="Select a role"
+          />
         </div>
         <DialogFooter>
           <Button
@@ -141,24 +136,17 @@ export function ShareBudgetDialog({
             >
               <span>{member.userId}</span>
               <div className="flex items-center space-x-2">
-                <Select
+                <LabeledSelect
                   value={member.role}
                   onValueChange={(value) =>
                     updateRoleMutation.mutate({
                       memberId: member.id,
-                      role: value as BudgetRole,
+                      role: value,
                     })
                   }
-                >
-                  <SelectTrigger className="w-[120px]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="VIEWER">{t("Viewer")}</SelectItem>
-                    <SelectItem value="EDITOR">{t("Editor")}</SelectItem>
-                    <SelectItem value="ADMIN">{t("Admin")}</SelectItem>
-                  </SelectContent>
-                </Select>
+                  options={roleOptions}
+                  className="w-[120px]"
+                />
                 <Button
                   variant="destructive"
                   size="sm"
