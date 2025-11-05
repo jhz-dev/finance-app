@@ -109,3 +109,4 @@ storybook-static
 
 # Vitest coverage output
 /coverage
+web_dev.log
