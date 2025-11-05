@@ -135,37 +135,39 @@ export function AddTransactionDialog({ budgetId }: AddTransactionDialogProps) {
 									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 								/>
 							</div>
-							<div className="grid gap-2">
-								<Label htmlFor={typeId}>{t("Type")}</Label>
-								<Select
-									onValueChange={(value: "INCOME" | "EXPENSE") =>
-										setType(value)
-									}
-									defaultValue={type}
-								>
-									<SelectTrigger
-										id={typeId}
-										className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-									>
-										<SelectValue placeholder={t("Select a type")} />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="INCOME">{t("Income")}</SelectItem>
-										<SelectItem value="EXPENSE">{t("Expense")}</SelectItem>
-									</SelectContent>
-								</Select>
-							</div>
-							<div className="grid gap-2">
-								<Label htmlFor={dateId}>{t("Date")}</Label>
-								<Input
-									id={dateId}
-									type="date"
-									value={date}
-									onChange={(e) => setDate(e.target.value)}
-									required
-									className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-								/>
-							</div>
+							<div className="grid gap-0 grid-cols-2">
+                <div className="grid gap-2">
+                  <Label htmlFor={typeId}>{t("Type")}</Label>
+                  <Select
+                    onValueChange={(value: "INCOME" | "EXPENSE") =>
+                      setType(value)
+                    }
+                    defaultValue={type}
+                  >
+                    <SelectTrigger
+                      id={typeId}
+                      className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                    >
+                      <SelectValue placeholder={t("Select a type")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="INCOME">{t("Income")}</SelectItem>
+                      <SelectItem value="EXPENSE">{t("Expense")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor={dateId}>{t("Date")}</Label>
+                  <Input
+                    id={dateId}
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                    className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                  />
+                </div>
+              </div>
 						</div>
 						<DialogFooter>
 							<Button

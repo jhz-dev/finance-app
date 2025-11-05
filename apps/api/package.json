@@ -9,7 +9,7 @@
     "start": "node dist/infrastructure/index.js",
     "format": "biome format",
     "lint": "biome lint",
-    "check": "biome check",
+    "lint:fix": "biome lint --write",
     "db:migrate": "prisma migrate dev",
     "db:seed": "ts-node prisma/seed.ts --lang=en",
     "db:seed:en": "ts-node prisma/seed.ts --lang=en",

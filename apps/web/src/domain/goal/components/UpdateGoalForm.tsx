@@ -1,79 +1,111 @@
 import { useForm } from "@tanstack/react-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { goalRepository } from "@/infrastructure/ApiGoalRepository";
-import { FinancialGoal } from "../goal";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import type { FinancialGoal } from "@/domain/goal/goal";
+import { useUpdateGoal } from "@/hooks/useUpdateGoal";
 
-export const UpdateGoalForm = ({ goal, onDone }: { goal: FinancialGoal, onDone: () => void }) => {
-  const queryClient = useQueryClient();
+const updateGoalSchema = z.object({
+	name: z.string().min(1, "Name is required"),
+	targetAmount: z.number().min(1, "Target amount must be greater than 0"),
+	currentAmount: z.number().min(0, "Current amount must be a positive number"),
+});
 
-  const { mutate: updateGoal } = useMutation({
-    mutationFn: (values: { name: string; targetAmount: number, currentAmount: number }) =>
-      goalRepository.update(goal.id, values),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["goals"] });
-      onDone();
-    },
-  });
+export function UpdateGoalForm({
+	goal,
+	onDone,
+}: {
+	goal: FinancialGoal;
+	onDone: () => void;
+}) {
+	const { t } = useTranslation();
+	const { mutate } = useUpdateGoal();
+	const form = useForm({
+		defaultValues: {
+			name: goal.name,
+			targetAmount: goal.targetAmount,
+			currentAmount: goal.currentAmount,
+		},
+		onSubmit: async ({ value }) => {
+			mutate(
+				{
+          id: goal.id,
+          ...value,
+          userId: goal.userId,
+        },
+				{ onSuccess: onDone },
+			);
+		},
+		validators: {
+			onChange: updateGoalSchema,
+		},
+	});
 
-  const form = useForm({
-    defaultValues: {
-      name: goal.name,
-      targetAmount: goal.targetAmount,
-      currentAmount: goal.currentAmount,
-    },
-    onSubmit: async ({ value }) => {
-      updateGoal(value);
-    },
-  });
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit();
-      }}
-    >
-      <form.Field
-        name="name"
-        children={(field) => (
-          <input
-            name={field.name}
-            value={field.state.value}
-            onBlur={field.handleBlur}
-            onChange={(e) => field.handleChange(e.target.value)}
-            aria-label="Name"
-          />
-        )}
-      />
-      <form.Field
-        name="targetAmount"
-        children={(field) => (
-          <input
-            name={field.name}
-            type="number"
-            value={field.state.value}
-            onBlur={field.handleBlur}
-            onChange={(e) => field.handleChange(e.target.valueAsNumber)}
-            aria-label="Target Amount"
-          />
-        )}
-      />
-       <form.Field
-        name="currentAmount"
-        children={(field) => (
-          <input
-            name={field.name}
-            type="number"
-            value={field.state.value}
-            onBlur={field.handleBlur}
-            onChange={(e) => field.handleChange(e.target.valueAsNumber)}
-            aria-label="Current Amount"
-          />
-        )}
-      />
-      <button type="submit">Update Goal</button>
-      <button type="button" onClick={onDone}>Cancel</button>
-    </form>
-  );
-};
+	return (
+		<form
+			onSubmit={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				form.handleSubmit();
+			}}
+		>
+			<div className="space-y-2">
+				<form.Field
+					name="name"
+				>
+					{(field) => (
+						<div>
+							<Label htmlFor={field.name}>{t("Name")}</Label>
+							<Input
+								id={field.name}
+								name={field.name}
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(e.target.value)}
+							/>
+						</div>
+					)}
+				</form.Field>
+				<form.Field
+					name="targetAmount"
+				>
+					{(field) => (
+						<div>
+							<Label htmlFor={field.name}>{t("Target Amount")}</Label>
+							<Input
+								id={field.name}
+								name={field.name}
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(Number(e.target.value))}
+								type="number"
+							/>
+						</div>
+					)}
+				</form.Field>
+				<form.Field
+					name="currentAmount"
+				>
+					{(field) => (
+						<div>
+							<Label htmlFor={field.name}>{t("Current Amount")}</Label>
+							<Input
+								id={field.name}
+								name={field.name}
+								value={field.state.value}
+								onBlur={field.handleBlur}
+								onChange={(e) => field.handleChange(Number(e.target.value))}
+								type="number"
+							/>
+						</div>
+					)}
+				</form.Field>
+			</div>
+			<div className="mt-4 flex justify-end">
+				<Button type="submit">{t("Update Goal")}</Button>
+			</div>
+		</form>
+	);
+}
