@@ -1,11 +1,11 @@
+import { useForm } from "@tanstack/react-form";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { FinancialGoal } from "@/domain/goal/goal";
 import { useUpdateGoal } from "@/hooks/useUpdateGoal";
-import { useForm } from "@tanstack/react-form";
-import { z } from "zod";
-import { useTranslation } from "react-i18next";
 
 const updateGoalSchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -31,9 +31,10 @@ export function UpdateGoalForm({
 		onSubmit: async ({ value }) => {
 			mutate(
 				{
-					id: goal.id,
-					...value,
-				},
+          id: goal.id,
+          ...value,
+          userId: goal.userId,
+        },
 				{ onSuccess: onDone },
 			);
 		},
@@ -53,7 +54,8 @@ export function UpdateGoalForm({
 			<div className="space-y-2">
 				<form.Field
 					name="name"
-					children={(field) => (
+				>
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Name")}</Label>
 							<Input
@@ -65,10 +67,11 @@ export function UpdateGoalForm({
 							/>
 						</div>
 					)}
-				/>
+				</form.Field>
 				<form.Field
 					name="targetAmount"
-					children={(field) => (
+				>
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Target Amount")}</Label>
 							<Input
@@ -81,10 +84,11 @@ export function UpdateGoalForm({
 							/>
 						</div>
 					)}
-				/>
+				</form.Field>
 				<form.Field
 					name="currentAmount"
-					children={(field) => (
+				>
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Current Amount")}</Label>
 							<Input
@@ -97,7 +101,7 @@ export function UpdateGoalForm({
 							/>
 						</div>
 					)}
-				/>
+				</form.Field>
 			</div>
 			<div className="mt-4 flex justify-end">
 				<Button type="submit">{t("Update Goal")}</Button>

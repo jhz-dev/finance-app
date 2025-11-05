@@ -1,10 +1,10 @@
+import { useForm } from "@tanstack/react-form";
+import { useTranslation } from "react-i18next";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCreateGoal } from "@/hooks/useCreateGoal";
-import { useForm } from "@tanstack/react-form";
-import { z } from "zod";
-import { useTranslation } from "react-i18next";
 
 const createGoalSchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -38,7 +38,8 @@ export function CreateGoalForm({ onDone }: { onDone: () => void }) {
 			<div className="space-y-2">
 				<form.Field
 					name="name"
-					children={(field) => (
+				>
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Name")}</Label>
 							<Input
@@ -50,10 +51,11 @@ export function CreateGoalForm({ onDone }: { onDone: () => void }) {
 							/>
 						</div>
 					)}
-				/>
+				</form.Field>
 				<form.Field
 					name="targetAmount"
-					children={(field) => (
+				>
+					{(field) => (
 						<div>
 							<Label htmlFor={field.name}>{t("Target Amount")}</Label>
 							<Input
@@ -66,7 +68,7 @@ export function CreateGoalForm({ onDone }: { onDone: () => void }) {
 							/>
 						</div>
 					)}
-				/>
+				</form.Field>
 			</div>
 			<div className="mt-4 flex justify-end">
 				<Button type="submit">{t("Add Goal")}</Button>
