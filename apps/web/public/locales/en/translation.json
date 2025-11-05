@@ -80,18 +80,5 @@
   "Spanish": "Spanish",
   "Loading...": "Loading...",
   "Monthly": "Monthly",
-  "Yearly": "Yearly",
-  "Share": "Share",
-  "Share budget": "Share budget",
-  "Invite others to collaborate on this budget.": "Invite others to collaborate on this budget.",
-  "Role": "Role",
-  "Viewer": "Viewer",
-  "Editor": "Editor",
-  "Admin": "Admin",
-  "Select a role": "Select a role",
-  "Send invitation": "Send invitation",
-  "Sending...": "Sending...",
-  "Failed to send invitation.": "Failed to send invitation.",
-  "Existing Members": "Existing Members",
-  "Remove": "Remove"
+  "Yearly": "Yearly"
 }

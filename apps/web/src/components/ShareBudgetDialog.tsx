@@ -39,9 +39,9 @@ export function ShareBudgetDialog({
   const [role, setRole] = React.useState<BudgetRole>("VIEWER");
 
   const roleOptions: { value: BudgetRole; label: string }[] = [
-    { value: "VIEWER", label: t("Viewer") },
-    { value: "EDITOR", label: t("Editor") },
-    { value: "ADMIN", label: t("Admin") },
+    { value: "VIEWER", label: "Viewer" },
+    { value: "EDITOR", label: "Editor" },
+    { value: "ADMIN", label: "Admin" },
   ];
 
   const inviteMutation = useMutation({
@@ -99,7 +99,7 @@ export function ShareBudgetDialog({
           />
           <LabeledSelect
             id={roleId}
-            label={t("Role")}
+            label="Role"
             value={role}
             onValueChange={setRole}
             options={roleOptions}
