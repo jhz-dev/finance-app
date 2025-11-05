@@ -1,7 +1,18 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import type { FinancialGoal } from "@/domain/goal/goal";
+import { Button } from "./ui/button";
+import { EditGoalDialog } from "./EditGoalDialog";
+import { Pencil } from "lucide-react";
+import { AddTransactionToGoalDialog } from "./AddTransactionToGoalDialog";
+import { DeleteGoalDialog } from "./DeleteGoalDialog";
 
 interface GoalCardProps {
 	goal: FinancialGoal;
@@ -35,6 +46,17 @@ export function GoalCard({ goal }: GoalCardProps) {
 				</p>
 				<Progress value={progress} className="mt-4" />
 			</CardContent>
+			<CardFooter className="flex justify-end gap-2">
+				<DeleteGoalDialog goalId={goal.id} />
+				<EditGoalDialog goal={goal}>
+					<Button variant="outline" size="icon">
+						<Pencil className="h-4 w-4" />
+					</Button>
+				</EditGoalDialog>
+				<AddTransactionToGoalDialog goal={goal}>
+					<Button variant="outline">{t("Add transaction")}</Button>
+				</AddTransactionToGoalDialog>
+			</CardFooter>
 		</Card>
 	);
 }

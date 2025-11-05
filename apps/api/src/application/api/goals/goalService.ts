@@ -11,6 +11,44 @@ export const createGoal = async (data: Omit<FinancialGoal, "id" | "userId" | "cr
 	return goal;
 };
 
+export const addTransactionToGoal = async (
+	id: string,
+	amount: number,
+	userId: string,
+) => {
+	const goal = await prisma.financialGoal.findFirst({
+		where: { id, userId },
+	});
+	if (!goal) {
+		throw new Error("Goal not found");
+	}
+	await prisma.financialGoal.update({
+		where: { id },
+		data: {
+			currentAmount: {
+				increment: amount,
+			},
+		},
+	});
+	const budgets = await prisma.budget.findMany({
+		where: { ownerId: userId },
+	});
+	if (budgets.length === 0) {
+		throw new Error("No budgets found for user");
+	}
+	await prisma.transaction.create({
+		data: {
+			amount,
+			description: `Transaction for goal: ${goal.name}`,
+			type: "EXPENSE",
+			date: new Date(),
+			userId,
+			budgetId: budgets[0].id,
+			goalId: id,
+		},
+	});
+};
+
 export const getGoalsForUser = async (userId: string) => {
 	const goals = await prisma.financialGoal.findMany({
 		where: { userId },

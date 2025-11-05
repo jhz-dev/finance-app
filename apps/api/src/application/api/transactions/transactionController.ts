@@ -10,6 +10,7 @@ const transactionSchema = z.object({
 	type: z.enum(["INCOME", "EXPENSE", "TAX", "LOAN"]),
 	date: z.string().datetime(),
 	categoryId: z.string().optional(),
+	goalId: z.string().optional(),
 });
 
 export const createTransaction = asyncHandler(
@@ -26,6 +27,7 @@ export const createTransaction = asyncHandler(
 				amount: new Decimal(transactionData.amount),
 				date: new Date(transactionData.date),
 				categoryId: transactionData.categoryId ?? null,
+				goalId: transactionData.goalId ?? null,
 			},
 			budgetId,
 			userId,

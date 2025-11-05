@@ -4,26 +4,38 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCreateGoal } from "@/hooks/useCreateGoal";
+import type { FinancialGoal } from "@/domain/goal/goal";
+import { useAddTransactionToGoal } from "@/hooks/useAddTransactionToGoal";
 
-const createGoalSchema = z.object({
-	name: z.string().min(1, "Name is required"),
-	targetAmount: z.number().min(1, "Target amount must be greater than 0"),
+const addTransactionSchema = (goal: FinancialGoal) => z.object({
+	amount: z
+		.number()
+		.min(1, "Amount must be greater than 0")
+		.max(
+			goal.targetAmount - goal.currentAmount,
+			"Amount cannot be greater than the remaining target amount",
+		),
 });
 
-export function CreateGoalForm({ onDone }: { onDone: () => void }) {
+export function AddTransactionToGoalForm({
+	goal,
+	onDone,
+}: {
+	goal: FinancialGoal;
+	onDone: () => void;
+}) {
 	const { t } = useTranslation();
-	const { mutate } = useCreateGoal();
+	const { mutate } = useAddTransactionToGoal();
+
 	const form = useForm({
 		defaultValues: {
-			name: "",
-			targetAmount: 0,
+			amount: 0,
 		},
 		onSubmit: async ({ value }) => {
-			mutate(value, { onSuccess: onDone });
+			mutate({ id: goal.id, amount: value.amount }, { onSuccess: onDone });
 		},
 		validators: {
-			onChange: createGoalSchema,
+			onChange: addTransactionSchema(goal),
 		},
 	});
 
@@ -37,27 +49,11 @@ export function CreateGoalForm({ onDone }: { onDone: () => void }) {
 		>
 			<div className="space-y-2">
 				<form.Field
-					name="name"
+					name="amount"
 				>
 					{(field) => (
 						<div>
-							<Label htmlFor={field.name}>{t("Name")}</Label>
-							<Input
-								id={field.name}
-								name={field.name}
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-							/>
-						</div>
-					)}
-				</form.Field>
-				<form.Field
-					name="targetAmount"
-				>
-					{(field) => (
-						<div>
-							<Label htmlFor={field.name}>{t("Target Amount")}</Label>
+							<Label htmlFor={field.name}>{t("Amount")}</Label>
 							<Input
 								id={field.name}
 								name={field.name}
@@ -71,7 +67,7 @@ export function CreateGoalForm({ onDone }: { onDone: () => void }) {
 				</form.Field>
 			</div>
 			<div className="mt-4 flex justify-end">
-				<Button type="submit">{t("Add Goal")}</Button>
+				<Button type="submit">{t("Add Transaction")}</Button>
 			</div>
 		</form>
 	);

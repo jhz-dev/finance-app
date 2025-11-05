@@ -14,8 +14,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { LabeledInput } from "@/components/ui/LabeledInput";
 import { useAuthStore } from "@/domain/auth/auth.store";
 import { authRepository } from "@/infrastructure/ApiAuthRepository";
 
@@ -72,29 +71,26 @@ export function LoginPage() {
 							<AlertDescription>{errorMessage}</AlertDescription>
 						</Alert>
 					)}
-					<div className="grid gap-2">
-						<Label htmlFor={emailId}>{t("Email")}</Label>
-						<Input
-							id={emailId}
-							type="email"
-							placeholder="m@example.com"
-							required
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-						/>
-					</div>
-					<div className="grid gap-2">
-						<Label htmlFor={passwordId}>{t("Password")}</Label>
-						<Input
-							id={passwordId}
-							type="password"
-							required
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-						/>
-					</div>
+					<LabeledInput
+						id={emailId}
+						label="Email"
+						type="email"
+						placeholder="m@example.com"
+						required
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					/>
+					<LabeledInput
+						id={passwordId}
+						label="Password"
+						type="password"
+						required
+						value={password}
+
+						onChange={(e) => setPassword(e.target.value)}
+						className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					/>
 				</CardContent>
 				<CardFooter className="grid gap-2">
 					<Button

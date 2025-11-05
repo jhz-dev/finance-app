@@ -1,13 +1,13 @@
-import type { FinancialGoal } from "./goal";
+import type {
+	CreateFinancialGoal,
+	FinancialGoal,
+	UpdateFinancialGoal,
+} from "./goal";
 
-export interface GoalRepository {
+export interface IGoalRepository {
 	getAll: () => Promise<FinancialGoal[]>;
-	create: (
-		goal: Omit<FinancialGoal, "id" | "userId">,
-	) => Promise<FinancialGoal>;
-	update: (
-		id: string,
-		goal: Partial<Omit<FinancialGoal, "id" | "userId">>,
-	) => Promise<void>;
+	create: (goal: CreateFinancialGoal) => Promise<FinancialGoal>;
+	update: (id: string, goal: UpdateFinancialGoal) => Promise<void>;
 	delete: (id: string) => Promise<void>;
+	addTransaction: (id: string, amount: number) => Promise<void>;
 }
