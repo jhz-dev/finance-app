@@ -80,7 +80,7 @@ export function ShareBudgetDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">{t("Share")}</Button>
+        <Button>{t("Share")}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -148,7 +148,7 @@ export function ShareBudgetDialog({
                   className="w-[120px]"
                 />
                 <Button
-                  variant="destructive"
+                  variant="ghost"
                   size="sm"
                   onClick={() => removeMemberMutation.mutate(member.id)}
                   disabled={removeMemberMutation.isPending}
