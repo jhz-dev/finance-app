@@ -1,19 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { apiGoalRepository } from "@/infrastructure/ApiGoalRepository";
 import type { FinancialGoal } from "../goal";
 import { UpdateGoalForm } from "./UpdateGoalForm";
+import { useDeleteGoal } from "@/hooks/useDeleteGoal";
 
 export const GoalItem = ({ goal }: { goal: FinancialGoal }) => {
-	const queryClient = useQueryClient();
 	const [isEditing, setIsEditing] = useState(false);
 
-	const { mutate: deleteGoal } = useMutation({
-		mutationFn: (id: string) => apiGoalRepository.delete(id),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["goals"] });
-		},
-	});
+	const { mutate: deleteGoal } = useDeleteGoal();
 
   return (
     <div>

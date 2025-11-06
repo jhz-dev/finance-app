@@ -61,7 +61,7 @@ export function LabeledInput({
         type={type}
         placeholder={placeholder}
         required={required}
-        className={inputClasses}
+        className={`bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 ${inputClasses}`}
       />
     </div>
   );

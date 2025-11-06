@@ -1,10 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { isAxiosError } from "axios";
+import { Link } from "@tanstack/react-router";
 import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -15,39 +12,20 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { LabeledInput } from "@/components/ui/LabeledInput";
-import { useAuthStore } from "@/domain/auth/auth.store";
-import { authRepository } from "@/infrastructure/ApiAuthRepository";
+import { useLogin } from "@/hooks/useLogin";
 
 export function LoginPage() {
 	const { t } = useTranslation();
-	const navigate = useNavigate();
-	const { setToken, setUser } = useAuthStore();
 	const emailId = useId();
 	const passwordId = useId();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-	const mutation = useMutation({
-		mutationFn: () => authRepository.login({ email, password }),
-		onSuccess: (data) => {
-			setToken(data.token);
-			setUser(data.user);
-			navigate({ to: "/" });
-		},
-		onError: (error) => {
-			if (isAxiosError(error)) {
-				setErrorMessage(error.response?.data.message || t("Login failed."));
-			} else {
-				setErrorMessage(t("An unexpected error occurred."));
-			}
-		},
-	});
+	const mutation = useLogin();
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		setErrorMessage(null);
-		mutation.mutate();
+		mutation.mutate({ email, password });
 	};
 
 	return (
@@ -65,12 +43,6 @@ export function LoginPage() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="grid gap-4">
-					{errorMessage && (
-						<Alert variant="destructive">
-							<AlertTitle>{t("Error")}</AlertTitle>
-							<AlertDescription>{errorMessage}</AlertDescription>
-						</Alert>
-					)}
 					<LabeledInput
 						id={emailId}
 						label="Email"
@@ -79,7 +51,6 @@ export function LoginPage() {
 						required
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
-						className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 					/>
 					<LabeledInput
 						id={passwordId}
@@ -87,9 +58,7 @@ export function LoginPage() {
 						type="password"
 						required
 						value={password}
-
 						onChange={(e) => setPassword(e.target.value)}
-						className="bg-white rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
 					/>
 				</CardContent>
 				<CardFooter className="grid gap-2">

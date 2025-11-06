@@ -21,3 +21,8 @@ export type CreateTransaction = Omit<
   Transaction,
   "id" | "budgetId" | "createdAt" | "updatedAt"
 >;
+
+export interface UpdateTransactionPayload {
+    transactionId: string;
+    transaction: Partial<Transaction>;
+}

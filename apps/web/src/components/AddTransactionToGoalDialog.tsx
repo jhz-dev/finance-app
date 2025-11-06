@@ -23,7 +23,7 @@ export function AddTransactionToGoalDialog({
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>{children}</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px] bg-white rounded-xl border shadow-sm">
+			<DialogContent className="sm:max-w-[525px] bg-white rounded-xl border shadow-sm">
 				<DialogHeader>
 					<DialogTitle>{t("Add Transaction to Goal")}</DialogTitle>
 					<DialogDescription>
