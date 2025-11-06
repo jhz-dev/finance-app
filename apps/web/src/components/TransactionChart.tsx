@@ -8,7 +8,7 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import type { Transaction } from "@/domain/transaction/transaction";
+import type { Transaction } from "@/domain/transaction/Transaction";
 
 interface TransactionChartProps {
 	data: Transaction[];

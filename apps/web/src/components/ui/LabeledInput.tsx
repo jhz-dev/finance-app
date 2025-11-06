@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 type LabeledInputProps = {
   label: string;
@@ -13,6 +14,8 @@ type LabeledInputProps = {
   placeholder?: string;
   required?: boolean;
   className?: string;
+  labelClassName?: string;
+  orientation?: "vertical" | "horizontal";
 };
 
 export function LabeledInput({
@@ -26,12 +29,29 @@ export function LabeledInput({
   placeholder,
   required,
   className,
+  labelClassName,
+  orientation = "vertical",
 }: LabeledInputProps) {
   const { t } = useTranslation();
 
+  const wrapperClasses = cn({
+    "grid gap-2": orientation === "vertical",
+    "grid grid-cols-4 items-center gap-4": orientation === "horizontal",
+  });
+
+  const labelClasses = cn(labelClassName, {
+    "text-right": orientation === "horizontal",
+  });
+
+  const inputClasses = cn(className, {
+    "col-span-3": orientation === "horizontal",
+  });
+
   return (
-    <div className="grid gap-2">
-      <Label htmlFor={id}>{t(label)}</Label>
+    <div className={wrapperClasses}>
+      <Label htmlFor={id} className={labelClasses}>
+        {t(label)}
+      </Label>
       <Input
         id={id}
         name={name}
@@ -41,7 +61,7 @@ export function LabeledInput({
         type={type}
         placeholder={placeholder}
         required={required}
-        className={className}
+        className={inputClasses}
       />
     </div>
   );

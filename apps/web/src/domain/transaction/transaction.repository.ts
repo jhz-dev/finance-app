@@ -1,10 +1,10 @@
-import type { Transaction } from "./transaction";
+import type { CreateTransaction, Transaction } from "./Transaction";
 
 export interface TransactionRepository {
 	getAll(budgetId: string): Promise<Transaction[]>;
 	create(
 		budgetId: string,
-		transaction: Omit<Transaction, "id">,
+		transaction: CreateTransaction,
 	): Promise<Transaction>;
 	update(
 		transactionId: string,

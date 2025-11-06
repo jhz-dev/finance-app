@@ -3,6 +3,7 @@ import { Link, useParams } from "@tanstack/react-router";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { AddTransactionDialog } from "@/components/AddTransactionDialog";
+import { ShareBudgetDialog } from "@/components/ShareBudgetDialog";
 import { MetricCard } from "@/components/MetricCard";
 import { TransactionChart } from "@/components/TransactionChart";
 import { TransactionsTable } from "@/components/TransactionsTable";
@@ -65,7 +66,10 @@ export function BudgetDetailPage() {
 					</Breadcrumb>
 					<div className="flex justify-between items-center mb-6">
 						<h1 className="text-3xl font-bold text-slate-900">{data.name}</h1>
-						<AddTransactionDialog budgetId={budgetId} />
+						<div className="flex space-x-2">
+							<AddTransactionDialog budgetId={budgetId} />
+							<ShareBudgetDialog budgetId={budgetId} members={data.members} />
+						</div>
 					</div>
 
 					<div className="grid gap-4 grid-cols-1 lg:grid-cols-3 mb-8">

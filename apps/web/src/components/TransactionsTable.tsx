@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import type { Transaction } from "@/domain/transaction/transaction";
+import type { Transaction } from "@/domain/transaction/Transaction";
 import { useDeleteTransaction } from "@/hooks/useDeleteTransaction";
 import { TransactionItem } from "./TransactionItem";
 

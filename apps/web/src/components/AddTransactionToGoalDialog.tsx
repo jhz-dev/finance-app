@@ -1,6 +1,7 @@
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -25,6 +26,9 @@ export function AddTransactionToGoalDialog({
 			<DialogContent className="sm:max-w-[425px] bg-white rounded-xl border shadow-sm">
 				<DialogHeader>
 					<DialogTitle>{t("Add Transaction to Goal")}</DialogTitle>
+					<DialogDescription>
+						{t("Add a transaction to this goal to update its progress.")}
+					</DialogDescription>
 				</DialogHeader>
         <div className="py-4">
           <AddTransactionToGoalForm
