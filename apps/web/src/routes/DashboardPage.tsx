@@ -4,10 +4,10 @@ import { BudgetCard } from "@/components/BudgetCard";
 import { Button } from "@/components/ui/button";
 import type { PaginatedBudgets } from "@/domain/transaction/budget";
 import { budgetRepository } from "@/infrastructure/ApiBudgetRepository";
+import { useTranslation } from "react-i18next";
+import { AddBudgetDialog } from "@/components/AddBudgetDialog";
 
 const LIMIT = 6;
-
-import { useTranslation } from "react-i18next";
 
 function DashboardPage() {
 	const { t } = useTranslation();
@@ -32,8 +32,11 @@ function DashboardPage() {
 	};
 
 	return (
-		<div className="mt-4">
-			{isPending && <p className="text-slate-500">{t("Loading budgets...")}</p>}
+		<div>
+      <div className="flex items-center justify-end mb-6">
+        <AddBudgetDialog />
+      </div>
+			{isPending && <p className="text-foreground-700">{t("Loading budgets...")}</p>}
 			{isError && (
 				<p className="text-red-500">
 					{t("Error fetching budgets: {{message}}", { message: error.message })}
@@ -51,17 +54,15 @@ function DashboardPage() {
 							<Button
 								onClick={handlePrevPage}
 								disabled={page === 1}
-								className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
 							>
 								{t("Previous")}
 							</Button>
-							<span className="text-slate-500">
+							<span className="text-foreground-700">
 								{t("Page")} {page}
 							</span>
 							<Button
 								onClick={handleNextPage}
 								disabled={!data || data.totalBudgets <= page * LIMIT}
-								className="bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
 							>
 								{t("Next")}
 							</Button>
@@ -72,7 +73,7 @@ function DashboardPage() {
 						<h2 className="text-2xl font-bold text-slate-900">
 							{t("No Budgets Yet")}
 						</h2>
-						<p className="text-slate-500 mt-2">
+						<p className="text-foreground-700 mt-2">
 							{t('Click the "Add New Budget" button to get started.')}
 						</p>
 					</div>

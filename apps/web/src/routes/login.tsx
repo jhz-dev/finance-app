@@ -33,16 +33,17 @@ export function LoginPage() {
 			className="flex flex-col items-center gap-4 w-[100%]"
 			onSubmit={handleSubmit}
 		>
-			<Card className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
+			<Card className="w-full max-w-lg bg-background shadow-2xl p-8 sm:p-12">
 				<CardHeader>
-					<CardTitle className="text-2xl text-slate-900 font-bold">
+					<CardTitle className="text-2xl text-foreground font-bold">
 						{t("Login")}
 					</CardTitle>
-					<CardDescription className="text-slate-500">
+					<CardDescription className="text-foreground">
 						{t("Enter your email below to login to your account.")}
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="grid gap-4">
+          <div className="bg-warning text-warning-foreground" />
 					<LabeledInput
 						id={emailId}
 						label="Email"
@@ -64,7 +65,7 @@ export function LoginPage() {
 				<CardFooter className="grid gap-2">
 					<Button
 						type="submit"
-						className="w-full bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
+            className="main-button"
 						disabled={mutation.isPending}
 					>
 						{mutation.isPending ? t("Signing in...") : t("Sign in")}
@@ -74,7 +75,7 @@ export function LoginPage() {
 					</div>
 					<span className="mt-4 text-center text-sm">
 						{t("Don't have an account?")}{" "}
-						<Link to="/register" className="underline">
+						<Link to="/register" className="underline text-primary">
 							{t("Sign up")}
 						</Link>
 					</span>

@@ -35,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 		<ResizablePanelGroup
 			ref={panelGroupRef}
 			direction="horizontal"
-			className="h-screen w-full"
+			/* className="h-full w-full" */
 		>
 			<ResizablePanel
 				defaultSize={20}

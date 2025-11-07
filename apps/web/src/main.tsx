@@ -12,6 +12,8 @@ import ReactDOM from "react-dom/client";
 import { useAuthStore } from "@/domain/auth/auth.store";
 import { Layout } from "./components/Layout";
 import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provider.tsx";
+import { ThemeProvider } from "./components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./styles.css";
 import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
@@ -44,12 +46,15 @@ const RegisterPage = React.lazy(() =>
 
 const rootRoute = createRootRoute({
 	component: () => (
-		<Layout>
-			<Suspense fallback={<div>Loading...</div>}>
-				<Outlet />
-			</Suspense>
-			<TanStackRouterDevtools />
-		</Layout>
+		<>
+			<Layout>
+				<Suspense fallback={<div>Loading...</div>}>
+					<Outlet />
+				</Suspense>
+				<TanStackRouterDevtools />
+			</Layout>
+			<Toaster/>
+		</>
 	),
 });
 
@@ -155,7 +160,11 @@ if (rootElement && !rootElement.innerHTML) {
 		<StrictMode>
 			<TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
 				<I18nextProvider i18n={i18n}>
-					<RouterProvider router={router} />
+					<ThemeProvider
+						defaultTheme="light"
+					>
+						<RouterProvider router={router} />
+					</ThemeProvider>
 				</I18nextProvider>
 			</TanStackQueryProvider.Provider>
 		</StrictMode>,

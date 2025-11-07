@@ -25,6 +25,7 @@ export function useLogin() {
             });
         },
         onError: (error) => {
+          console.log(error);
             toast.error(error.message, {
                 id: toastId.current,
             });

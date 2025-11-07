@@ -80,5 +80,8 @@
   "Spanish": "Español",
   "Loading...": "Cargando...",
   "Monthly": "Mensual",
-  "Yearly": "Anual"
+  "Yearly": "Anual",
+  "Light": "Claro",
+  "Dark": "Oscuro",
+  "System": "Sistema"
 }
