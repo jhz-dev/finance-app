@@ -24,7 +24,7 @@ export function DeleteGoalDialog({ goalId }: { goalId: string }) {
 					<Trash2 className="h-4 w-4" />
 				</Button>
 			</AlertDialogTrigger>
-			<AlertDialogContent className="bg-white z-50">
+			<AlertDialogContent className="dialog-content">
 				<AlertDialogHeader>
 					<AlertDialogTitle>{t("Are you sure?")}</AlertDialogTitle>
 					<AlertDialogDescription>

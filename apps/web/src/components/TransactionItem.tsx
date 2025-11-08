@@ -1,7 +1,7 @@
 import { ArrowDownCircle, ArrowUpCircle, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { Transaction } from "@/domain/transaction/Transaction";
+import type { Transaction } from "@/domain/transaction";
 import { useDeleteTransaction } from "@/hooks/useDeleteTransaction";
 import { EditTransactionDialog } from "./EditTransactionDialog";
 import {

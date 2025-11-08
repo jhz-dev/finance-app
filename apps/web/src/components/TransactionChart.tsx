@@ -1,3 +1,4 @@
+import type { Transaction } from "@/domain/transaction";
 import { useMemo } from "react";
 import {
 	Bar,
@@ -8,7 +9,6 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import type { Transaction } from "@/domain/transaction/Transaction";
 
 interface TransactionChartProps {
 	data: Transaction[];

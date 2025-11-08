@@ -16,8 +16,8 @@ import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./styles.css";
-import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
-import i18n from "./lib/i18n"; // Import the i18n instance
+import { I18nextProvider } from "react-i18next";
+import i18n from "./lib/i18n";
 
 const BudgetDetailPage = React.lazy(() =>
 	import("./routes/budgets/detail.tsx").then((module) => ({

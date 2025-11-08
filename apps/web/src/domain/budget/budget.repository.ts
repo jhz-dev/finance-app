@@ -1,20 +1,4 @@
-import type { Transaction } from "./Transaction";
-
-import type { BudgetMember } from "../budget/BudgetMember";
-import type { BudgetRole } from "../budget";
-
-export interface Budget {
-	id: string;
-	name: string;
-	balance: number;
-	transactions: Transaction[];
-	members: BudgetMember[];
-}
-
-export interface PaginatedBudgets {
-	budgets: Budget[];
-	totalBudgets: number;
-}
+import type { Budget, PaginatedBudgets, BudgetRole } from "./Budget";
 
 export interface IBudgetRepository {
 	getAll(page: number, limit: number): Promise<PaginatedBudgets>;

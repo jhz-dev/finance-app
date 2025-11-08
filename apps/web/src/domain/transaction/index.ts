@@ -1,3 +1,2 @@
-export * from "./Transaction";
-export * from "./budget";
+export * from "./transaction";
 export * from "./transaction.repository";

@@ -23,6 +23,6 @@ export type CreateTransaction = Omit<
 >;
 
 export interface UpdateTransactionPayload {
-    transactionId: string;
-    transaction: Partial<Transaction>;
+  transactionId: string;
+  transaction: Partial<Transaction>;
 }

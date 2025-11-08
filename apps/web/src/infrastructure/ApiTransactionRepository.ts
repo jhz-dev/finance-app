@@ -1,4 +1,4 @@
-import type { CreateTransaction, Transaction } from "@/domain/transaction/Transaction";
+import type { CreateTransaction, Transaction } from "@/domain/transaction/transaction";
 import type { TransactionRepository } from "@/domain/transaction/transaction.repository";
 import api from "@/lib/api";
 

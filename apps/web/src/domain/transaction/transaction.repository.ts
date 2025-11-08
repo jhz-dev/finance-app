@@ -1,4 +1,4 @@
-import type { CreateTransaction, Transaction } from "./Transaction";
+import type { CreateTransaction, Transaction } from ".";
 
 export interface TransactionRepository {
 	getAll(budgetId: string): Promise<Transaction[]>;

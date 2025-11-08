@@ -25,7 +25,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 	if (isPublicPage) {
 		return (
-			<main className="h-screen w-screen flex items-center justify-center bg-gray-900">
+			<main className="h-screen w-screen flex items-center justify-center bg-primary/90">
 				{children}
 			</main>
 		);
@@ -35,7 +35,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 		<ResizablePanelGroup
 			ref={panelGroupRef}
 			direction="horizontal"
-			/* className="h-full w-full" */
 		>
 			<ResizablePanel
 				defaultSize={20}

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Budget } from "@/domain/transaction/budget";
+import type { Budget } from "@/domain/budget";
 
 interface BudgetCardProps {
 	budget: Budget;

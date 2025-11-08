@@ -1,8 +1,27 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { Home, LogOut, Target, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/domain/auth/auth.store";
 import { Button } from "./ui/button";
+import { SidebarItem } from "./SidebarItem";
+
+const sidebarItems = [
+	{
+		to: "/",
+		icon: Home,
+		label: "Dashboard",
+	},
+	{
+		to: "/goals",
+		icon: Target,
+		label: "Goals",
+	},
+	{
+		to: "/profile",
+		icon: User,
+		label: "Profile",
+	},
+];
 
 export function Sidebar() {
 	const { t } = useTranslation();
@@ -15,50 +34,25 @@ export function Sidebar() {
 	};
 
 	return (
-		<div className="flex flex-col h-full p-4 bg-slate-200">
-			<h2 className="text-2xl font-bold text-slate-900 mb-10">
+		<div className="flex flex-col h-full p-4 bg-sidebar">
+			<h2 className="text-2xl font-bold text-sidebar-foreground mb-5">
 				{t("FinanSync")}
 			</h2>
 			<nav className="flex flex-col space-y-4">
-				<Link
-					to="/"
-					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
-					activeProps={{
-						className:
-							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
-					}}
-				>
-					<Home className="h-5 w-5" />
-					<span>{t("Dashboard")}</span>
-				</Link>
-				<Link
-					to="/goals"
-					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
-					activeProps={{
-						className:
-							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
-					}}
-				>
-					<Target className="h-5 w-5" />
-					<span>{t("Goals")}</span>
-				</Link>
-				<Link
-					to="/profile"
-					className="text-slate-600 font-medium flex items-center space-x-3 py-3 px-4 rounded-full"
-					activeProps={{
-						className:
-							"bg-white text-emerald-600 font-semibold shadow-lg py-3 px-4 rounded-full",
-					}}
-				>
-					<User className="h-5 w-5" />
-					<span>{t("Profile")}</span>
-				</Link>
+				{sidebarItems.map((item) => (
+					<SidebarItem
+						key={item.to}
+						to={item.to}
+						icon={item.icon}
+						label={item.label}
+					/>
+				))}
 			</nav>
 			<div className="mt-auto">
 				<Button
 					onClick={handleLogout}
 					variant="outline"
-					className="w-full bg-slate-200 text-slate-700 rounded-full py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
+					className="w-full bg-slate-200 text-foreground/70 rounded-2xl py-3 px-6 font-semibold hover:bg-slate-300 transition-all"
 				>
 					<LogOut className="h-5 w-5 mr-2" />
 					{t("Logout")}

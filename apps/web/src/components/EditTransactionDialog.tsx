@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { LabeledSelect } from "@/components/ui/LabeledSelect";
-import type { Transaction } from "@/domain/transaction/Transaction";
+import type { Transaction } from "@/domain/transaction/transaction";
 import { useUpdateTransaction } from "@/hooks/useUpdateTransaction";
 import { LabeledInput } from "./ui/LabeledInput";
 
@@ -78,7 +78,7 @@ export function EditTransactionDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-[525px] bg-black/60 text-white border-white/20 glass-effect">
+			<DialogContent className="dialog-content">
 				<form onSubmit={handleSubmit}>
 					<DialogHeader>
 						<DialogTitle>{t("Edit Transaction")}</DialogTitle>
@@ -120,7 +120,7 @@ export function EditTransactionDialog({
 						/>
 					</div>
 					<DialogFooter>
-						<Button type="submit" disabled={mutation.isPending}>
+						<Button className="main-button" type="submit" disabled={mutation.isPending}>
 							{mutation.isPending ? t("Saving...") : t("Save Changes")}
 						</Button>
 					</DialogFooter>

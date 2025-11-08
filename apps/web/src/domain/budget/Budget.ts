@@ -19,3 +19,8 @@ export interface UpdateBudgetMemberPayload {
     memberId: string;
     role: BudgetRole;
 }
+
+export interface PaginatedBudgets {
+	budgets: Budget[];
+	totalBudgets: number;
+}

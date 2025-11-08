@@ -55,7 +55,7 @@ export function ShareBudgetDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">{t("Share")}</Button>
+        <Button className="main-button">{t("Share")}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[525px] bg-white rounded-3xl shadow-2xl">
         <form onSubmit={handleInvite}>

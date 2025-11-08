@@ -1,9 +1,9 @@
 import type { BudgetRole } from "@/domain/budget/Budget";
 import type {
 	Budget,
-	IBudgetRepository,
 	PaginatedBudgets,
-} from "@/domain/transaction/budget";
+} from "@/domain/budget";
+import type { IBudgetRepository } from "@/domain/budget";
 import api from "@/lib/api";
 
 class ApiBudgetRepository implements IBudgetRepository {

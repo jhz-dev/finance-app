@@ -39,11 +39,11 @@ export function AddBudgetDialog() {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button className="bg-emerald-500 text-white rounded-full py-3 px-6 font-semibold shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
+				<Button className="main-button w-auto">
 					{t("Add New Budget")}
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[525px] bg-white rounded-3xl shadow-2xl">
+			<DialogContent className="dialog-content">
 				<form onSubmit={handleSubmit}>
 					<DialogHeader>
 						<DialogTitle className="text-slate-900 font-bold">
