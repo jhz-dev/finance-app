@@ -53,18 +53,34 @@ This project is a mono-repo using npm workspaces. The two primary packages are:
    npm run db:migrate --workspace=apps/api
    ```
 
+6. **Seed the database:**
+
+   ```bash
+   npm run db:seed --workspace=apps/api
+   ```
+
 ### Running the Application
 
 - **Back-end (API):**
 
   ```bash
-  npm run dev --workspace=apps/api
+  npm run dev:api
   ```
 
 - **Front-end (Web):**
 
   ```bash
-  npm run dev --workspace=apps/web
+  npm run dev:web
   ```
 
 The front-end will be available at `http://localhost:4000/` and the back-end at `http://localhost:3000`.
+
+## How to Link the Apps
+
+The frontend and backend are already linked. The frontend (`apps/web`) makes API calls to the backend (`apps/api`) at the URL specified in `apps/web/.env.example`.
+
+By default, the frontend connects to the backend at `http://localhost:3000`.
+
+## How to Update Linting Rules
+
+The project uses Biome for linting and formatting. The configuration can be found in the `biome.json` file at the root of the project. To update the rules, modify this file and then run `npm run lint:fix` to apply the changes.

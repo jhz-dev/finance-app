@@ -1,14 +1,7 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@/test-utils";
 import { ShareBudgetDialog } from "./ShareBudgetDialog";
-import { vi, describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import type { BudgetMember } from "@/domain/budget/BudgetMember";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (str: string) => str,
-  }),
-}));
 
 const members: BudgetMember[] = [
   {
@@ -22,18 +15,13 @@ const members: BudgetMember[] = [
 ];
 
 describe("ShareBudgetDialog", () => {
-  const queryClient = new QueryClient();
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-
-  it("renders the share button", () => {
-    render(<ShareBudgetDialog budgetId="1" members={members} />, { wrapper });
+  it("renders the share button", async () => {
+    await render(<ShareBudgetDialog budgetId="1" members={members} />);
     expect(screen.getByText("Share")).toBeInTheDocument();
   });
 
-  it("opens the dialog when the share button is clicked", () => {
-    render(<ShareBudgetDialog budgetId="1" members={members} />, { wrapper });
+  it("opens the dialog when the share button is clicked", async () => {
+    await render(<ShareBudgetDialog budgetId="1" members={members} />);
     fireEvent.click(screen.getAllByRole("button", { name: /share/i })[0]);
     expect(screen.getByText("Share budget")).toBeInTheDocument();
   });
