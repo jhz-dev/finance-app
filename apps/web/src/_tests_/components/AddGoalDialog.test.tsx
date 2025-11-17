@@ -1,8 +1,8 @@
-import { render, screen, fireEvent, waitFor } from '@/test-utils';
+import { render, screen, fireEvent, waitFor } from '@tests/test-utils';
 import { vi, describe, it, expect } from 'vitest';
-import { AddGoalDialog } from './AddGoalDialog';
-import { useCreateGoal } from '@/hooks/useCreateGoal';
-import { Button } from './ui/button';
+import { AddGoalDialog } from '../../components/AddGoalDialog';
+import { useCreateGoal } from '../../hooks/useCreateGoal';
+import { Button } from '../../components/ui/button';
 
 vi.mock('@/hooks/useCreateGoal');
 
@@ -17,11 +17,11 @@ describe('AddGoalDialog', () => {
       mutate,
     } as any);
 
-    await render(
+    await render({ component: () => (
       <AddGoalDialog>
         <Button>Add New Goal</Button>
       </AddGoalDialog>
-    );
+    )});
 
     fireEvent.click(screen.getByText('Add New Goal'));
 

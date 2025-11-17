@@ -1,7 +1,7 @@
-import { render, screen, fireEvent } from '@/test-utils';
+import { render, screen, fireEvent } from '@tests/test-utils';
 import { vi, describe, it, expect } from 'vitest';
-import { AddBudgetDialog } from './AddBudgetDialog';
-import { useCreateBudget } from '@/hooks/useCreateBudget';
+import { AddBudgetDialog } from '../../components/AddBudgetDialog';
+import { useCreateBudget } from '../../hooks/useCreateBudget';
 
 vi.mock('@/hooks/useCreateBudget');
 
@@ -17,13 +17,13 @@ describe('AddBudgetDialog', () => {
       isPending: false,
     } as any);
 
-    await render(<AddBudgetDialog />);
+    await render({ component: AddBudgetDialog });
 
-    fireEvent.click(screen.getByText('Add New Budget'));
+    fireEvent.click(await screen.findByText('Add New Budget'));
     fireEvent.change(screen.getByLabelText('Name'), {
       target: { value: 'New Budget' },
     });
-    fireEvent.click(screen.getByText('Save budget'));
+    fireEvent.click(await screen.findByText('Save budget'));
 
     expect(mutate).toHaveBeenCalledWith(
       {
@@ -34,6 +34,6 @@ describe('AddBudgetDialog', () => {
       }
     );
 
-    expect(screen.queryByText('Create New Budget')).not.toBeInTheDocument();
+    expect(screen.queryByText('Create New Budget')).toBeNull();
   });
 });

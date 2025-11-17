@@ -1,8 +1,8 @@
-import { render, screen, fireEvent } from '@/test-utils';
+import { render, screen, fireEvent } from '@tests/test-utils';
 import { vi, describe, it, expect, afterEach } from 'vitest';
 import DashboardPage from '../../routes/DashboardPage';
 import { createRootRoute, createRoute } from '@tanstack/react-router';
-import { budgetRepository } from '@/infrastructure/ApiBudgetRepository';
+import { budgetRepository } from '../../infrastructure/ApiBudgetRepository';
 
 vi.mock('@/infrastructure/ApiBudgetRepository');
 
@@ -25,9 +25,6 @@ vi.mock('@/components/PaginationControl', () => ({
   ),
 }));
 
-const rootRoute = createRootRoute();
-const budgetRoute = createRoute({ getParentRoute: () => rootRoute, path: '/budgets/$budgetId' });
-
 const mockedBudgetRepository = vi.mocked(budgetRepository);
 
 describe('DashboardPage', () => {
@@ -37,14 +34,14 @@ describe('DashboardPage', () => {
 
   it('should display a loading message', async () => {
     mockedBudgetRepository.getAll.mockReturnValue(new Promise(() => {}));
-    await render(<DashboardPage />);
+    await render({ component: DashboardPage });
     expect(screen.getByText('Loading budgets...')).toBeInTheDocument();
   });
 
   it('should display an error message', async () => {
     const error = new Error('Failed to fetch');
     mockedBudgetRepository.getAll.mockRejectedValue(error);
-    await render(<DashboardPage />);
+    await render({ component: DashboardPage });
 
     expect(await screen.findByText('Error')).toBeInTheDocument();
     expect(
@@ -61,7 +58,7 @@ describe('DashboardPage', () => {
       totalBudgets: 2,
     });
 
-    await render(<DashboardPage />, { routes: [budgetRoute] });
+    await render({ component: DashboardPage });
 
     expect(await screen.findByText('Budget 1')).toBeInTheDocument();
     expect(await screen.findByText('Budget 2')).toBeInTheDocument();
@@ -73,7 +70,7 @@ describe('DashboardPage', () => {
       totalBudgets: 0,
     });
 
-    await render(<DashboardPage />, { routes: [budgetRoute] });
+    await render({ component: DashboardPage });
 
     expect(await screen.findByText('No Budgets Yet')).toBeInTheDocument();
     expect(
@@ -89,7 +86,7 @@ describe('DashboardPage', () => {
       totalBudgets: 10,
     });
 
-    await render(<DashboardPage />, { routes: [budgetRoute] });
+    await render({ component: DashboardPage });
 
     await screen.findByText('Budget 1');
 

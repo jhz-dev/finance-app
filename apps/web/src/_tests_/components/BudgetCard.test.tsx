@@ -1,6 +1,6 @@
-import { render, screen } from '@/test-utils';
+import { render, screen } from '@tests/test-utils';
 import { describe, it, expect } from 'vitest';
-import { BudgetCard } from './BudgetCard';
+import { BudgetCard } from '../../components/BudgetCard';
 import { createRootRoute, createRoute } from '@tanstack/react-router';
 
 const budget = {
@@ -12,18 +12,15 @@ const budget = {
   updatedAt: new Date(),
 };
 
-const rootRoute = createRootRoute();
-const budgetRoute = createRoute({ getParentRoute: () => rootRoute, path: '/budgets/$budgetId' });
-
 describe('BudgetCard', () => {
   it('should render the budget name and formatted balance', async () => {
-    await render(<BudgetCard budget={budget} />, { routes: [budgetRoute] });
+    await render({ component: () => <BudgetCard budget={budget} /> });
     expect(screen.getByText('Budget 1')).toBeInTheDocument();
     expect(screen.getByText('$1,000.00')).toBeInTheDocument();
   });
 
   it('should link to the budget details page', async () => {
-    await render(<BudgetCard budget={budget} />, { routes: [budgetRoute] });
+    await render({ component: () => <BudgetCard budget={budget} /> });
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
       '/budgets/1'

@@ -1,7 +1,7 @@
-import { render, screen, fireEvent, waitFor } from '@/test-utils';
+import { render, screen, fireEvent, waitFor } from '@tests/test-utils';
 import { vi, describe, it, expect } from 'vitest';
-import { AddTransactionDialog } from './AddTransactionDialog';
-import { useCreateTransaction } from '@/hooks/useCreateTransaction';
+import { AddTransactionDialog } from '../../components/AddTransactionDialog';
+import { useCreateTransaction } from '../../hooks/useCreateTransaction';
 
 vi.mock('@/hooks/useCreateTransaction');
 
@@ -19,7 +19,7 @@ describe('AddTransactionDialog', () => {
       isPending: false,
     } as any);
 
-    await render(<AddTransactionDialog budgetId={budgetId} />);
+    await render({ component: () => <AddTransactionDialog budgetId={budgetId} /> });
 
     fireEvent.click(screen.getByText('Add Transaction'));
 

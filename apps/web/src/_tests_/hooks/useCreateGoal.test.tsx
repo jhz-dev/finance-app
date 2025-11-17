@@ -1,11 +1,11 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { useCreateGoal } from './useCreateGoal';
-import { apiGoalRepository } from '@/infrastructure/ApiGoalRepository';
+import { useCreateGoal } from '../../hooks/useCreateGoal';
+import { apiGoalRepository } from '../../infrastructure/ApiGoalRepository';
 import { toast } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { vi, describe, it, expect } from 'vitest';
 
-vi.mock('@/infrastructure/ApiGoalRepository');
+vi.mock('../../infrastructure/ApiGoalRepository');
 vi.mock('sonner');
 
 const mockedApiGoalRepository = vi.mocked(apiGoalRepository);

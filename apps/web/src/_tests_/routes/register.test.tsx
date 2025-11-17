@@ -1,11 +1,10 @@
-import { render, screen, fireEvent } from '@/test-utils';
+import { render, screen, fireEvent } from '@tests/test-utils';
 import { expect, vi, describe, it, afterEach } from 'vitest';
-import { RegisterPage } from '../../routes/register';
+import { RegisterPage } from '@/routes/register';
 import { useRegister } from '@/hooks/useRegister';
-import { useNavigate, createRootRoute, createRoute } from '@tanstack/react-router';
 
 vi.mock('@/hooks/useRegister');
- 
+
 // We only need to mock useNavigate for this test
 const mockedUseNavigate = vi.fn();
 vi.mock('@tanstack/react-router', async (importOriginal) => {
@@ -28,11 +27,7 @@ describe('RegisterPage', () => {
       isPending: false,
     } as any);
 
-    const rootRoute = createRootRoute();
-    const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/register' });
-    const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login' });
-
-    await render(<RegisterPage />, { routes: [registerRoute, loginRoute], initialEntries: ['/register'] });
+    await render({ component: RegisterPage, initialEntries: ['/register'] });
 
     fireEvent.change(screen.getByLabelText('Name'), {
       target: { value: 'John Doe' },
@@ -65,10 +60,9 @@ describe('RegisterPage', () => {
       mutate: vi.fn(),
       isPending: true,
     } as any);
-    const rootRoute = createRootRoute();
-    const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/register' });
 
-    await render(<RegisterPage />, { routes: [registerRoute], initialEntries: ['/register'] });
+    await render({ component: RegisterPage, initialEntries: ['/register'] });
+
     expect(
       screen.getByRole('button', { name: 'Creating account...' })
     ).toBeDisabled();

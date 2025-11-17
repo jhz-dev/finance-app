@@ -1,7 +1,7 @@
-import { render, screen } from '@/test-utils';
+import { render, screen } from '@tests/test-utils';
 import { describe, it, expect } from 'vitest';
-import { BudgetList } from './BudgetList';
-import { Budget } from '@/domain/budget/Budget';
+import { BudgetList } from '../../components/BudgetList';
+import type { Budget } from '../../domain/budget/Budget';
 import { createRootRoute, createRoute } from '@tanstack/react-router';
 
 const budgets: Budget[] = [
@@ -23,12 +23,9 @@ const budgets: Budget[] = [
 	},
 ];
 
-const rootRoute = createRootRoute();
-const budgetRoute = createRoute({ getParentRoute: () => rootRoute, path: '/budgets/$budgetId' });
-
 describe("BudgetList", () => {
 	it("should render a list of budget cards", async () => {
-		await render(<BudgetList budgets={budgets} />, { routes: [budgetRoute] });
+		await render({ component: () => <BudgetList budgets={budgets} /> });
 		expect(screen.getByText("Budget 1")).toBeInTheDocument();
 		expect(screen.getByText("Budget 2")).toBeInTheDocument();
 		expect(screen.getAllByRole("link").length).toBe(budgets.length);

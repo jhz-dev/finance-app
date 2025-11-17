@@ -1,8 +1,8 @@
-import { render, screen } from '@/test-utils';
+import { render, screen } from '@tests/test-utils';
 import { describe, it, expect, vi } from 'vitest';
-import { TransactionsTable } from './TransactionsTable';
-import { useDeleteTransaction } from '@/hooks/useDeleteTransaction';
-import type { Transaction } from '@/domain/transaction';
+import { TransactionsTable } from '../../components/TransactionsTable';
+import { useDeleteTransaction } from '../../hooks/useDeleteTransaction';
+import type { Transaction } from '../../domain/transaction';
 
 vi.mock('@/hooks/useDeleteTransaction');
 vi.mock('./TransactionItem', () => ({
@@ -26,7 +26,7 @@ describe('TransactionsTable', () => {
       isSuccess: false,
     } as any);
 
-    await render(<TransactionsTable transactions={transactions} budgetId={budgetId} />);
+    await render({ component: () => <TransactionsTable transactions={transactions} budgetId={budgetId} /> });
 
     const transactionItems = screen.getAllByTestId('transaction-item');
     expect(transactionItems).toHaveLength(2);
@@ -40,7 +40,7 @@ describe('TransactionsTable', () => {
         isSuccess: false,
       } as any);
 
-    await render(<TransactionsTable transactions={[]} budgetId={budgetId} />);
+    await render({ component: () => <TransactionsTable transactions={[]} budgetId={budgetId} /> });
 
     expect(screen.getByText('No transactions found.')).toBeInTheDocument();
   });
@@ -51,7 +51,7 @@ describe('TransactionsTable', () => {
       isSuccess: true,
     } as any);
 
-    await render(<TransactionsTable transactions={[]} budgetId={budgetId} />);
+    await render({ component: () => <TransactionsTable transactions={[]} budgetId={budgetId} /> });
 
     expect(screen.getByText('Transaction deleted successfully!')).toBeInTheDocument();
   });
@@ -62,7 +62,7 @@ describe('TransactionsTable', () => {
       isSuccess: false,
     } as any);
 
-    await render(<TransactionsTable transactions={[]} budgetId={budgetId} />);
+    await render({ component: () => <TransactionsTable transactions={[]} budgetId={budgetId} /> });
 
     expect(screen.getByText('Failed to delete transaction.')).toBeInTheDocument();
   });

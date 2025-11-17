@@ -1,11 +1,11 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { useCreateTransaction } from './useCreateTransaction';
-import { transactionRepository } from '@/infrastructure/ApiTransactionRepository';
+import { useCreateTransaction } from '../../hooks/useCreateTransaction';
+import { transactionRepository } from '../../infrastructure/ApiTransactionRepository';
 import { toast } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { vi, describe, it, expect } from 'vitest';
 
-vi.mock('@/infrastructure/ApiTransactionRepository');
+vi.mock('../../infrastructure/ApiTransactionRepository');
 vi.mock('sonner');
 
 const mockedTransactionRepository = vi.mocked(transactionRepository);

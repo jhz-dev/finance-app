@@ -1,11 +1,11 @@
 import { renderHook } from '@testing-library/react';
-import { useCreateBudget } from './useCreateBudget';
-import api from '@/lib/api';
+import { useCreateBudget } from '../../hooks/useCreateBudget';
+import api from '../../lib/api';
 import { toast } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { vi, describe, it, expect } from 'vitest';
 
-vi.mock('@/lib/api');
+vi.mock('../../lib/api');
 vi.mock('sonner');
 
 const mockedApi = vi.mocked(api);

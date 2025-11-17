@@ -1,14 +1,14 @@
 import { renderHook } from '@testing-library/react';
-import { useLogin } from './useLogin';
-import { authRepository } from '@/infrastructure/ApiAuthRepository';
-import { useAuthStore } from '@/domain/auth/auth.store';
+import { useLogin } from '../../hooks/useLogin';
+import { authRepository } from '../../infrastructure/ApiAuthRepository';
+import { useAuthStore } from '../../domain/auth/auth.store';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { vi, describe, it, expect } from 'vitest';
 
-vi.mock('@/infrastructure/ApiAuthRepository');
-vi.mock('@/domain/auth/auth.store');
+vi.mock('../../infrastructure/ApiAuthRepository');
+vi.mock('../../domain/auth/auth.store');
 vi.mock('@tanstack/react-router');
 vi.mock('sonner');
 

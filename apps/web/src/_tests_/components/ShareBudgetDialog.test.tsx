@@ -1,7 +1,7 @@
-import { render, screen, fireEvent } from "@/test-utils";
-import { ShareBudgetDialog } from "./ShareBudgetDialog";
+import { render, screen, fireEvent } from "../test-utils";
+import { ShareBudgetDialog } from "../../components/ShareBudgetDialog";
 import { describe, it, expect } from "vitest";
-import type { BudgetMember } from "@/domain/budget/BudgetMember";
+import type { BudgetMember } from "../../domain/budget/BudgetMember";
 
 const members: BudgetMember[] = [
   {

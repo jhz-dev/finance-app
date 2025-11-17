@@ -1,7 +1,7 @@
-import { render, screen, fireEvent } from '@/test-utils';
+import { render, screen, fireEvent } from '@tests/test-utils';
 import { vi, describe, it, expect, afterEach } from 'vitest';
 import { LoginPage } from '../../routes/login';
-import { useLogin } from '@/hooks/useLogin';
+import { useLogin } from '../../hooks/useLogin';
 import { createRootRoute, createRoute } from '@tanstack/react-router';
 
 vi.mock('@/hooks/useLogin');
@@ -19,9 +19,7 @@ describe('LoginPage', () => {
       mutate,
       isPending: false,
     } as any);
-    const rootRoute = createRootRoute();
-    const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login' });
-    await render(<LoginPage />, { routes: [loginRoute], initialEntries: ['/login'] });
+    await render({ component: LoginPage, initialEntries: ['/login'] });
 
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'test@example.com' },
@@ -43,9 +41,7 @@ describe('LoginPage', () => {
       mutate: vi.fn(),
       isPending: true,
     } as any);
-    const rootRoute = createRootRoute();
-    const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: '/login' });
-    await render(<LoginPage />, { routes: [loginRoute], initialEntries: ['/login'] });
+    await render({ component: LoginPage, initialEntries: ['/login'] });
 
     expect(screen.getByRole('button', { name: 'Signing in...' })).toBeDisabled();
   });

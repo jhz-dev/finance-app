@@ -1,11 +1,11 @@
 import { renderHook } from '@testing-library/react';
-import { useRegister } from './useRegister';
-import { authRepository } from '@/infrastructure/ApiAuthRepository';
+import { useRegister } from '../../hooks/useRegister';
+import { authRepository } from '../../infrastructure/ApiAuthRepository';
 import { toast } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { vi, describe, it, expect } from 'vitest';
 
-vi.mock('@/infrastructure/ApiAuthRepository');
+vi.mock('../../infrastructure/ApiAuthRepository');
 vi.mock('sonner');
 
 const mockedAuthRepository = vi.mocked(authRepository);

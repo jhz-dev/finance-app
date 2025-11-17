@@ -1,4 +1,4 @@
-import { render, screen } from '@/test-utils';
+import { render, screen } from '@tests/test-utils';
 import { vi, describe, it, expect } from 'vitest';
 import { GoalList } from './GoalList';
 import { useQuery } from '@tanstack/react-query';
@@ -24,7 +24,7 @@ describe('GoalList', () => {
       isPending: true,
     } as any);
 
-    await render(<GoalList />);
+    await render({ component: GoalList });
     expect(screen.getByText('Loading goals...')).toBeInTheDocument();
   });
 
@@ -34,7 +34,7 @@ describe('GoalList', () => {
       error: new Error('Failed to fetch'),
     } as any);
 
-    await render(<GoalList />);
+    await render({ component: GoalList });
     expect(screen.getByText('Error fetching goals: {{message}}')).toBeInTheDocument();
   });
 
@@ -48,7 +48,7 @@ describe('GoalList', () => {
       data: goals,
     } as any);
 
-    await render(<GoalList />);
+    await render({ component: GoalList });
     const goalCards = screen.getAllByTestId('goal-card');
     expect(goalCards).toHaveLength(2);
     expect(goalCards[0]).toHaveTextContent('Goal 1');
@@ -61,7 +61,7 @@ describe('GoalList', () => {
       data: [],
     } as any);
 
-    await render(<GoalList />);
+    await render({ component: GoalList });
     expect(screen.getByText('No Goals Yet')).toBeInTheDocument();
   });
 });

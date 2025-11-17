@@ -1,6 +1,6 @@
-import { render, screen } from '@/test-utils';
+import { render, screen } from '../test-utils';
 import { describe, it, expect, vi } from 'vitest';
-import { GoalCard } from './GoalCard';
+import { GoalCard } from '../../components/GoalCard';
 vi.mock('./EditGoalDialog', () => ({
   EditGoalDialog: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>

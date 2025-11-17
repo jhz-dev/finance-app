@@ -1,4 +1,4 @@
-import { render, screen } from '../test-utils';
+import { render, screen } from '@tests/test-utils';
 import { describe, it, expect, vi } from 'vitest';
 import { GoalsPage } from '../../routes/GoalsPage';
 
