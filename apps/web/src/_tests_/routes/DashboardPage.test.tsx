@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@/test-utils';
 import { vi, describe, it, expect, afterEach } from 'vitest';
-import DashboardPage from './DashboardPage';
+import DashboardPage from '../../routes/DashboardPage';
 import { createRootRoute, createRoute } from '@tanstack/react-router';
 import { budgetRepository } from '@/infrastructure/ApiBudgetRepository';
 

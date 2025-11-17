@@ -1,19 +1,16 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
-import { fileURLToPath, URL } from 'node:url';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   test: {
+    globals: true,
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts'],
-    esbuild: {
-      jsx: 'react-jsx',
+    setupFiles: 'src/_tests_/setup.ts',
+    coverage: {
+      provider: 'v8',
     },
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
+    include: ['src/**/*.test.{ts,tsx}', 'src/_tests_/**/*.{ts,tsx}'],
   },
 });

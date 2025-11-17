@@ -1,6 +1,6 @@
 import { render, screen } from '@/test-utils';
 import { describe, it, expect } from 'vitest';
-import { ProfilePage } from './ProfilePage';
+import { ProfilePage } from '../../routes/ProfilePage';
 
 describe('ProfilePage', () => {
   it('should render the profile page', async () => {

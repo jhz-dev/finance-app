@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@/test-utils';
 import { vi, describe, it, expect, afterEach } from 'vitest';
-import { LoginPage } from './login';
+import { LoginPage } from '../../routes/login';
 import { useLogin } from '@/hooks/useLogin';
 import { createRootRoute, createRoute } from '@tanstack/react-router';
 
