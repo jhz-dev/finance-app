@@ -17,7 +17,13 @@ const mockedUseAuthStore = vi.mocked(useAuthStore);
 const mockedUseNavigate = vi.mocked(useNavigate);
 const mockedToast = vi.mocked(toast);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
@@ -64,14 +70,10 @@ describe('useLogin', () => {
 
     const { result } = renderHook(() => useLogin(), { wrapper });
 
-    try {
-      await result.current.mutateAsync({
-        email: 'test@example.com',
-        password: 'password123',
-      });
-    } catch (e) {
-      // ignore
-    }
+    await expect(result.current.mutateAsync({
+      email: 'test@example.com',
+      password: 'password123',
+    })).rejects.toThrow(error);
     expect(mockedToast.error).toHaveBeenCalledWith('Invalid credentials', {
       id: undefined,
     });
