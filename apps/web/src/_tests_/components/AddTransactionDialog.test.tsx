@@ -11,13 +11,13 @@ describe('AddTransactionDialog', () => {
   const budgetId = 'budget-1';
 
   it('should call the create transaction mutation with the correct data and close the dialog on success', async () => {
-    const mutate = vi.fn((variables, options) => {
+    const mutate = vi.fn((_variables, options) => {
       options.onSuccess();
     });
     mockedUseCreateTransaction.mockReturnValue({
       mutate,
       isPending: false,
-    } as any);
+    } as ReturnType<typeof useCreateTransaction>);
 
     await render({ component: () => <AddTransactionDialog budgetId={budgetId} /> });
 

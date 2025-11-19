@@ -67,7 +67,7 @@ describe('useCreateGoal', () => {
         targetAmount: 1000,
         targetDate: new Date(),
       });
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
 

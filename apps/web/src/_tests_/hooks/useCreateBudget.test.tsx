@@ -56,7 +56,7 @@ describe('useCreateBudget', () => {
       await result.current.mutateAsync({
         name: 'New Budget',
       });
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
 

@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { useDeleteTransaction } from '../../hooks/useDeleteTransaction';
 import { transactionRepository } from '../../infrastructure/ApiTransactionRepository';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

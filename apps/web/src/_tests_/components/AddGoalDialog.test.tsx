@@ -10,12 +10,13 @@ const mockedUseCreateGoal = vi.mocked(useCreateGoal);
 
 describe('AddGoalDialog', () => {
   it('should call the create goal mutation with the correct data and close the dialog on success', async () => {
-    const mutate = vi.fn((variables, options) => {
+    const mutate = vi.fn((_variables, options) => {
       options.onSuccess();
     });
     mockedUseCreateGoal.mockReturnValue({
       mutate,
-    } as any);
+      isPending: false,
+    } as ReturnType<typeof useCreateGoal>);
 
     await render({ component: () => (
       <AddGoalDialog>

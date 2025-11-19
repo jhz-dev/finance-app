@@ -2,7 +2,6 @@ import { render, screen } from '@tests/test-utils';
 import { describe, it, expect } from 'vitest';
 import { BudgetList } from '../../components/BudgetList';
 import type { Budget } from '../../domain/budget/Budget';
-import { createRootRoute, createRoute } from '@tanstack/react-router';
 
 const budgets: Budget[] = [
 	{

@@ -71,7 +71,7 @@ describe('useCreateTransaction', () => {
 
     try {
       await result.current.mutateAsync(newTransaction);
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
 

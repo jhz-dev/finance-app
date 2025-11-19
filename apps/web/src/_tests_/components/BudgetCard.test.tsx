@@ -1,7 +1,6 @@
 import { render, screen } from '@tests/test-utils';
 import { describe, it, expect } from 'vitest';
 import { BudgetCard } from '../../components/BudgetCard';
-import { createRootRoute, createRoute } from '@tanstack/react-router';
 
 const budget = {
   id: '1',

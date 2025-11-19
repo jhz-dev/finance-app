@@ -58,7 +58,7 @@ describe('useRegister', () => {
         email: 'test@example.com',
         password: 'password123',
       });
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
 

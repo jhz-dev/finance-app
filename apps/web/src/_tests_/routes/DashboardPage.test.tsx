@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@tests/test-utils';
 import { vi, describe, it, expect, afterEach } from 'vitest';
 import DashboardPage from '../../routes/DashboardPage';
-import { createRootRoute, createRoute } from '@tanstack/react-router';
 import { budgetRepository } from '../../infrastructure/ApiBudgetRepository';
 
 vi.mock('@/infrastructure/ApiBudgetRepository');
@@ -21,7 +20,7 @@ vi.mock('@/components/Message', () => ({
 
 vi.mock('@/components/PaginationControl', () => ({
   PaginationControl: ({ onPageChange }: { onPageChange: (page: number) => void }) => (
-    <button onClick={() => onPageChange(2)}>Next</button>
+    <button type="button" onClick={() => onPageChange(2)}>Next</button>
   ),
 }));
 
