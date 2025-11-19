@@ -1,8 +1,8 @@
-import { budgetRepository } from "./ApiBudgetRepository";
-import api from "@/lib/api";
+import { budgetRepository } from "../../infrastructure/ApiBudgetRepository";
+import api from "../../lib/api";
 import { vi, describe, it, expect } from "vitest";
 
-vi.mock("@/lib/api");
+vi.mock("../../lib/api");
 
 describe("ApiBudgetRepository", () => {
   it("invites a member", async () => {
