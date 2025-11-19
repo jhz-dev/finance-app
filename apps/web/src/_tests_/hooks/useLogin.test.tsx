@@ -72,9 +72,9 @@ describe('useLogin', () => {
     } catch (e) {
       // ignore
     }
-
     expect(mockedToast.error).toHaveBeenCalledWith('Invalid credentials', {
       id: undefined,
     });
+
   });
 });

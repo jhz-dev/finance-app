@@ -35,7 +35,7 @@ describe('GoalList', () => {
     } as any);
 
     await render({ component: GoalList });
-    expect(screen.getByText('Error fetching goals: {{message}}')).toBeInTheDocument();
+    expect(screen.getByText('Error fetching goals: Failed to fetch')).toBeInTheDocument();
   });
 
   it('should render success state with goals', async () => {

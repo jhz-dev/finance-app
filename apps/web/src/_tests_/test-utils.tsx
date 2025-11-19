@@ -1,4 +1,4 @@
-import { render, type RenderOptions } from "@testing-library/react";
+import { render, type RenderOptions, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n-test";
@@ -44,7 +44,11 @@ const customRender = async (
 		</QueryClientProvider>
 	);
 
-	return render(<div />, { wrapper: Wrapper, ...options });
+	let returnVal: ReturnType<typeof render>;
+	await act(async () => {
+		returnVal = render(<div />, { wrapper: Wrapper, ...options });
+	});
+	return returnVal!;
 };
 
 export * from "@testing-library/react";

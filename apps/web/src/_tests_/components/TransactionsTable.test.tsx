@@ -5,7 +5,7 @@ import { useDeleteTransaction } from '../../hooks/useDeleteTransaction';
 import type { Transaction } from '../../domain/transaction';
 
 vi.mock('@/hooks/useDeleteTransaction');
-vi.mock('./TransactionItem', () => ({
+vi.mock('../../components/TransactionItem', () => ({
   TransactionItem: ({ transaction }: { transaction: Transaction }) => (
     <div data-testid="transaction-item">{transaction.description}</div>
   ),

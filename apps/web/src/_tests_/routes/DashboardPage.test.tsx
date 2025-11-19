@@ -45,7 +45,7 @@ describe('DashboardPage', () => {
 
     expect(await screen.findByText('Error')).toBeInTheDocument();
     expect(
-      await screen.findByText('Error fetching budgets: {{message}}')
+      await screen.findByText('Error fetching budgets: Failed to fetch')
     ).toBeInTheDocument();
   });
 
@@ -92,6 +92,6 @@ describe('DashboardPage', () => {
 
     fireEvent.click(screen.getByText('Next'));
 
-    expect(mockedBudgetRepository.getAll).toHaveBeenCalledWith({ page: 2, limit: 6 });
+    expect(mockedBudgetRepository.getAll).toHaveBeenCalledWith(2, 6);
   });
 });

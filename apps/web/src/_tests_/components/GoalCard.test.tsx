@@ -1,4 +1,4 @@
-import { render, screen } from '../test-utils';
+import { render, screen } from '@tests/test-utils';
 import { describe, it, expect, vi } from 'vitest';
 import { GoalCard } from '../../components/GoalCard';
 vi.mock('./EditGoalDialog', () => ({
@@ -27,7 +27,7 @@ const goal = {
 
 describe('GoalCard', () => {
   it('should render the goal name, formatted amounts, and progress', async () => {
-    await render(<GoalCard goal={goal} />);
+    await render({ component: () => <GoalCard goal={goal} /> });
     expect(screen.getByText('Goal 1')).toBeInTheDocument();
     expect(screen.getByText('$250.00')).toBeInTheDocument();
     expect(screen.getByText('Target: $1,000.00')).toBeInTheDocument();
@@ -38,10 +38,12 @@ describe('GoalCard', () => {
   });
 
   it('should render the action buttons', async () => {
-    await render(<GoalCard goal={goal} />);
+    await render({ component: () => <GoalCard goal={goal} /> });
     expect(
       screen.getByRole('button', { name: 'Add transaction' })
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '' })).toBeInTheDocument(); // Edit button
+    // There are 2 icon-only buttons (edit and delete)
+    const iconButtons = screen.getAllByRole('button', { name: '' });
+    expect(iconButtons).toHaveLength(2);
   });
 });

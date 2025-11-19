@@ -30,6 +30,6 @@ describe('GoalsPage', () => {
 
   it('should render the goal list', async () => {
     await render({ component: GoalsPage });
-    expect(await screen.findByTestId("goal-list")).toBeInTheDocument();
+    expect(screen.getByTestId("goal-list")).toBeInTheDocument();
   });
 });
